@@ -19,11 +19,11 @@ JVCare_MVC là hệ thống quản lý bệnh án điện tử được phát tr
 
 | STT | Họ tên | MSSV | Nhiệm vụ | Email |
 |-----|--------|------|----------|-------|
-| 1 | [Tên 1] | [MSSV] | Admin - Quản lý Users & Doctors | [email] |
-| 2 | [Tên 2] | [MSSV] | Doctor - Bệnh án & Đơn thuốc | [email] |
-| 3 | [Tên 3] | [MSSV] | Patient - Đặt lịch & Hồ sơ | [email] |
-| 4 | [Tên 4] | [MSSV] | Báo cáo & Thống kê | [email] |
-| 5 | [Tên 5] | [MSSV] | Tính năng nâng cao & UI/UX | [email] |
+| 1 | [Hà Cảnh Minh Hoàng] | [2415053122219] | Admin - Quản lý Users & Doctors | [hcmhoang13@gmail.com] |
+| 2 | [Đặng Thái Nguyên] | [2415053122224] | Doctor - Bệnh án & Đơn thuốc | [Catraconnguyen76@gmail.com] |
+| 3 | [Trần Ngọc Thiết] | [22115141122121] | Patient - Đặt lịch & Hồ sơ | [tranngocthiet44@gmail.com] |
+| 4 | [Lê Thế Duy] | [2415053122208] | Báo cáo & Thống kê | [letheduy1209@gmail.com] |
+| 5 | [Phạm Hữu Nguyên] | [23115053122327] | Tính năng nâng cao & UI/UX | [phamhuunguyen000@gmail.com] |
 
 ---
 
@@ -108,8 +108,8 @@ Tạo file `.env` trong thư mục root:
 ```properties
 DB_URL=jdbc:sqlserver://localhost:1433;databaseName=JVCare_MVC;encrypt=false
 DB_USER=sa
-DB_PASSWORD=YourPassword
-GROQ_API_KEY=your_groq_api_key_here
+DB_PASSWORD=*Mật khẩu*
+GROQ_API_KEY=*API Key*
 ```
 
 ### 5. Build và chạy project
@@ -130,9 +130,9 @@ URL: http://localhost:8080/JVCare_MVC
 ```
 
 **Tài khoản test:**
-- Admin: `admin` / `123456`
-- Doctor: `doctor` / `123456`
-- Patient: `patient` / `123456`
+- Admin: `admin@jvcare.com` / `123456`
+- Doctor: `doctor@jvcare.com` / `123456`
+- Patient: `patient@jvcare.com` / `123456`
 
 ---
 
@@ -184,14 +184,14 @@ medical_records (1) -> (n) prescriptions
 ### Git Workflow
 ```bash
 # 1. Tạo branch cho task của mình
-git checkout -b feature/task-1-admin
+git checkout -b feature/*Tên*
 
 # 2. Code và commit thường xuyên
 git add .
-git commit -m "feat: add user management"
+git commit -m "Tính năng: *Tên tính năng*"
 
 # 3. Push lên remote
-git push origin feature/task-1-admin
+git push origin feature/*Tên*
 
 # 4. Tạo Pull Request để review
 # 5. Sau khi được approve, merge vào main
@@ -326,16 +326,13 @@ Giải pháp:
 
 ## 📞 LIÊN HỆ & HỖ TRỢ
 
-**Nhóm trưởng:** [Tên] - [Email] - [SĐT]
+**Nhóm trưởng:** [Hà Cảnh Minh Hoàng] - [2415053122219] - [hcmhoang13@gmail.com]
 
 **Lịch họp nhóm:**
-- Thứ 2, 4, 6: 19:00 - 20:00
-- Review code: Thứ 7 hàng tuần
+- Thứ 5 21/5/2026 9h00-14h30
 
 **Kênh liên lạc:**
-- Zalo Group: [Link]
-- Discord: [Link]
-- GitHub: [Repository URL]
+- GitHub: [[Repository URL](https://github.com/hacanhminhhoang/JVCare)]
 
 ---
 
@@ -348,10 +345,10 @@ This project is developed for educational purposes.
 
 ## 🎓 CREDITS
 
-**Giảng viên hướng dẫn:** [Tên giảng viên]  
+**Giảng viên hướng dẫn:** [Nguyễn Tấn THuận]  
 **Môn học:** Lập trình Java Nâng cao  
 **Học kỳ:** 2/2025-2026  
-**Trường:** [Tên trường]
+**Trường:** [Đại học Sư Phạm Kỹ Thuật Đà Nẵng]
 
 ---
 
@@ -372,6 +369,3 @@ This project is developed for educational purposes.
 - 🔄 Advanced features (search, email, pagination)
 
 ---
-
-**Happy Coding! 💻🏥**
-
