@@ -19,11 +19,11 @@ JVCare_MVC là hệ thống quản lý bệnh án điện tử được phát tr
 
 | STT | Họ tên | MSSV | Nhiệm vụ | Email |
 |-----|--------|------|----------|-------|
-| 1 | [Hà Cảnh Minh Hoàng] | [2415053122219] | Admin - Quản lý Users & Doctors | [hcmhoang13@gmail.com] |
-| 2 | [Đặng Thái Nguyên] | [2415053122224] | Doctor - Bệnh án & Đơn thuốc | [Catraconnguyen76@gmail.com] |
-| 3 | [Trần Ngọc Thiết] | [22115141122121] | Patient - Đặt lịch & Hồ sơ | [tranngocthiet44@gmail.com] |
-| 4 | [Lê Thế Duy] | [2415053122208] | Báo cáo & Thống kê | [letheduy1209@gmail.com] |
-| 5 | [Phạm Hữu Nguyên] | [23115053122327] | Tính năng nâng cao & UI/UX | [phamhuunguyen000@gmail.com] |
+| 1 | Hà Cảnh Minh Hoàng | 2415053122219 | Admin - Quản lý Users & Doctors | hcmhoang13@gmail.com |
+| 2 | Đặng Thái Nguyên | 2415053122224 | Doctor - Bệnh án & Đơn thuốc | Catraconnguyen76@gmail.com |
+| 3 | Trần Ngọc Thiết | 22115141122121 | Patient - Đặt lịch & Hồ sơ | tranngocthiet44@gmail.com |
+| 4 | Lê Thế Duy | 2415053122208 | Báo cáo & Thống kê | letheduy1209@gmail.com |
+| 5 | Phạm Hữu Nguyên | 23115053122327 | Tính năng nâng cao & UI/UX | phamhuunguyen000@gmail.com |
 
 ---
 
@@ -326,13 +326,13 @@ Giải pháp:
 
 ## 📞 LIÊN HỆ & HỖ TRỢ
 
-**Nhóm trưởng:** [Hà Cảnh Minh Hoàng] - [2415053122219] - [hcmhoang13@gmail.com]
+**Nhóm trưởng:** Hà Cảnh Minh Hoàng - 2415053122219 - hcmhoang13@gmail.com
 
 **Lịch họp nhóm:**
 - Thứ 5 21/5/2026 9h00-14h30
 
 **Kênh liên lạc:**
-- GitHub: [[Repository URL](https://github.com/hacanhminhhoang/JVCare)]
+- GitHub: [JVCare](https://github.com/hacanhminhhoang/JVCare)
 
 ---
 
@@ -345,10 +345,10 @@ This project is developed for educational purposes.
 
 ## 🎓 CREDITS
 
-**Giảng viên hướng dẫn:** [Nguyễn Tấn THuận]  
+**Giảng viên hướng dẫn:** Nguyễn Tấn Thuận 
 **Môn học:** Lập trình Java Nâng cao  
 **Học kỳ:** 2/2025-2026  
-**Trường:** [Đại học Sư Phạm Kỹ Thuật Đà Nẵng]
+**Trường:** Đại học Sư Phạm Kỹ Thuật Đà Nẵng
 
 ---
 
