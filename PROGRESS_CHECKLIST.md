@@ -1,13 +1,13 @@
 # 📊 BẢNG THEO DÕI TIẾN ĐỘ DỰ ÁN JVCARE_MVC
 
 **Ngày bắt đầu:** 20/05/2026  
-**Deadline:** [Điền deadline]  
+**Deadline:** 28/05/2026
 **Cập nhật lần cuối:** 20/05/2026
 
 ---
 
 ## 🔴 TASK 1: ADMIN - QUẢN LÝ NGƯỜI DÙNG & BÁC SĨ
-**Thành viên:** [Tên thành viên 1]  
+**Thành viên:** Hà Cảnh Minh Hoàng
 **Tiến độ:** 0% ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜
 
 ### Backend
@@ -56,7 +56,7 @@
 ---
 
 ## 🟢 TASK 2: DOCTOR - QUẢN LÝ BỆNH ÁN & ĐƠN THUỐC
-**Thành viên:** [Tên thành viên 2]  
+**Thành viên:** Đặng Thái Nguyên
 **Tiến độ:** 0% ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜
 
 ### Backend
@@ -108,7 +108,7 @@
 ---
 
 ## 🔵 TASK 3: PATIENT - ĐẶT LỊCH & QUẢN LÝ HỒ SƠ
-**Thành viên:** [Tên thành viên 3]  
+**Thành viên:** Trần Ngọc Thiết
 **Tiến độ:** 0% ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜
 
 ### Backend
@@ -164,7 +164,7 @@
 ---
 
 ## 🟡 TASK 4: BÁO CÁO & THỐNG KÊ (DASHBOARD)
-**Thành viên:** [Tên thành viên 4]  
+**Thành viên:** Lê Thế Duy 
 **Tiến độ:** 0% ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜
 
 ### Backend
@@ -226,7 +226,7 @@
 ---
 
 ## 🟣 TASK 5: TÍNH NĂNG NÂNG CAO & UX/UI
-**Thành viên:** [Tên thành viên 5]  
+**Thành viên:** Phạm Hữu Nguyên 
 **Tiến độ:** 0% ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜
 
 ### Search & Filter
@@ -301,11 +301,11 @@
 
 | Task | Thành viên | Tiến độ | Status |
 |------|-----------|---------|--------|
-| Task 1 | [TÊN 1] | 0% | 🔴 Not Started |
-| Task 2 | [TÊN 2] | 0% | 🔴 Not Started |
-| Task 3 | [TÊN 3] | 0% | 🔴 Not Started |
-| Task 4 | [TÊN 4] | 0% | 🔴 Not Started |
-| Task 5 | [TÊN 5] | 0% | 🔴 Not Started |
+| Task 1 | Hà Cảnh Minh Hoàng | 1% | 🟡 In Progress |
+| Task 2 | Đặng Thái Nguyên | 1% | 🟡 In Progress |
+| Task 3 | Trần Ngọc Thiết | 1% | 🟡 In Progress |
+| Task 4 | Lê Thế Duy | 1% | 🟡 In Progress |
+| Task 5 | Phạm Hữu Nguyên | 1% | 🟡 In Progress |
 
 **Tổng tiến độ dự án:** 0% ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜
 
@@ -320,38 +320,38 @@
 
 ## 📅 LỊCH TRÌNH DỰ KIẾN
 
-### Tuần 1 (20/05 - 26/05)
+### Lần 1 (20/05 - 22/05)
 - [ ] Task 1: Setup & Backend (50%)
 - [ ] Task 3: Setup & Backend (50%)
 - [ ] Họp nhóm: Review tiến độ
 
-### Tuần 2 (27/05 - 02/06)
+### Lần 2 (22/05 - 23/05)
 - [ ] Task 1: Frontend & Testing (100%)
 - [ ] Task 2: Backend (50%)
 - [ ] Task 3: Frontend & Testing (100%)
 - [ ] Họp nhóm: Review & merge code
 
-### Tuần 3 (03/06 - 09/06)
+### Lần 3 (23/05 - 24/05)
 - [ ] Task 2: Frontend & Testing (100%)
 - [ ] Task 4: Backend & Charts (50%)
 - [ ] Họp nhóm: Integration testing
 
-### Tuần 4 (10/06 - 16/06)
+### Lần 4 (24/05 - 25/05)
 - [ ] Task 4: Export & Testing (100%)
 - [ ] Task 5: Search & Email (50%)
 - [ ] Họp nhóm: Review tiến độ
 
-### Tuần 5 (17/06 - 23/06)
+### Lần 5 (25/05 - 26/05)
 - [ ] Task 5: UI/UX & Security (100%)
 - [ ] Integration testing toàn bộ hệ thống
 - [ ] Bug fixing
 - [ ] Họp nhóm: Final review
 
-### Tuần 6 (24/06 - 30/06)
+### Lần 6 (27/05 - 28/05)
 - [ ] Hoàn thiện documentation
 - [ ] Chuẩn bị slide thuyết trình
-- [ ] Quay video demo
 - [ ] Rehearsal presentation
+### FINAL (29/05)
 - [ ] **NỘP BÀI CUỐI KỲ**
 
 ---
@@ -371,16 +371,12 @@
 
 ## 📝 MEETING NOTES
 
-### Meeting #1 - [Ngày]
-**Tham dự:** [Danh sách]  
+### Meeting #1 - [Ngày 20/05]
+**Tham dự:** 5/5
 **Nội dung:**
 - Phân chia task
 - Setup môi trường
 - Thống nhất coding conventions
-
-**Action items:**
-- [ ] [Action 1]
-- [ ] [Action 2]
 
 ---
 
@@ -411,5 +407,4 @@ Một task được coi là hoàn thành khi:
 
 ---
 
-**Cập nhật checklist này thường xuyên để theo dõi tiến độ!**
-
+**Checklist này sẽ được cập nhật thường xuyên để có thể theo dõi tiến độ!**
