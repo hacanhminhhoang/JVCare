@@ -13,11 +13,11 @@
 
 | Người | Task | Mô tả ngắn |
 |-------|------|------------|
-| **Người 1** | Admin Module | Quản lý users & doctors (CRUD) |
-| **Người 2** | Doctor Module | Tạo bệnh án & kê đơn thuốc |
-| **Người 3** | Patient Module | Đặt lịch & quản lý hồ sơ |
-| **Người 4** | Reports & Stats | Dashboard, charts, export Excel/PDF |
-| **Người 5** | Advanced Features | Search, email, pagination, UI/UX |
+| **Hà Cảnh Minh Hoàng** | Admin Module | Quản lý users & doctors (CRUD) |
+| **Đặng Thái Nguyên** | Doctor Module | Tạo bệnh án & kê đơn thuốc |
+| **Trần Ngọc Thiết** | Patient Module | Đặt lịch & quản lý hồ sơ |
+| **Lê Thế Duy** | Reports & Stats | Dashboard, charts, export Excel/PDF |
+| **Phạm Hữu Nguyên** | Advanced Features | Search, email, pagination, UI/UX |
 
 ---
 
@@ -39,8 +39,8 @@ sqlcmd -S localhost -U sa -P YourPassword -i SQL/test_data.sql
 ```properties
 DB_URL=jdbc:sqlserver://localhost:1433;databaseName=JVCare_MVC;encrypt=false
 DB_USER=sa
-DB_PASSWORD=YourPassword
-GROQ_API_KEY=your_key_here
+DB_PASSWORD=*Mật khẩu*
+GROQ_API_KEY=*API Key*
 ```
 
 ### 4. Build & Run
@@ -52,7 +52,7 @@ mvn tomcat7:run
 ### 5. Truy cập
 ```
 URL: http://localhost:8080/JVCare_MVC
-Login: admin/123456 hoặc doctor/123456 hoặc patient/123456
+Login: admin@jvcare.com/123456 hoặc doctor@jvcare.com/123456 hoặc patient@jvcare.com/123456
 ```
 
 ---
@@ -66,9 +66,9 @@ Login: admin/123456 hoặc doctor/123456 hoặc patient/123456
 
 ---
 
-## 🎯 NHIỆM VỤ CỦA BẠN
+## 🎯 NHIỆM VỤ CỦA TỪNG THÀNH VIÊN
 
-### 📍 Nếu bạn là NGƯỜI 1 (Admin):
+### 📍 Hà Cảnh Minh Hoàng (Admin):
 **Đọc:** `TASK_1_ADMIN_GUIDE.md`  
 **Làm:**
 1. Tạo `DoctorDAO.java` và `Doctor.java`
@@ -80,7 +80,7 @@ Login: admin/123456 hoặc doctor/123456 hoặc patient/123456
 
 ---
 
-### 📍 Nếu bạn là NGƯỜI 2 (Doctor):
+### 📍 Đặng Thái Nguyên (Doctor):
 **Đọc:** `TASK_DISTRIBUTION.md` (Task 2)  
 **Làm:**
 1. Cập nhật `MedicalRecordDAO.java` và `PrescriptionDAO.java`
@@ -93,7 +93,7 @@ Login: admin/123456 hoặc doctor/123456 hoặc patient/123456
 
 ---
 
-### 📍 Nếu bạn là NGƯỜI 3 (Patient):
+### 📍 Trần Ngọc Thiết (Patient):
 **Đọc:** `TASK_DISTRIBUTION.md` (Task 3)  
 **Làm:**
 1. Tạo `PatientBookAppointmentServlet.java`
@@ -106,7 +106,7 @@ Login: admin/123456 hoặc doctor/123456 hoặc patient/123456
 
 ---
 
-### 📍 Nếu bạn là NGƯỜI 4 (Reports):
+### 📍 Lê Thế Duy (Reports):
 **Đọc:** `TASK_DISTRIBUTION.md` (Task 4)  
 **Làm:**
 1. Tạo `StatisticsDAO.java` với các query thống kê
@@ -119,7 +119,7 @@ Login: admin/123456 hoặc doctor/123456 hoặc patient/123456
 
 ---
 
-### 📍 Nếu bạn là NGƯỜI 5 (Advanced):
+### 📍 Phạm Hữu Nguyên (Advanced):
 **Đọc:** `TASK_DISTRIBUTION.md` (Task 5)  
 **Làm:**
 1. Tạo `SearchServlet.java` với AJAX
@@ -149,7 +149,7 @@ Login: admin/123456 hoặc doctor/123456 hoặc patient/123456
 1. **Đọc TROUBLESHOOTING** trong README.md
 2. **Hỏi trong group chat** Zalo/Discord
 3. **Tạo issue** trên GitHub
-4. **Liên hệ nhóm trưởng:** [SĐT/Email]
+4. **Liên hệ nhóm trưởng:** hcmhoang13@gmail.com
 
 ---
 
@@ -177,11 +177,11 @@ Login: admin/123456 hoặc doctor/123456 hoặc patient/123456
 
 ## 📅 DEADLINE QUAN TRỌNG
 
-- **Tuần 2:** Task 1 & 3 hoàn thành
-- **Tuần 3:** Task 2 hoàn thành
-- **Tuần 4:** Task 4 hoàn thành
-- **Tuần 5:** Task 5 hoàn thành + Integration
-- **Tuần 6:** Documentation + Presentation
+- **Lần 2:** Task 1 & 3 hoàn thành
+- **Lần 3:** Task 2 hoàn thành
+- **Lần 4:** Task 4 hoàn thành
+- **Lần 5:** Task 5 hoàn thành + Integration
+- **Lần 6:** Documentation + Presentation
 
 ---
 
@@ -190,10 +190,8 @@ Login: admin/123456 hoặc doctor/123456 hoặc patient/123456
 1. Đọc file `TASK_DISTRIBUTION.md` để hiểu tổng quan
 2. Đọc hướng dẫn chi tiết cho task của bạn
 3. Setup môi trường theo hướng dẫn trên
-4. Tạo branch: `git checkout -b feature/task-X-your-name`
+4. Tạo branch: `git checkout -b feature/*Tên*`
 5. Bắt đầu code!
-
-**Chúc bạn làm việc hiệu quả! 💪**
 
 ---
 
@@ -204,4 +202,3 @@ Login: admin/123456 hoặc doctor/123456 hoặc patient/123456
 - [Bootstrap 5](https://getbootstrap.com/docs/5.0/)
 - [Chart.js](https://www.chartjs.org/)
 - [SQL Server](https://docs.microsoft.com/en-us/sql/)
-
