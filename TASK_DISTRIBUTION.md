@@ -2,7 +2,7 @@
 ## Hệ thống Quản lý Bệnh án Bệnh nhân
 
 **Ngày phân chia:** 20/05/2026  
-**Deadline báo cáo cuối kỳ:** [Điền deadline của bạn]
+**Deadline báo cáo cuối kỳ:** Hoàn thành trước 29/05/2026
 
 ---
 
@@ -29,8 +29,7 @@
 
 
 ### 🔴 TASK 1: ADMIN - QUẢN LÝ NGƯỜI DÙNG & BÁC SĨ
-**Thành viên:** [Tên thành viên 1]  
-**Độ khó:** ⭐⭐⭐⭐ (Trung bình - Khá)
+**Thành viên:** Hà Cảnh Minh Hoàng 
 
 #### Mô tả:
 Phát triển module quản trị viên để quản lý users, doctors và patients trong hệ thống.
@@ -82,8 +81,7 @@ Phát triển module quản trị viên để quản lý users, doctors và pati
 ---
 
 ### 🟢 TASK 2: DOCTOR - QUẢN LÝ BỆNH ÁN & ĐƠN THUỐC
-**Thành viên:** [Tên thành viên 2]  
-**Độ khó:** ⭐⭐⭐⭐⭐ (Khá - Khó)
+**Thành viên:** Đặng Thái Nguyên
 
 #### Mô tả:
 Phát triển chức năng cho bác sĩ tạo và quản lý bệnh án, đơn thuốc cho bệnh nhân.
@@ -139,8 +137,7 @@ Phát triển chức năng cho bác sĩ tạo và quản lý bệnh án, đơn t
 ---
 
 ### 🔵 TASK 3: PATIENT - ĐẶT LỊCH & QUẢN LÝ HỒ SƠ
-**Thành viên:** [Tên thành viên 3]  
-**Độ khó:** ⭐⭐⭐ (Trung bình)
+**Thành viên:** Trần Ngọc Thiết
 
 #### Mô tả:
 Phát triển chức năng cho bệnh nhân đặt lịch khám, quản lý hồ sơ cá nhân và xem lịch sử khám bệnh.
@@ -195,8 +192,7 @@ Phát triển chức năng cho bệnh nhân đặt lịch khám, quản lý hồ
 ---
 
 ### 🟡 TASK 4: BÁO CÁO & THỐNG KÊ (DASHBOARD)
-**Thành viên:** [Tên thành viên 4]  
-**Độ khó:** ⭐⭐⭐⭐ (Trung bình - Khá)
+**Thành viên:** Lê Thế Duy
 
 #### Mô tả:
 Phát triển dashboard và báo cáo thống kê cho Admin và Doctor.
@@ -261,8 +257,7 @@ Phát triển dashboard và báo cáo thống kê cho Admin và Doctor.
 ---
 
 ### 🟣 TASK 5: TÍNH NĂNG NÂNG CAO & UX/UI
-**Thành viên:** [Tên thành viên 5]  
-**Độ khó:** ⭐⭐⭐⭐ (Trung bình - Khá)
+**Thành viên:** Phạm Hữu Nguyên
 
 #### Mô tả:
 Phát triển các tính năng nâng cao: tìm kiếm, filter, email notification, và cải thiện UI/UX.
@@ -333,13 +328,13 @@ Phát triển các tính năng nâng cao: tìm kiếm, filter, email notificatio
 
 ## 📊 BẢNG TỔNG HỢP CÔNG VIỆC
 
-| Task | Thành viên | Servlets | DAOs | JSPs | Độ khó | Thời gian ước tính |
-|------|-----------|----------|------|------|--------|-------------------|
-| Task 1 | [TÊN 1] | 2 | 2 | 4 | ⭐⭐⭐⭐ | 2-3 tuần |
-| Task 2 | [TÊN 2] | 2 | 2 | 4 | ⭐⭐⭐⭐⭐ | 3-4 tuần |
-| Task 3 | [TÊN 3] | 3 | 2 | 4 | ⭐⭐⭐ | 2 tuần |
-| Task 4 | [TÊN 4] | 2 | 1 | 5 | ⭐⭐⭐⭐ | 2-3 tuần |
-| Task 5 | [TÊN 5] | 1 | 0 | 3 | ⭐⭐⭐⭐ | 2-3 tuần |
+| Task | Thành viên | Servlets | DAOs | JSPs | Thời gian ước tính |
+|------|-----------|----------|------|------|-------------------|
+| Task 1 | Hà Cảnh Minh Hoàng | 2 | 2 | 4 | 2-3 ngày |
+| Task 2 | Đặng Thái Nguyên | 2 | 2 | 4 | 2-3 ngày |
+| Task 3 | Trần Ngọc Thiết | 3 | 2 | 4 | 2-3 ngày |
+| Task 4 | Lê Thế Duy | 2 | 1 | 5 | 1-2 ngày |
+| Task 5 | Phạm Hữu Nguyên | 1 | 0 | 3 | 1-2 ngày |
 
 ---
 
@@ -376,8 +371,8 @@ sqlcmd -S localhost -U sa -P [password] -i SQL/database.sql
 # Cấu hình .env
 DB_URL=jdbc:sqlserver://localhost:1433;databaseName=JVCare_MVC
 DB_USER=sa
-DB_PASSWORD=[your-password]
-GROQ_API_KEY=[your-api-key]
+DB_PASSWORD=*Mật khẩu*
+GROQ_API_KEY=*API Key*
 
 # Build project
 mvn clean install
@@ -389,14 +384,14 @@ mvn tomcat7:run
 ### 2. Git workflow
 ```bash
 # Tạo branch cho task của mình
-git checkout -b feature/task-1-admin-management
+git checkout -b feature/*Tên*
 
 # Commit thường xuyên
 git add .
-git commit -m "feat: add user management servlet"
+git commit -m "feat: *Tên chức năng*"
 
 # Push lên remote
-git push origin feature/task-1-admin-management
+git push origin feature/*Tên*
 
 # Tạo Pull Request để review
 ```
@@ -504,16 +499,14 @@ Solution: Clean Tomcat work directory, restart server
 
 ## 📞 LIÊN HỆ & HỖ TRỢ
 
-**Nhóm trưởng:** [Tên + SĐT + Email]
+**Nhóm trưởng:** Hà Cảnh Minh Hoàng - 2415053122219 - hcmhoang13@gmail.com
 
 **Lịch họp nhóm:**
-- Thứ 2, 4, 6: 19:00 - 20:00 (Online/Offline)
-- Review code: Thứ 7 hàng tuần
+- Thứ 5 21/5/2026 9h00-14h30
 
 **Kênh liên lạc:**
-- Zalo Group: [Link]
-- Discord: [Link]
-- GitHub: [Repository URL]
+
+- GitHub: [JVCare](https://github.com/hacanhminhhoang/JVCare)
 
 ---
 
@@ -528,8 +521,3 @@ Solution: Clean Tomcat work directory, restart server
 - [ ] Đã chuẩn bị demo video (nếu cần)
 
 ---
-
-**Chúc các bạn làm việc hiệu quả! 💪**
-
-*Lưu ý: Nếu gặp khó khăn hoặc cần thay đổi task, hãy thảo luận với nhóm sớm.*
-
