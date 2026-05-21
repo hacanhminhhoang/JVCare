@@ -297,6 +297,28 @@ public class UserDAO {
     }
     
     /**
+     * Lấy danh sách users theo role
+     */
+    public List<User> getUsersByRole(String role) {
+        List<User> list = new ArrayList<>();
+        String sql = "SELECT * FROM users WHERE role = ? ORDER BY user_id";
+        
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            
+            ps.setString(1, role);
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                list.add(mapResultSetToUser(rs));
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    /**
      * Map ResultSet to User object
      */
     private User mapResultSetToUser(ResultSet rs) throws SQLException {

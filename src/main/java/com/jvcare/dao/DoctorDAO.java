@@ -15,29 +15,77 @@ public class DoctorDAO {
     public List<Doctor> getAllDoctors() {
         List<Doctor> list = new ArrayList<>();
         
-        // SQL query với LEFT JOIN departments
-        String sql = "SELECT d.doctor_id, d.user_id, d.specialization, d.department_id, " +
-                     "u.full_name, u.email, u.phone, u.status, " +
-                     "dept.department_name " +
-                     "FROM doctors d " +
-                     "JOIN users u ON d.user_id = u.user_id " +
-                     "LEFT JOIN departments dept ON d.department_id = dept.department_id " +
-                     "ORDER BY u.full_name";
+        // Kiểm tra xem bảng departments có tồn tại không
+        boolean hasDepartments = checkDepartmentsTableExists();
+        System.out.println("DoctorDAO: departments table exists = " + hasDepartments);
+        
+        // SQL query tùy theo việc có bảng departments hay không
+        String sql;
+        if (hasDepartments) {
+            sql = "SELECT d.doctor_id, d.user_id, d.specialization, d.department_id, " +
+                  "u.full_name, u.email, u.phone, u.status, " +
+                  "dept.department_name " +
+                  "FROM doctors d " +
+                  "JOIN users u ON d.user_id = u.user_id " +
+                  "LEFT JOIN departments dept ON d.department_id = dept.department_id " +
+                  "ORDER BY u.full_name";
+        } else {
+            sql = "SELECT d.doctor_id, d.user_id, d.specialization, " +
+                  "u.full_name, u.email, u.phone, u.status " +
+                  "FROM doctors d " +
+                  "JOIN users u ON d.user_id = u.user_id " +
+                  "ORDER BY u.full_name";
+        }
+        
+        System.out.println("DoctorDAO: Executing SQL: " + sql);
         
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
             
+            System.out.println("DoctorDAO: Query executed successfully");
+            
             while (rs.next()) {
-                list.add(mapResultSetToDoctor(rs, true));
+                Doctor doctor = mapResultSetToDoctor(rs, hasDepartments);
+                list.add(doctor);
+                System.out.println("DoctorDAO: Added doctor - ID: " + doctor.getDoctorId() + ", Name: " + doctor.getFullName());
             }
-        } catch (SQLException | ClassNotFoundException e) {
-            System.err.println("Error in getAllDoctors: " + e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("DoctorDAO SQL Error: " + e.getMessage());
+            System.err.println("SQL State: " + e.getSQLState());
+            System.err.println("Error Code: " + e.getErrorCode());
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            System.err.println("DoctorDAO ClassNotFound Error: " + e.getMessage());
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("DoctorDAO Unexpected Error: " + e.getMessage());
             e.printStackTrace();
         }
         
         System.out.println("DoctorDAO.getAllDoctors() returned " + list.size() + " doctors");
         return list;
+    }
+    
+    /**
+     * Kiểm tra xem bảng departments có tồn tại không
+     */
+    private boolean checkDepartmentsTableExists() {
+        String sql = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'departments'";
+        
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            System.err.println("Error checking departments table: " + e.getMessage());
+            e.printStackTrace();
+        }
+        
+        return false;
     }
     
     /**
