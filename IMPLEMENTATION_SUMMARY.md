@@ -4,7 +4,7 @@
 
 **Tên dự án:** JVCare_MVC - Hệ thống Quản lý Bệnh án Bệnh nhân  
 **Công nghệ:** Java Servlet/JSP + SQL Server + Bootstrap  
-**Số thành viên:** 5 người  
+**Số thành viên:** 4 người  
 **Thời gian:** 8 ngày 
 **Ngày bắt đầu:** 20/05/2026
 **Ngày chốt dự án:** 28/05/2026
@@ -15,7 +15,7 @@
 
 ### 1. Tài liệu tổng quan
 - ✅ **README.md** - Giới thiệu dự án, hướng dẫn cài đặt
-- ✅ **TASK_DISTRIBUTION.md** - Phân chia task chi tiết cho 5 thành viên
+- ✅ **TASK_DISTRIBUTION.md** - Phân chia task chi tiết cho 4 thành viên
 - ✅ **PROGRESS_CHECKLIST.md** - Theo dõi tiến độ từng task
 - ✅ **QUICK_START.md** - Hướng dẫn setup nhanh 5 phút
 
@@ -71,7 +71,7 @@
 ---
 
 ### 🔵 TASK 3: PATIENT - ĐẶT LỊCH & QUẢN LÝ HỒ SƠ
-**Thành viên:** Trần Ngọc Thiết
+**Thành viên:** Lê Thế Duy
 **File hướng dẫn:** `TASK_3_PATIENT_GUIDE.md`
 
 **Deliverables:**
@@ -90,7 +90,7 @@
 ---
 
 ### 🟡 TASK 4: BÁO CÁO & THỐNG KÊ
-**Thành viên:** Lê Thế Duy 
+**Thành viên:** Hà Cảnh Minh Hoàng 
 **File hướng dẫn:** `TASK_4_REPORTS_GUIDE.md`
 
 **Deliverables:**

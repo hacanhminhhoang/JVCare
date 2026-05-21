@@ -178,4 +178,23 @@ public class AppointmentDAO {
         }
         return false;
     }
+    
+    /**
+     * Đếm tổng số appointments
+     */
+    public int getTotalAppointments() {
+        String sql = "SELECT COUNT(*) FROM appointments";
+        
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }

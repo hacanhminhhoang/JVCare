@@ -344,8 +344,3 @@ src/main/java/com/jvcare/
 4. Liên hệ nhóm trưởng
 
 ---
-
-**Chúc các bạn triển khai thành công kiến trúc 3-Layer! 🚀🏗️**
-
-*Dự án của bạn giờ đây có kiến trúc chuyên nghiệp, dễ bảo trì và mở rộng!*
-

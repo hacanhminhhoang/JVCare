@@ -2,7 +2,7 @@
 ## Hệ thống Quản lý Bệnh án Bệnh nhân
 
 **Ngày phân chia:** 20/05/2026  
-**Deadline báo cáo cuối kỳ:** Hoàn thành trước 29/05/2026
+**Deadline báo cáo cuối kỳ:** 29/05/2026
 
 ---
 
@@ -25,7 +25,7 @@
 
 ---
 
-## 👥 PHÂN CHIA TASK CHO 5 THÀNH VIÊN
+## 👥 PHÂN CHIA TASK CHO 4 THÀNH VIÊN
 
 
 ### 🔴 TASK 1: ADMIN - QUẢN LÝ NGƯỜI DÙNG & BÁC SĨ
@@ -137,7 +137,7 @@ Phát triển chức năng cho bác sĩ tạo và quản lý bệnh án, đơn t
 ---
 
 ### 🔵 TASK 3: PATIENT - ĐẶT LỊCH & QUẢN LÝ HỒ SƠ
-**Thành viên:** Trần Ngọc Thiết
+**Thành viên:** Lê Thế Duy
 
 #### Mô tả:
 Phát triển chức năng cho bệnh nhân đặt lịch khám, quản lý hồ sơ cá nhân và xem lịch sử khám bệnh.
@@ -192,7 +192,7 @@ Phát triển chức năng cho bệnh nhân đặt lịch khám, quản lý hồ
 ---
 
 ### 🟡 TASK 4: BÁO CÁO & THỐNG KÊ (DASHBOARD)
-**Thành viên:** Lê Thế Duy
+**Thành viên:** Hà Cảnh Minh Hoàng
 
 #### Mô tả:
 Phát triển dashboard và báo cáo thống kê cho Admin và Doctor.
@@ -332,8 +332,8 @@ Phát triển các tính năng nâng cao: tìm kiếm, filter, email notificatio
 |------|-----------|----------|------|------|-------------------|
 | Task 1 | Hà Cảnh Minh Hoàng | 2 | 2 | 4 | 2-3 ngày |
 | Task 2 | Đặng Thái Nguyên | 2 | 2 | 4 | 2-3 ngày |
-| Task 3 | Trần Ngọc Thiết | 3 | 2 | 4 | 2-3 ngày |
-| Task 4 | Lê Thế Duy | 2 | 1 | 5 | 1-2 ngày |
+| Task 3 | Lê Thế Duy | 3 | 2 | 4 | 2-3 ngày |
+| Task 4 | Hà Cảnh Minh Hoàng | 2 | 1 | 5 | 1-2 ngày |
 | Task 5 | Phạm Hữu Nguyên | 1 | 0 | 3 | 1-2 ngày |
 
 ---
