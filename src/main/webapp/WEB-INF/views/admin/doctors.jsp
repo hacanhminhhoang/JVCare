@@ -183,6 +183,11 @@
                                    class="flex-1 rounded-lg bg-yellow-100 px-3 py-2 text-center text-xs font-medium text-yellow-800 hover:bg-yellow-200 transition">
                                     Sửa
                                 </a>
+                                <a href="${pageContext.request.contextPath}/admin/doctors?action=delete&id=${doctor.userId}" 
+                                   onclick="return confirm('Bạn có chắc muốn xóa bác sĩ ${doctor.fullName}?')"
+                                   class="rounded-lg bg-red-100 px-3 py-2 text-center text-xs font-medium text-red-800 hover:bg-red-200 transition">
+                                    Xóa
+                                </a>
                             </div>
                         </div>
                     </c:forEach>
