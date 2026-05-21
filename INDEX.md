@@ -11,7 +11,7 @@
    - Thông tin nhóm
 
 3. **[TASK_DISTRIBUTION.md](TASK_DISTRIBUTION.md)** 📋
-   - Phân chia task chi tiết cho 5 người
+   - Phân chia task chi tiết cho 4 người
    - Mô tả công việc cụ thể
    - Deliverables và tiêu chí đánh giá
 
@@ -33,14 +33,14 @@
 - In đơn thuốc
 - Workflow integration
 
-### 🔵 Trần Ngọc Thiết - Patient Module
+### 🔵 Lê Thế Duy - Patient Module
 **Đọc:** [TASK_3_PATIENT_GUIDE.md](TASK_3_PATIENT_GUIDE.md)
 - Đặt lịch khám
 - Quản lý hồ sơ
 - Xem lịch sử khám
 - Calendar integration
 
-### 🟡 Lê Thế Duy - Reports & Statistics
+### 🟡 Hà Cảnh Minh Hoàng - Reports & Statistics
 **Đọc:** [TASK_4_REPORTS_GUIDE.md](TASK_4_REPORTS_GUIDE.md)
 - Dashboard với charts
 - Báo cáo thống kê

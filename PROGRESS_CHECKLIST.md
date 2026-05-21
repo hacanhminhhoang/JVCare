@@ -8,50 +8,50 @@
 
 ## 🔴 TASK 1: ADMIN - QUẢN LÝ NGƯỜI DÙNG & BÁC SĨ
 **Thành viên:** Hà Cảnh Minh Hoàng
-**Tiến độ:** 0% ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜
+**Tiến độ:** 100% 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩
 
 ### Backend
-- [ ] Tạo `Doctor.java` model
-- [ ] Tạo `DoctorDAO.java` với CRUD methods
-- [ ] Cập nhật `UserDAO.java` với methods mới
-  - [ ] `getAllUsers(page, pageSize)`
-  - [ ] `getTotalUsers()`
-  - [ ] `searchUsers(keyword)`
-  - [ ] `createUser(user)`
-  - [ ] `updateUser(user)`
-  - [ ] `deleteUser(userId)`
-- [ ] Tạo `AdminUserServlet.java`
-  - [ ] GET: List users
-  - [ ] GET: Show edit form
-  - [ ] POST: Create user
-  - [ ] POST: Update user
-  - [ ] GET: Delete user
-- [ ] Tạo `AdminDoctorServlet.java`
-  - [ ] GET: List doctors
-  - [ ] GET: Show edit form
-  - [ ] POST: Create doctor
-  - [ ] POST: Update doctor
-  - [ ] GET: Delete doctor
+- [x] Tạo `Doctor.java` model
+- [x] Tạo `DoctorDAO.java` với CRUD methods
+- [x] Cập nhật `UserDAO.java` với methods mới
+  - [x] `getAllUsers(page, pageSize)`
+  - [x] `getTotalUsers()`
+  - [x] `searchUsers(keyword)`
+  - [x] `createUser(user)`
+  - [x] `updateUser(user)`
+  - [x] `deleteUser(userId)`
+- [x] Tạo `AdminUserServlet.java`
+  - [x] GET: List users
+  - [x] GET: Show edit form
+  - [x] POST: Create user
+  - [x] POST: Update user
+  - [x] GET: Delete user
+- [x] Tạo `AdminDoctorServlet.java`
+  - [x] GET: List doctors
+  - [x] GET: Show edit form
+  - [x] POST: Create doctor
+  - [x] POST: Update doctor
+  - [x] GET: Delete doctor
 
 ### Frontend
-- [ ] Tạo `/admin/users.jsp`
-- [ ] Tạo `/admin/user_form.jsp`
-- [ ] Tạo `/admin/doctors.jsp`
-- [ ] Tạo `/admin/doctor_form.jsp`
+- [x] Tạo `/admin/users.jsp`
+- [x] Tạo `/admin/user_form.jsp`
+- [x] Tạo `/admin/doctors.jsp`
+- [x] Tạo `/admin/doctor_form.jsp`
 
 ### Testing
-- [ ] Test thêm user mới
-- [ ] Test sửa user
-- [ ] Test xóa user (soft delete)
-- [ ] Test tìm kiếm user
-- [ ] Test phân trang
-- [ ] Test validation (duplicate username/email)
-- [ ] Test thêm/sửa/xóa doctor
+- [x] Test thêm user mới
+- [x] Test sửa user
+- [x] Test xóa user (soft delete)
+- [x] Test tìm kiếm user
+- [x] Test phân trang
+- [x] Test validation (duplicate username/email)
+- [x] Test thêm/sửa/xóa doctor
 
 ### Documentation
-- [ ] Viết README cho task
-- [ ] Comment code đầy đủ
-- [ ] Tạo test data SQL
+- [x] Viết README cho task
+- [x] Comment code đầy đủ
+- [x] Tạo test data SQL
 
 ---
 
@@ -108,7 +108,7 @@
 ---
 
 ## 🔵 TASK 3: PATIENT - ĐẶT LỊCH & QUẢN LÝ HỒ SƠ
-**Thành viên:** Trần Ngọc Thiết
+**Thành viên:** Lê Thế Duy
 **Tiến độ:** 0% ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜
 
 ### Backend
@@ -164,7 +164,7 @@
 ---
 
 ## 🟡 TASK 4: BÁO CÁO & THỐNG KÊ (DASHBOARD)
-**Thành viên:** Lê Thế Duy 
+**Thành viên:** Hà Cảnh Minh Hoàng 
 **Tiến độ:** 0% ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜
 
 ### Backend
@@ -301,10 +301,10 @@
 
 | Task | Thành viên | Tiến độ | Status |
 |------|-----------|---------|--------|
-| Task 1 | Hà Cảnh Minh Hoàng | 1% | 🟡 In Progress |
+| Task 1 | Hà Cảnh Minh Hoàng | 100% | 🟢 Completed |
 | Task 2 | Đặng Thái Nguyên | 1% | 🟡 In Progress |
-| Task 3 | Trần Ngọc Thiết | 1% | 🟡 In Progress |
-| Task 4 | Lê Thế Duy | 1% | 🟡 In Progress |
+| Task 3 | Lê Thế Duy | 1% | 🟡 In Progress |
+| Task 4 | Hà Cảnh Minh Hoàng | 1% | 🟡 In Progress |
 | Task 5 | Phạm Hữu Nguyên | 1% | 🟡 In Progress |
 
 **Tổng tiến độ dự án:** 0% ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜

@@ -4,7 +4,7 @@
 
 **Dự án:** Hệ thống Quản lý Bệnh án Bệnh nhân  
 **Công nghệ:** Java Servlet/JSP + SQL Server  
-**Số thành viên:** 5 người  
+**Số thành viên:** 4 người  
 **Thời gian:** 6 tuần
 
 ---
@@ -13,11 +13,11 @@
 
 | Người | Task | Mô tả ngắn |
 |-------|------|------------|
-| **Hà Cảnh Minh Hoàng** | Admin Module | Quản lý users & doctors (CRUD) |
+| **Hà Cảnh Minh Hoàng** | Admin & Reports (Task 1 và 4) | Quản lý users & doctors, Dashboard, charts |
 | **Đặng Thái Nguyên** | Doctor Module | Tạo bệnh án & kê đơn thuốc |
-| **Trần Ngọc Thiết** | Patient Module | Đặt lịch & quản lý hồ sơ |
-| **Lê Thế Duy** | Reports & Stats | Dashboard, charts, export Excel/PDF |
+| **Lê Thế Duy** | Patient Module | Đặt lịch & quản lý hồ sơ |
 | **Phạm Hữu Nguyên** | Advanced Features | Search, email, pagination, UI/UX |
+
 
 ---
 
@@ -93,7 +93,7 @@ Login: admin@jvcare.com/123456 hoặc doctor@jvcare.com/123456 hoặc patient@jv
 
 ---
 
-### 📍 Trần Ngọc Thiết (Patient):
+### 📍 Lê Thế Duy (Patient):
 **Đọc:** `TASK_DISTRIBUTION.md` (Task 3)  
 **Làm:**
 1. Tạo `PatientBookAppointmentServlet.java`
@@ -106,7 +106,7 @@ Login: admin@jvcare.com/123456 hoặc doctor@jvcare.com/123456 hoặc patient@jv
 
 ---
 
-### 📍 Lê Thế Duy (Reports):
+### 📍 Hà Cảnh Minh Hoàng (Reports):
 **Đọc:** `TASK_DISTRIBUTION.md` (Task 4)  
 **Làm:**
 1. Tạo `StatisticsDAO.java` với các query thống kê
