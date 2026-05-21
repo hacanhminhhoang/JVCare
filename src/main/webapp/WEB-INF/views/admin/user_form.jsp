@@ -204,13 +204,23 @@
                                         <select name="departmentId" 
                                                 class="w-full rounded-lg border border-border bg-card px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand">
                                             <option value="">-- Chọn khoa --</option>
-                                            <c:forEach var="dept" items="${departments}">
-                                                <option value="${dept.departmentId}" 
-                                                        ${doctor.departmentId == dept.departmentId ? 'selected' : ''}>
-                                                    ${dept.departmentName}
-                                                </option>
-                                            </c:forEach>
+                                            <c:choose>
+                                                <c:when test="${empty departments}">
+                                                    <option value="" disabled>Không có khoa nào</option>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <c:forEach var="dept" items="${departments}">
+                                                        <option value="${dept.departmentId}" 
+                                                                ${doctor.departmentId == dept.departmentId ? 'selected' : ''}>
+                                                            ${dept.departmentName}
+                                                        </option>
+                                                    </c:forEach>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </select>
+                                        <c:if test="${empty departments}">
+                                            <p class="mt-1 text-xs text-red-600">⚠️ Không load được danh sách khoa</p>
+                                        </c:if>
                                     </div>
                                 </div>
                             </div>

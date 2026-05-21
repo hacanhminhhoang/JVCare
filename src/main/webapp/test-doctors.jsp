@@ -1,10 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.jvcare.dao.DoctorDAO" %>
-<%@ page import="com.jvcare.dao.UserDAO" %>
 <%@ page import="com.jvcare.model.Doctor" %>
-<%@ page import="com.jvcare.model.User" %>
 <%@ page import="com.jvcare.util.DBConnection" %>
-<%@ page import="java.util.List" %>
 <%@ page import="java.sql.*" %>
 <!DOCTYPE html>
 <html>
@@ -85,25 +82,28 @@
     
     <h2>3. Check Users with DOCTOR Role</h2>
     <%
-        try {
-            UserDAO userDAO = new UserDAO();
-            List<User> doctorUsers = userDAO.getUsersByRole("DOCTOR");
-            out.println("<p class='info'>Found " + doctorUsers.size() + " users with DOCTOR role</p>");
+        try (Connection conn2 = DBConnection.getConnection()) {
+            String sql2 = "SELECT * FROM users WHERE role = 'DOCTOR'";
+            PreparedStatement ps2 = conn2.prepareStatement(sql2);
+            ResultSet rs2 = ps2.executeQuery();
             
-            if (!doctorUsers.isEmpty()) {
-                out.println("<table>");
-                out.println("<tr><th>User ID</th><th>Username</th><th>Full Name</th><th>Email</th><th>Status</th></tr>");
-                for (User u : doctorUsers) {
-                    out.println("<tr>");
-                    out.println("<td>" + u.getUserId() + "</td>");
-                    out.println("<td>" + u.getUsername() + "</td>");
-                    out.println("<td>" + u.getFullName() + "</td>");
-                    out.println("<td>" + u.getEmail() + "</td>");
-                    out.println("<td>" + u.getStatus() + "</td>");
-                    out.println("</tr>");
-                }
-                out.println("</table>");
+            int userCount = 0;
+            out.println("<table>");
+            out.println("<tr><th>User ID</th><th>Username</th><th>Full Name</th><th>Email</th><th>Status</th></tr>");
+            
+            while (rs2.next()) {
+                userCount++;
+                out.println("<tr>");
+                out.println("<td>" + rs2.getInt("user_id") + "</td>");
+                out.println("<td>" + rs2.getString("username") + "</td>");
+                out.println("<td>" + rs2.getString("full_name") + "</td>");
+                out.println("<td>" + rs2.getString("email") + "</td>");
+                out.println("<td>" + rs2.getString("status") + "</td>");
+                out.println("</tr>");
             }
+            
+            out.println("</table>");
+            out.println("<p class='info'>Found " + userCount + " users with DOCTOR role</p>");
         } catch (Exception e) {
             out.println("<p class='error'>Error: " + e.getMessage() + "</p>");
             out.println("<pre>");

@@ -19,17 +19,26 @@ public class DepartmentDAO {
         List<Department> list = new ArrayList<>();
         String sql = "SELECT * FROM departments WHERE status = 'ACTIVE' ORDER BY department_name";
         
+        System.out.println("DepartmentDAO.getAllActiveDepartments: Executing query...");
+        
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
             
             while (rs.next()) {
-                list.add(mapResultSetToDepartment(rs));
+                Department dept = mapResultSetToDepartment(rs);
+                list.add(dept);
+                System.out.println("DepartmentDAO: Added department - " + dept.getDepartmentName());
             }
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
+            System.err.println("DepartmentDAO SQL Error: " + e.getMessage());
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            System.err.println("DepartmentDAO ClassNotFound Error: " + e.getMessage());
             e.printStackTrace();
         }
         
+        System.out.println("DepartmentDAO.getAllActiveDepartments: Returned " + list.size() + " departments");
         return list;
     }
     

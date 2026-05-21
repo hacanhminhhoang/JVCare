@@ -51,8 +51,15 @@ public class AdminDoctorServlet extends HttpServlet {
     private void listDoctors(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         
+        // Disable cache để luôn load dữ liệu mới
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setDateHeader("Expires", 0);
+        
         List<Doctor> doctors = doctorDAO.getAllDoctors();
         int totalDoctors = doctorDAO.getTotalDoctors();
+        
+        System.out.println("AdminDoctorServlet: Loaded " + doctors.size() + " doctors, total count: " + totalDoctors);
         
         // Lấy thông báo success nếu có
         String success = request.getParameter("success");

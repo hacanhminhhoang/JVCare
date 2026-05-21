@@ -118,13 +118,25 @@ public class AdminUserServlet extends HttpServlet {
         if (referer != null && referer.contains("/admin/doctors")) {
             request.setAttribute("fromDoctors", true);
             request.setAttribute("defaultRole", "DOCTOR");
+            System.out.println("AdminUserServlet.showCreateForm: Request from doctors page");
         }
         
         // Load departments cho combobox
         try {
             com.jvcare.dao.DepartmentDAO departmentDAO = new com.jvcare.dao.DepartmentDAO();
-            request.setAttribute("departments", departmentDAO.getAllActiveDepartments());
+            java.util.List<com.jvcare.model.Department> departments = departmentDAO.getAllActiveDepartments();
+            request.setAttribute("departments", departments);
+            System.out.println("AdminUserServlet.showCreateForm: Loaded " + departments.size() + " departments");
+            
+            if (departments.isEmpty()) {
+                System.err.println("AdminUserServlet.showCreateForm: WARNING - No departments found!");
+            } else {
+                for (com.jvcare.model.Department dept : departments) {
+                    System.out.println("  - " + dept.getDepartmentName());
+                }
+            }
         } catch (Exception e) {
+            System.err.println("AdminUserServlet.showCreateForm: Error loading departments: " + e.getMessage());
             e.printStackTrace();
         }
         
