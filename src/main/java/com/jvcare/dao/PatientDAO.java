@@ -105,6 +105,53 @@ public class PatientDAO {
         }
         return false;
     }
+    
+    /**
+     * Tìm kiếm patients theo keyword
+     */
+    public List<Patient> searchPatients(String keyword) {
+        List<Patient> list = new ArrayList<>();
+        String sql = "SELECT p.*, u.full_name as u_name, u.phone as u_phone " +
+                     "FROM patients p LEFT JOIN users u ON p.user_id = u.user_id " +
+                     "WHERE p.full_name LIKE ? OR p.patient_code LIKE ? OR p.email LIKE ? OR p.phone LIKE ?";
+        
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            
+            String searchPattern = "%" + keyword + "%";
+            ps.setString(1, searchPattern);
+            ps.setString(2, searchPattern);
+            ps.setString(3, searchPattern);
+            ps.setString(4, searchPattern);
+            
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(mapResultSetToPatient(rs));
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    /**
+     * Đếm tổng số patients
+     */
+    public int getTotalPatients() {
+        String sql = "SELECT COUNT(*) FROM patients";
+        
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
     private Patient mapResultSetToPatient(ResultSet rs) throws SQLException {
         Patient p = new Patient();
@@ -127,6 +174,7 @@ public class PatientDAO {
         if (pPhone == null || pPhone.isEmpty()) pPhone = rs.getString("u_phone");
         p.setPhone(pPhone);
         
+        p.setEmail(rs.getString("email"));
         p.setAddress(rs.getString("address"));
         p.setAllergies(rs.getString("allergies"));
         p.setChronicDiseases(rs.getString("chronic_diseases"));

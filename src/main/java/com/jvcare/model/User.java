@@ -4,6 +4,7 @@ public class User {
     private int userId;
     private String username;
     private String passwordHash;
+    private String password; // Temporary field for plain password (not stored in DB)
     private String fullName;
     private String email;
     private String phone;
@@ -21,6 +22,10 @@ public class User {
 
     public String getPasswordHash() { return passwordHash; }
     public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
+
+    // Temporary password field (for input only, not stored)
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
 
     public String getFullName() { return fullName; }
     public void setFullName(String fullName) { this.fullName = fullName; }

@@ -13,6 +13,7 @@ public class Patient {
     private String allergies;
     private String chronicDiseases;
     private String idCard;
+    private String email;
 
     public Patient() {}
 
@@ -46,6 +47,9 @@ public class Patient {
 
     public String getIdCard() { return idCard; }
     public void setIdCard(String idCard) { this.idCard = idCard; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
     private String address;
     private String medicalHistory;
