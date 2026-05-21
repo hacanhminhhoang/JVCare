@@ -115,6 +115,7 @@ public class AdminUserServlet extends HttpServlet {
     private void showCreateForm(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         
+        // Không set attribute "user" để form biết đây là tạo mới
         request.getRequestDispatcher("/WEB-INF/views/admin/user_form.jsp").forward(request, response);
     }
     
