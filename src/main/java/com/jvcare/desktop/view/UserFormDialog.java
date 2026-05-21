@@ -122,11 +122,11 @@ public class UserFormDialog extends JDialog {
         btnCancel.setPreferredSize(new Dimension(100, 35));
         
         btnSave.setBackground(new Color(0, 102, 204));
-        btnSave.setForeground(Color.WHITE);
+        btnSave.setForeground(Color.BLACK);
         btnSave.setFocusPainted(false);
         
         btnCancel.setBackground(new Color(108, 117, 125));
-        btnCancel.setForeground(Color.WHITE);
+        btnCancel.setForeground(Color.BLACK);
         btnCancel.setFocusPainted(false);
         
         btnSave.addActionListener(e -> saveUser());

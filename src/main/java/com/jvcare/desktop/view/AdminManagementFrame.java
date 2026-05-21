@@ -102,6 +102,14 @@ public class AdminManagementFrame extends JFrame {
         userTable.setRowHeight(25);
         userTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
         
+        // Thêm border cho các cột của table header
+        javax.swing.table.TableCellRenderer defaultRenderer = userTable.getTableHeader().getDefaultRenderer();
+        userTable.getTableHeader().setDefaultRenderer((table, value, isSelected, hasFocus, row, column) -> {
+            JComponent comp = (JComponent) defaultRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            comp.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+            return comp;
+        });
+        
         // Scroll Pane
         JScrollPane scrollPane = new JScrollPane(userTable);
         panel.add(scrollPane, BorderLayout.CENTER);
@@ -124,7 +132,7 @@ public class AdminManagementFrame extends JFrame {
         for (JButton btn : new JButton[]{btnAdd, btnEdit, btnDelete, btnRefresh}) {
             btn.setFont(btnFont);
             btn.setBackground(btnColor);
-            btn.setForeground(Color.WHITE);
+            btn.setForeground(Color.BLACK);
             btn.setFocusPainted(false);
             btn.setPreferredSize(new Dimension(120, 35));
         }
