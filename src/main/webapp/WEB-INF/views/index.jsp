@@ -212,19 +212,19 @@
             <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
                 <div>
                   <p class="font-display text-5xl font-bold text-background">200+</p>
-                  <p class="mt-2 text-sm text-background/60">Cơ sở y tế tin dùng</p>
+                  <p class="mt-2 text-sm text-background opacity-70">Cơ sở y tế tin dùng</p>
                 </div>
                 <div>
                   <p class="font-display text-5xl font-bold text-background">1.2M+</p>
-                  <p class="mt-2 text-sm text-background/60">Hồ sơ bệnh án được quản lý</p>
+                  <p class="mt-2 text-sm text-background opacity-70">Hồ sơ bệnh án được quản lý</p>
                 </div>
                 <div>
                   <p class="font-display text-5xl font-bold text-background">99.99%</p>
-                  <p class="mt-2 text-sm text-background/60">Uptime hệ thống</p>
+                  <p class="mt-2 text-sm text-background opacity-70">Uptime hệ thống</p>
                 </div>
                 <div>
                   <p class="font-display text-5xl font-bold text-background">70%</p>
-                  <p class="mt-2 text-sm text-background/60">Thời gian giấy tờ tiết kiệm</p>
+                  <p class="mt-2 text-sm text-background opacity-70">Thời gian giấy tờ tiết kiệm</p>
                 </div>
             </div>
           </div>
