@@ -57,53 +57,53 @@
 
 ## 🟢 TASK 2: DOCTOR - QUẢN LÝ BỆNH ÁN & ĐƠN THUỐC
 **Thành viên:** Đặng Thái Nguyên
-**Tiến độ:** 0% ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜
+**Tiến độ:** 100% 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩
 
 ### Backend
-- [ ] Cập nhật `MedicalRecordDAO.java`
-  - [ ] `getRecordById(recordId)`
-  - [ ] `updateRecord(record)`
-  - [ ] `getRecordsByDoctorId(doctorId)`
-  - [ ] `getRecordWithPrescriptions(recordId)`
-- [ ] Cập nhật `PrescriptionDAO.java`
-  - [ ] `createPrescription(prescription)`
-  - [ ] `updatePrescription(prescription)`
-  - [ ] `deletePrescription(prescriptionId)`
-  - [ ] `getPrescriptionsByRecordId(recordId)`
-- [ ] Tạo `DoctorMedicalRecordServlet.java`
-  - [ ] GET: List medical records
-  - [ ] GET: Show record detail
-  - [ ] POST: Create record
-  - [ ] POST: Update record
-- [ ] Tạo `DoctorPrescriptionServlet.java`
-  - [ ] POST: Add medication
-  - [ ] POST: Update medication
-  - [ ] GET: Delete medication
+- [x] Cập nhật `MedicalRecordDAO.java`
+  - [x] `getRecordById(recordId)`
+  - [x] `updateRecord(record)`
+  - [x] `getRecordsByDoctorId(doctorId)`
+  - [x] `getRecordWithPrescriptions(recordId)`
+- [x] Cập nhật `PrescriptionDAO.java`
+  - [x] `createPrescription(prescription)`
+  - [x] `updatePrescription(prescription)`
+  - [x] `deletePrescription(prescriptionId)`
+  - [x] `getPrescriptionsByRecordId(recordId)`
+- [x] Tạo `DoctorMedicalRecordServlet.java`
+  - [x] GET: List medical records
+  - [x] GET: Show record detail
+  - [x] POST: Create record
+  - [x] POST: Update record
+- [x] Tạo `DoctorPrescriptionServlet.java`
+  - [x] POST: Add medication
+  - [x] POST: Update medication
+  - [x] GET: Delete medication
 
 ### Frontend
-- [ ] Tạo `/doctor/medical_records.jsp`
-- [ ] Tạo `/doctor/medical_record_form.jsp`
-- [ ] Tạo `/doctor/medical_record_detail.jsp`
-- [ ] Tạo `/doctor/prescription_form.jsp`
-- [ ] Tạo print prescription template
+- [x] Tạo `/doctor/medical_records.jsp`
+- [x] Tạo `/doctor/medical_record_form.jsp`
+- [x] Tạo `/doctor/medical_record_detail.jsp`
+- [x] Tạo `/doctor/prescription_form.jsp` (Tích hợp inline qua beautiful overlay modal)
+- [x] Tạo print prescription template (Tích hợp chức năng in đơn thuốc trực tiếp)
 
 ### Integration
-- [ ] Tích hợp với `DoctorAppointmentDetailServlet`
-- [ ] Link appointment → medical record
-- [ ] Workflow: Complete appointment → Create record
+- [x] Tích hợp với `DoctorAppointmentDetailServlet`
+- [x] Link appointment → medical record
+- [x] Workflow: Complete appointment → Create record
 
 ### Testing
-- [ ] Test tạo bệnh án
-- [ ] Test cập nhật bệnh án
-- [ ] Test thêm thuốc vào đơn
-- [ ] Test sửa/xóa thuốc
-- [ ] Test in đơn thuốc
-- [ ] Test validation liều lượng
+- [x] Test tạo bệnh án
+- [x] Test cập nhật bệnh án
+- [x] Test thêm thuốc vào đơn
+- [x] Test sửa/xóa thuốc
+- [x] Test in đơn thuốc
+- [x] Test validation liều lượng
 
 ### Documentation
-- [ ] Viết README cho task
-- [ ] Comment code đầy đủ
-- [ ] Hướng dẫn workflow
+- [x] Viết README cho task (Xem TASK_2_DOCTOR_GUIDE.md & walkthrough.md)
+- [x] Comment code đầy đủ
+- [x] Hướng dẫn workflow
 
 ---
 
@@ -302,12 +302,12 @@
 | Task | Thành viên | Tiến độ | Status |
 |------|-----------|---------|--------|
 | Task 1 | Hà Cảnh Minh Hoàng | 1% | 🟡 In Progress |
-| Task 2 | Đặng Thái Nguyên | 1% | 🟡 In Progress |
+| Task 2 | Đặng Thái Nguyên | 100% | 🟢 Completed |
 | Task 3 | Trần Ngọc Thiết | 1% | 🟡 In Progress |
 | Task 4 | Lê Thế Duy | 1% | 🟡 In Progress |
 | Task 5 | Phạm Hữu Nguyên | 1% | 🟡 In Progress |
 
-**Tổng tiến độ dự án:** 0% ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜
+**Tổng tiến độ dự án:** 20% 🟩🟩⬜⬜⬜⬜⬜⬜⬜⬜
 
 ### Status Legend:
 - 🔴 Not Started (0%)
