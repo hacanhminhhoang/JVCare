@@ -60,14 +60,6 @@ public class DBConnection {
         // Load SQL Server driver
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         
-<<<<<<< HEAD
-        String dbUrl = getEnv("DB_URL");
-        String dbUser = getEnv("DB_USER");
-        String dbPass = getEnv("DB_PASS");
-        if (dbPass == null || dbPass.isEmpty()) {
-            dbPass = getEnv("DB_PASSWORD");
-        }
-=======
         // Get connection info from .env
         String dbUrl = getEnv("DB_URL", 
             "jdbc:sqlserver://localhost:1433;databaseName=jvcare_db;encrypt=true;trustServerCertificate=true;");
@@ -75,7 +67,6 @@ public class DBConnection {
         String dbPass = getEnv("DB_PASS", "");
         
         System.out.println("Connecting to: " + dbUrl);
->>>>>>> main
         
         return DriverManager.getConnection(dbUrl, dbUser, dbPass);
     }
