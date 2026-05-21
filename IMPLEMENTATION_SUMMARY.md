@@ -5,8 +5,9 @@
 **Tên dự án:** JVCare_MVC - Hệ thống Quản lý Bệnh án Bệnh nhân  
 **Công nghệ:** Java Servlet/JSP + SQL Server + Bootstrap  
 **Số thành viên:** 5 người  
-**Thời gian:** 6 tuần  
+**Thời gian:** 8 ngày 
 **Ngày bắt đầu:** 20/05/2026
+**Ngày chốt dự án:** 28/05/2026
 
 ---
 
@@ -34,7 +35,7 @@
 ## 👥 PHÂN CÔNG CHI TIẾT
 
 ### 🔴 TASK 1: ADMIN - QUẢN LÝ NGƯỜI DÙNG & BÁC SĨ
-**Thành viên:** [Điền tên]  
+**Thành viên:** Hà Cảnh Minh Hoàng 
 **File hướng dẫn:** `TASK_1_ADMIN_GUIDE.md`
 
 **Deliverables:**
@@ -52,7 +53,7 @@
 ---
 
 ### 🟢 TASK 2: DOCTOR - QUẢN LÝ BỆNH ÁN & ĐƠN THUỐC
-**Thành viên:** [Điền tên]  
+**Thành viên:** Đặng Thái Nguyên  
 **File hướng dẫn:** `TASK_2_DOCTOR_GUIDE.md`
 
 **Deliverables:**
@@ -70,7 +71,7 @@
 ---
 
 ### 🔵 TASK 3: PATIENT - ĐẶT LỊCH & QUẢN LÝ HỒ SƠ
-**Thành viên:** [Điền tên]  
+**Thành viên:** Trần Ngọc Thiết
 **File hướng dẫn:** `TASK_3_PATIENT_GUIDE.md`
 
 **Deliverables:**
@@ -89,7 +90,7 @@
 ---
 
 ### 🟡 TASK 4: BÁO CÁO & THỐNG KÊ
-**Thành viên:** [Điền tên]  
+**Thành viên:** Lê Thế Duy 
 **File hướng dẫn:** `TASK_4_REPORTS_GUIDE.md`
 
 **Deliverables:**
@@ -109,7 +110,7 @@
 ---
 
 ### 🟣 TASK 5: TÍNH NĂNG NÂNG CAO & UX/UI
-**Thành viên:** [Điền tên]  
+**Thành viên:** Phạm Hữu Nguyên 
 **File hướng dẫn:** `TASK_5_ADVANCED_GUIDE.md`
 
 **Deliverables:**
@@ -134,14 +135,14 @@
 
 ## 📊 THỐNG KÊ CÔNG VIỆC
 
-| Task | Servlets | DAOs | Models | JSPs | JS Files | Độ khó | Thời gian |
+| Task | Servlets | DAOs | Models | JSPs | JS Files | Thời gian |
 |------|----------|------|--------|------|----------|--------|-----------|
-| Task 1 | 2 | 2 | 1 | 4 | 0 | ⭐⭐⭐⭐ | 2-3 tuần |
-| Task 2 | 2 | 2 | 0 | 5 | 0 | ⭐⭐⭐⭐⭐ | 3-4 tuần |
-| Task 3 | 3 | 2 | 0 | 4 | 0 | ⭐⭐⭐ | 2 tuần |
-| Task 4 | 3 | 1 | 0 | 5 | 0 | ⭐⭐⭐⭐ | 2-3 tuần |
-| Task 5 | 1 | 0 | 0 | 3 | 3 | ⭐⭐⭐⭐ | 2-3 tuần |
-| **TỔNG** | **11** | **7** | **1** | **21** | **3** | - | **6 tuần** |
+| Task 1 | 2 | 2 | 1 | 4 | 0 | 2-3 ngày |
+| Task 2 | 2 | 2 | 0 | 5 | 0 | 2-3 ngày |
+| Task 3 | 3 | 2 | 0 | 4 | 0 | 2-3 ngày |
+| Task 4 | 3 | 1 | 0 | 5 | 0 | 1-2 ngày |
+| Task 5 | 1 | 0 | 0 | 3 | 3 | 1-2 ngày |
+| **TỔNG** | **11** | **7** | **1** | **21** | **3** | - | **8 Ngày** |
 
 ---
 
@@ -162,10 +163,10 @@
 ```
 
 **Gợi ý thứ tự:**
-1. **Tuần 1-2:** Task 1 + Task 3 (song song, độc lập)
-2. **Tuần 2-4:** Task 2 (phụ thuộc Task 1)
-3. **Tuần 3-5:** Task 4 (phụ thuộc Task 1, 2, 3)
-4. **Tuần 4-6:** Task 5 (tích hợp tất cả)
+1. **Lần 1:** Task 1 + Task 3 (song song, độc lập)
+2. **Lần 2:** Task 2 (phụ thuộc Task 1)
+3. **Lần 3:** Task 4 (phụ thuộc Task 1, 2, 3)
+4. **Lần 4:** Task 5 (tích hợp tất cả)
 
 ---
 
@@ -234,40 +235,42 @@
 
 ## 📅 LỊCH TRÌNH 6 TUẦN
 
-### Tuần 1 (20/05 - 26/05)
+### Lần 1 (20/05 - 22/05)
 - [ ] Họp nhóm: Phân công chính thức
 - [ ] Setup môi trường cho tất cả thành viên
 - [ ] Tạo GitHub repository
 - [ ] Task 1: Backend 50%
 - [ ] Task 3: Backend 50%
 
-### Tuần 2 (27/05 - 02/06)
+### Lần 2 (22/05 - 23/05)
 - [ ] Task 1: Frontend + Testing → 100%
 - [ ] Task 2: Backend 50%
 - [ ] Task 3: Frontend + Testing → 100%
 - [ ] Họp review: Merge Task 1 & 3
 
-### Tuần 3 (03/06 - 09/06)
+### Lần 3 (23/05 - 24/05)
 - [ ] Task 2: Frontend + Testing → 100%
 - [ ] Task 4: Backend + Charts 50%
 - [ ] Họp review: Merge Task 2
 
-### Tuần 4 (10/06 - 16/06)
+### Lần 4 (24/05 - 25/05)
 - [ ] Task 4: Export + Testing → 100%
 - [ ] Task 5: Search + Email 50%
 - [ ] Integration testing
 
-### Tuần 5 (17/06 - 23/06)
+### Lần 5 (25/05 - 26/05)
 - [ ] Task 5: UI/UX + Security → 100%
 - [ ] Full integration testing
 - [ ] Bug fixing
 - [ ] Họp review: Final review
 
-### Tuần 6 (24/06 - 30/06)
+### Lần 6 (27/05 - 28/05)
 - [ ] Hoàn thiện documentation
 - [ ] Chuẩn bị slide thuyết trình
 - [ ] Quay video demo
 - [ ] Rehearsal presentation
+
+### FINAL (29/05)
 - [ ] **NỘP BÀI CUỐI KỲ**
 
 ---
@@ -344,17 +347,14 @@ Một task được coi là hoàn thành khi:
 2. **Tìm trong README.md** phần Troubleshooting
 3. **Hỏi trong group chat** Zalo/Discord
 4. **Tạo issue** trên GitHub
-5. **Liên hệ nhóm trưởng**
+5. **Liên hệ nhóm trưởng:** hcmhoang13@gmail.com
 
 ### Lịch họp nhóm:
-- **Thứ 2, 4, 6:** 19:00 - 20:00 (Online/Offline)
-- **Thứ 7:** Review code hàng tuần
+- **Thứ 5:** 21/5/2026 9h00-14h30
 
 ### Kênh liên lạc:
-- **Zalo Group:** [Link]
-- **Discord:** [Link]
-- **GitHub:** [Repository URL]
-- **Nhóm trưởng:** [Tên] - [SĐT] - [Email]
+
+- **GitHub:** [JVCare](https://github.com/hacanhminhhoang/JVCare)
 
 ---
 
@@ -401,7 +401,5 @@ Sau 6 tuần, dự án cần đạt được:
 
 ---
 
-**Chúc các bạn thành công với dự án cuối kỳ! 🚀💪**
-
-*Tài liệu được tạo ngày 20/05/2026*
+*Tài liệu được tạo ngày 21/05/2026*
 

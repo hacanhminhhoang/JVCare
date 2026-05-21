@@ -510,7 +510,7 @@ Solution: Clean Tomcat work directory, restart server
 
 ---
 
-## ✅ CHECKLIST TRƯỚC KHI NỘP BÁI
+## ✅ CHECKLIST TRƯỚC KHI NỘP BÀI
 
 - [ ] Code chạy được không lỗi
 - [ ] Đã test tất cả chức năng

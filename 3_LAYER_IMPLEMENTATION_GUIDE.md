@@ -1,11 +1,5 @@
 # 🏗️ HƯỚNG DẪN TRIỂN KHAI 3-LAYER CHO TẤT CẢ TASKS
 
-## 📋 TỔNG QUAN
-
-Tài liệu này hướng dẫn cách áp dụng kiến trúc 3 lớp cho tất cả 5 tasks trong dự án JVCare_MVC.
-
----
-
 ## 🎯 CẤU TRÚC CHUNG CHO MỖI TASK
 
 Mỗi task cần tạo các thành phần sau:
@@ -492,6 +486,3 @@ public class UserDAO {
 - [Exception Handling](https://www.baeldung.com/java-exceptions)
 
 ---
-
-**Áp dụng 3-Layer Architecture sẽ làm cho dự án của bạn chuyên nghiệp và dễ bảo trì hơn rất nhiều! 🚀**
-

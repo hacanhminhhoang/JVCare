@@ -2,12 +2,6 @@
 
 ## 📋 TỔNG QUAN
 
-Dự án JVCare_MVC áp dụng **kiến trúc 3 lớp** kết hợp với **mô hình MVC** để tạo ra một hệ thống có cấu trúc rõ ràng, dễ bảo trì và mở rộng.
-
----
-
-## 🏛️ KIẾN TRÚC 3 LỚP
-
 ```
 ┌─────────────────────────────────────────────────────────┐
 │         PRESENTATION LAYER (Tầng Giao diện)             │
