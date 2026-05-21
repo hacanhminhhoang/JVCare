@@ -351,10 +351,10 @@ Task 5 (Advanced Features & UI/UX)
 ```
 
 **Gợi ý thứ tự phát triển:**
-1. **Tuần 1-2:** Task 1 + Task 3 (song song)
-2. **Tuần 2-4:** Task 2 (phụ thuộc Task 1)
-3. **Tuần 3-5:** Task 4 (phụ thuộc Task 1, 2, 3)
-4. **Tuần 4-6:** Task 5 (tích hợp tất cả)
+1. **Lần 1** Task 1 + Task 3 (song song)
+2. **Lần 2:** Task 2 (phụ thuộc Task 1)
+3. **Lần 3:** Task 4 (phụ thuộc Task 1, 2, 3)
+4. **Lần 4:** Task 5 (tích hợp tất cả)
 
 ---
 
