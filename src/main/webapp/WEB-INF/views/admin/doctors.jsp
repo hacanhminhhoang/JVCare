@@ -94,7 +94,7 @@
 
         <!-- Actions Bar -->
         <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <form action="${pageContext.request.contextPath}/admin/doctors" method="get" class="flex gap-2">
+            <form action="${pageContext.request.contextPath}/admin/doctors" method="post" class="flex gap-2">
                 <input type="hidden" name="action" value="search">
                 <input type="text" name="keyword" value="${keyword}" 
                        placeholder="Tìm kiếm theo tên, chuyên khoa, email..." 
@@ -103,7 +103,7 @@
                     Tìm kiếm
                 </button>
             </form>
-            <a href="${pageContext.request.contextPath}/admin/doctors?action=create" 
+            <a href="${pageContext.request.contextPath}/admin/users?action=create" 
                class="inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2 text-sm font-medium text-brand-foreground hover:bg-brand/90 transition">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
                 Thêm bác sĩ mới
@@ -121,7 +121,7 @@
                 <div class="rounded-xl border border-dashed border-border bg-card p-12 text-center">
                     <svg class="mx-auto mb-4 text-muted-foreground" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
                     <p class="mb-4 text-sm text-muted-foreground">Chưa có bác sĩ nào trong hệ thống</p>
-                    <a href="${pageContext.request.contextPath}/admin/doctors?action=create" 
+                    <a href="${pageContext.request.contextPath}/admin/users?action=create" 
                        class="inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2 text-sm font-medium text-brand-foreground hover:bg-brand/90 transition">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
                         Thêm bác sĩ đầu tiên
@@ -175,7 +175,7 @@
                             </div>
                             
                             <div class="flex gap-2 border-t border-border pt-4">
-                                <a href="${pageContext.request.contextPath}/admin/doctors?action=edit&id=${doctor.userId}" 
+                                <a href="${pageContext.request.contextPath}/admin/users?action=edit&id=${doctor.userId}" 
                                    class="flex-1 rounded-lg bg-yellow-100 px-3 py-2 text-center text-xs font-medium text-yellow-800 hover:bg-yellow-200 transition">
                                     Sửa thông tin
                                 </a>

@@ -4,6 +4,7 @@ d:\HocKi225\LapTrinhJavaNangCao\JVCare_MVC\src\main\java\com\jvcare\dao\Appointm
 d:\HocKi225\LapTrinhJavaNangCao\JVCare_MVC\src\main\java\com\jvcare\controller\AdminDoctorServlet.java
 d:\HocKi225\LapTrinhJavaNangCao\JVCare_MVC\src\main\java\com\jvcare\controller\LoginServlet.java
 d:\HocKi225\LapTrinhJavaNangCao\JVCare_MVC\src\main\java\com\jvcare\controller\HomeServlet.java
+d:\HocKi225\LapTrinhJavaNangCao\JVCare_MVC\src\main\java\com\jvcare\filter\EncodingFilter.java
 d:\HocKi225\LapTrinhJavaNangCao\JVCare_MVC\src\main\java\com\jvcare\model\Patient.java
 d:\HocKi225\LapTrinhJavaNangCao\JVCare_MVC\src\main\java\com\jvcare\controller\DoctorPatientDetailServlet.java
 d:\HocKi225\LapTrinhJavaNangCao\JVCare_MVC\src\main\java\com\jvcare\model\Appointment.java
@@ -16,6 +17,7 @@ d:\HocKi225\LapTrinhJavaNangCao\JVCare_MVC\src\main\java\com\jvcare\util\DBConne
 d:\HocKi225\LapTrinhJavaNangCao\JVCare_MVC\src\main\java\com\jvcare\dto\UserDTO.java
 d:\HocKi225\LapTrinhJavaNangCao\JVCare_MVC\src\main\java\com\jvcare\exception\ValidationException.java
 d:\HocKi225\LapTrinhJavaNangCao\JVCare_MVC\src\main\java\com\jvcare\controller\PatientAppointmentsServlet.java
+d:\HocKi225\LapTrinhJavaNangCao\JVCare_MVC\src\main\java\com\jvcare\dao\DepartmentDAO.java
 d:\HocKi225\LapTrinhJavaNangCao\JVCare_MVC\src\main\java\com\jvcare\controller\PatientPrescriptionsServlet.java
 d:\HocKi225\LapTrinhJavaNangCao\JVCare_MVC\src\main\java\com\jvcare\dao\PrescriptionDAO.java
 d:\HocKi225\LapTrinhJavaNangCao\JVCare_MVC\src\main\java\com\jvcare\util\GroqAIClient.java
@@ -26,7 +28,9 @@ d:\HocKi225\LapTrinhJavaNangCao\JVCare_MVC\src\main\java\com\jvcare\controller\D
 d:\HocKi225\LapTrinhJavaNangCao\JVCare_MVC\src\main\java\com\jvcare\dao\DoctorDAO.java
 d:\HocKi225\LapTrinhJavaNangCao\JVCare_MVC\src\main\java\com\jvcare\controller\PolicyServlet.java
 d:\HocKi225\LapTrinhJavaNangCao\JVCare_MVC\src\main\java\com\jvcare\dao\PatientDAO.java
+d:\HocKi225\LapTrinhJavaNangCao\JVCare_MVC\src\main\java\com\jvcare\controller\AdminPatientServlet.java
 d:\HocKi225\LapTrinhJavaNangCao\JVCare_MVC\src\main\java\com\jvcare\controller\PatientHomeServlet.java
+d:\HocKi225\LapTrinhJavaNangCao\JVCare_MVC\src\main\java\com\jvcare\model\Department.java
 d:\HocKi225\LapTrinhJavaNangCao\JVCare_MVC\src\main\java\com\jvcare\controller\AdminUserServlet.java
 d:\HocKi225\LapTrinhJavaNangCao\JVCare_MVC\src\main\java\com\jvcare\controller\AdminHomeServlet.java
 d:\HocKi225\LapTrinhJavaNangCao\JVCare_MVC\src\main\java\com\jvcare\model\MedicalRecord.java

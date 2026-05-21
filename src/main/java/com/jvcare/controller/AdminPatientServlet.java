@@ -154,6 +154,8 @@ public class AdminPatientServlet extends HttpServlet {
             createPatient(request, response);
         } else if ("update".equals(action)) {
             updatePatient(request, response);
+        } else if ("search".equals(action)) {
+            searchPatients(request, response);
         }
     }
     

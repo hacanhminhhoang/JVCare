@@ -94,7 +94,7 @@
 
         <!-- Actions Bar -->
         <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <form action="${pageContext.request.contextPath}/admin/patients" method="get" class="flex gap-2">
+            <form action="${pageContext.request.contextPath}/admin/patients" method="post" class="flex gap-2">
                 <input type="hidden" name="action" value="search">
                 <input type="text" name="keyword" value="${keyword}" 
                        placeholder="Tìm kiếm theo tên, mã BN, email, SĐT..." 
@@ -159,6 +159,8 @@
                                             </c:otherwise>
                                         </c:choose>
                                     </div>
+                                </c:if>
+                            </div>
                             <div class="flex gap-2 border-t border-border pt-4">
                                 <a href="${pageContext.request.contextPath}/admin/patients?action=edit&id=${patient.patientId}" 
                                    class="flex-1 rounded-lg bg-yellow-100 px-3 py-2 text-center text-xs font-medium text-yellow-800 hover:bg-yellow-200 transition">
