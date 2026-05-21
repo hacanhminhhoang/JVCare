@@ -113,6 +113,21 @@ public class AdminUserServlet extends HttpServlet {
     private void showCreateForm(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         
+        // Kiểm tra xem request có đến từ trang doctors không
+        String referer = request.getHeader("Referer");
+        if (referer != null && referer.contains("/admin/doctors")) {
+            request.setAttribute("fromDoctors", true);
+            request.setAttribute("defaultRole", "DOCTOR");
+        }
+        
+        // Load departments cho combobox
+        try {
+            com.jvcare.dao.DepartmentDAO departmentDAO = new com.jvcare.dao.DepartmentDAO();
+            request.setAttribute("departments", departmentDAO.getAllActiveDepartments());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
         // Không set attribute "user" để form biết đây là tạo mới
         request.getRequestDispatcher("/WEB-INF/views/admin/user_form.jsp").forward(request, response);
     }
@@ -129,6 +144,27 @@ public class AdminUserServlet extends HttpServlet {
         if (user == null) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "User không tồn tại");
             return;
+        }
+        
+        // Kiểm tra xem request có đến từ trang doctors không
+        String referer = request.getHeader("Referer");
+        if (referer != null && referer.contains("/admin/doctors")) {
+            request.setAttribute("fromDoctors", true);
+        }
+        
+        // Load departments cho combobox nếu là doctor
+        if ("DOCTOR".equals(user.getRole())) {
+            try {
+                com.jvcare.dao.DepartmentDAO departmentDAO = new com.jvcare.dao.DepartmentDAO();
+                request.setAttribute("departments", departmentDAO.getAllActiveDepartments());
+                
+                // Load thông tin doctor
+                com.jvcare.dao.DoctorDAO doctorDAO = new com.jvcare.dao.DoctorDAO();
+                com.jvcare.model.Doctor doctor = doctorDAO.getDoctorByUserId(userId);
+                request.setAttribute("doctor", doctor);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         
         request.setAttribute("editUser", user);
@@ -149,31 +185,33 @@ public class AdminUserServlet extends HttpServlet {
             String fullName = request.getParameter("fullName");
             String role = request.getParameter("role");
             String phone = request.getParameter("phone");
+            String specialization = request.getParameter("specialization");
+            String departmentIdStr = request.getParameter("departmentId");
             
             // Validate
             if (username == null || username.trim().isEmpty()) {
                 request.setAttribute("error", "Username không được để trống");
-                request.getRequestDispatcher("/WEB-INF/views/admin/user_form.jsp").forward(request, response);
+                showCreateForm(request, response);
                 return;
             }
             
             if (password == null || password.length() < 6) {
                 request.setAttribute("error", "Password phải có ít nhất 6 ký tự");
-                request.getRequestDispatcher("/WEB-INF/views/admin/user_form.jsp").forward(request, response);
+                showCreateForm(request, response);
                 return;
             }
             
             // Kiểm tra duplicate username
             if (userDAO.existsByUsername(username)) {
                 request.setAttribute("error", "Username đã tồn tại");
-                request.getRequestDispatcher("/WEB-INF/views/admin/user_form.jsp").forward(request, response);
+                showCreateForm(request, response);
                 return;
             }
             
             // Kiểm tra duplicate email
             if (userDAO.existsByEmail(email)) {
                 request.setAttribute("error", "Email đã tồn tại");
-                request.getRequestDispatcher("/WEB-INF/views/admin/user_form.jsp").forward(request, response);
+                showCreateForm(request, response);
                 return;
             }
             
@@ -194,16 +232,31 @@ public class AdminUserServlet extends HttpServlet {
             boolean success = userDAO.createUser(user);
             
             if (success) {
-                response.sendRedirect(request.getContextPath() + "/admin/users?success=created");
+                // Nếu là DOCTOR, tạo thêm record trong bảng doctors
+                if ("DOCTOR".equals(role)) {
+                    com.jvcare.dao.DoctorDAO doctorDAO = new com.jvcare.dao.DoctorDAO();
+                    com.jvcare.model.Doctor doctor = new com.jvcare.model.Doctor();
+                    doctor.setUserId(user.getUserId());
+                    doctor.setSpecialization(specialization);
+                    
+                    if (departmentIdStr != null && !departmentIdStr.trim().isEmpty()) {
+                        doctor.setDepartmentId(Integer.parseInt(departmentIdStr));
+                    }
+                    
+                    doctorDAO.createDoctor(doctor);
+                    response.sendRedirect(request.getContextPath() + "/admin/doctors?success=created");
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/admin/users?success=created");
+                }
             } else {
                 request.setAttribute("error", "Không thể tạo user");
-                request.getRequestDispatcher("/WEB-INF/views/admin/user_form.jsp").forward(request, response);
+                showCreateForm(request, response);
             }
             
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("error", "Lỗi hệ thống: " + e.getMessage());
-            request.getRequestDispatcher("/WEB-INF/views/admin/user_form.jsp").forward(request, response);
+            showCreateForm(request, response);
         }
     }
     
@@ -220,12 +273,14 @@ public class AdminUserServlet extends HttpServlet {
             String fullName = request.getParameter("fullName");
             String phone = request.getParameter("phone");
             String status = request.getParameter("status");
+            String specialization = request.getParameter("specialization");
+            String departmentIdStr = request.getParameter("departmentId");
             
             // Kiểm tra user tồn tại
             User existingUser = userDAO.getUserById(userId);
             if (existingUser == null) {
                 request.setAttribute("error", "User không tồn tại");
-                request.getRequestDispatcher("/WEB-INF/views/admin/user_form.jsp").forward(request, response);
+                showEditForm(request, response);
                 return;
             }
             
@@ -233,7 +288,7 @@ public class AdminUserServlet extends HttpServlet {
             if (userDAO.existsByEmailExcludingUser(email, userId)) {
                 request.setAttribute("error", "Email đã được sử dụng");
                 request.setAttribute("editUser", existingUser);
-                request.getRequestDispatcher("/WEB-INF/views/admin/user_form.jsp").forward(request, response);
+                showEditForm(request, response);
                 return;
             }
             
@@ -246,17 +301,37 @@ public class AdminUserServlet extends HttpServlet {
             boolean success = userDAO.updateUser(existingUser);
             
             if (success) {
-                response.sendRedirect(request.getContextPath() + "/admin/users?success=updated");
+                // Nếu là DOCTOR, cập nhật thông tin doctor
+                if ("DOCTOR".equals(existingUser.getRole())) {
+                    com.jvcare.dao.DoctorDAO doctorDAO = new com.jvcare.dao.DoctorDAO();
+                    com.jvcare.model.Doctor doctor = doctorDAO.getDoctorByUserId(userId);
+                    
+                    if (doctor != null) {
+                        doctor.setSpecialization(specialization);
+                        
+                        if (departmentIdStr != null && !departmentIdStr.trim().isEmpty()) {
+                            doctor.setDepartmentId(Integer.parseInt(departmentIdStr));
+                        } else {
+                            doctor.setDepartmentId(null);
+                        }
+                        
+                        doctorDAO.updateDoctor(doctor);
+                    }
+                    
+                    response.sendRedirect(request.getContextPath() + "/admin/doctors?success=updated");
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/admin/users?success=updated");
+                }
             } else {
                 request.setAttribute("error", "Không thể cập nhật user");
                 request.setAttribute("editUser", existingUser);
-                request.getRequestDispatcher("/WEB-INF/views/admin/user_form.jsp").forward(request, response);
+                showEditForm(request, response);
             }
             
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("error", "Lỗi hệ thống: " + e.getMessage());
-            request.getRequestDispatcher("/WEB-INF/views/admin/user_form.jsp").forward(request, response);
+            showEditForm(request, response);
         }
     }
     

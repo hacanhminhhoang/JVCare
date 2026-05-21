@@ -36,10 +36,20 @@
     <main class="flex-1 overflow-auto p-6 md:p-10">
         <div class="mx-auto max-w-3xl">
             <div class="mb-6">
-                <h1 class="font-display text-3xl font-bold text-ink">${empty editUser ? 'Thêm' : 'Sửa'} Nhân viên</h1>
-                <p class="mt-2 text-sm text-muted-foreground">
-                    ${empty editUser ? 'Thêm tài khoản nhân viên mới' : 'Cập nhật thông tin nhân viên'}
-                </p>
+                <c:choose>
+                    <c:when test="${fromDoctors}">
+                        <h1 class="font-display text-3xl font-bold text-ink">${empty editUser ? 'Thêm' : 'Sửa'} Bác sĩ</h1>
+                        <p class="mt-2 text-sm text-muted-foreground">
+                            ${empty editUser ? 'Thêm bác sĩ mới vào hệ thống' : 'Cập nhật thông tin bác sĩ'}
+                        </p>
+                    </c:when>
+                    <c:otherwise>
+                        <h1 class="font-display text-3xl font-bold text-ink">${empty editUser ? 'Thêm' : 'Sửa'} Nhân viên</h1>
+                        <p class="mt-2 text-sm text-muted-foreground">
+                            ${empty editUser ? 'Thêm tài khoản nhân viên mới' : 'Cập nhật thông tin nhân viên'}
+                        </p>
+                    </c:otherwise>
+                </c:choose>
             </div>
 
             <!-- Error Message -->
@@ -130,15 +140,28 @@
                                 </label>
                                 <select name="role" required 
                                         ${not empty editUser ? 'disabled' : ''}
+                                        id="roleSelect"
+                                        onchange="toggleDoctorFields()"
                                         class="w-full rounded-lg border border-border bg-card px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand ${not empty editUser ? 'bg-muted/50 cursor-not-allowed' : ''}">
                                     <c:choose>
                                         <c:when test="${empty editUser}">
-                                            <option value="RECEPTIONIST">Lễ tân (Receptionist)</option>
-                                            <option value="ADMIN">Quản trị viên (Admin)</option>
+                                            <c:choose>
+                                                <c:when test="${defaultRole == 'DOCTOR'}">
+                                                    <option value="DOCTOR" selected>Bác sĩ (Doctor)</option>
+                                                    <option value="RECEPTIONIST">Lễ tân (Receptionist)</option>
+                                                    <option value="ADMIN">Quản trị viên (Admin)</option>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <option value="RECEPTIONIST">Lễ tân (Receptionist)</option>
+                                                    <option value="ADMIN">Quản trị viên (Admin)</option>
+                                                    <option value="DOCTOR">Bác sĩ (Doctor)</option>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </c:when>
                                         <c:otherwise>
                                             <option value="RECEPTIONIST" ${editUser.role == 'RECEPTIONIST' ? 'selected' : ''}>Lễ tân (Receptionist)</option>
                                             <option value="ADMIN" ${editUser.role == 'ADMIN' ? 'selected' : ''}>Quản trị viên (Admin)</option>
+                                            <option value="DOCTOR" ${editUser.role == 'DOCTOR' ? 'selected' : ''}>Bác sĩ (Doctor)</option>
                                         </c:otherwise>
                                     </c:choose>
                                 </select>
@@ -159,17 +182,67 @@
                                 </select>
                             </div>
                         </c:if>
+
+                        <!-- Doctor-specific fields -->
+                        <div id="doctorFields" style="display: none;">
+                            <div class="border-t border-border pt-6 mt-6">
+                                <h3 class="font-semibold text-ink mb-4">Thông tin Bác sĩ</h3>
+                                
+                                <div class="grid gap-6 md:grid-cols-2">
+                                    <div>
+                                        <label class="mb-2 block text-sm font-medium text-ink">
+                                            Chuyên khoa <span class="text-red-600">*</span>
+                                        </label>
+                                        <input type="text" name="specialization" 
+                                               value="${doctor.specialization}"
+                                               placeholder="VD: Nội khoa, Tim mạch..."
+                                               class="w-full rounded-lg border border-border bg-card px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand">
+                                    </div>
+
+                                    <div>
+                                        <label class="mb-2 block text-sm font-medium text-ink">Khoa</label>
+                                        <select name="departmentId" 
+                                                class="w-full rounded-lg border border-border bg-card px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand">
+                                            <option value="">-- Chọn khoa --</option>
+                                            <c:forEach var="dept" items="${departments}">
+                                                <option value="${dept.departmentId}" 
+                                                        ${doctor.departmentId == dept.departmentId ? 'selected' : ''}>
+                                                    ${dept.departmentName}
+                                                </option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Buttons -->
                     <div class="mt-8 flex gap-3">
-                        <a href="${pageContext.request.contextPath}/admin/users" 
-                           class="rounded-lg border border-border bg-card px-6 py-2 text-sm font-medium text-ink hover:bg-muted transition">
-                            Hủy
-                        </a>
+                        <c:choose>
+                            <c:when test="${fromDoctors}">
+                                <a href="${pageContext.request.contextPath}/admin/doctors" 
+                                   class="rounded-lg border border-border bg-card px-6 py-2 text-sm font-medium text-ink hover:bg-muted transition">
+                                    Hủy
+                                </a>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="${pageContext.request.contextPath}/admin/users" 
+                                   class="rounded-lg border border-border bg-card px-6 py-2 text-sm font-medium text-ink hover:bg-muted transition">
+                                    Hủy
+                                </a>
+                            </c:otherwise>
+                        </c:choose>
                         <button type="submit" 
                                 class="rounded-lg bg-brand px-6 py-2 text-sm font-medium text-brand-foreground hover:bg-brand/90 transition">
-                            ${empty editUser ? 'Tạo nhân viên' : 'Cập nhật'}
+                            <c:choose>
+                                <c:when test="${fromDoctors}">
+                                    ${empty editUser ? 'Tạo bác sĩ' : 'Cập nhật'}
+                                </c:when>
+                                <c:otherwise>
+                                    ${empty editUser ? 'Tạo nhân viên' : 'Cập nhật'}
+                                </c:otherwise>
+                            </c:choose>
                         </button>
                     </div>
                 </form>
@@ -178,7 +251,39 @@
     </main>
 
     <script>
-        // Form validation is purely HTML5 based now
+        // Toggle doctor fields based on role selection
+        function toggleDoctorFields() {
+            const roleSelect = document.getElementById('roleSelect');
+            const doctorFields = document.getElementById('doctorFields');
+            const specializationInput = document.querySelector('input[name="specialization"]');
+            
+            if (roleSelect && doctorFields) {
+                if (roleSelect.value === 'DOCTOR') {
+                    doctorFields.style.display = 'block';
+                    if (specializationInput) {
+                        specializationInput.required = true;
+                    }
+                } else {
+                    doctorFields.style.display = 'none';
+                    if (specializationInput) {
+                        specializationInput.required = false;
+                    }
+                }
+            }
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            toggleDoctorFields();
+            
+            // Also check if editing a doctor
+            <c:if test="${not empty editUser && editUser.role == 'DOCTOR'}">
+                const doctorFields = document.getElementById('doctorFields');
+                if (doctorFields) {
+                    doctorFields.style.display = 'block';
+                }
+            </c:if>
+        });
     </script>
 </body>
 </html>

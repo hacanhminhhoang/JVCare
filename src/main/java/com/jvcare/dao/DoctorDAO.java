@@ -14,6 +14,8 @@ public class DoctorDAO {
      */
     public List<Doctor> getAllDoctors() {
         List<Doctor> list = new ArrayList<>();
+        
+        // SQL query với LEFT JOIN departments
         String sql = "SELECT d.doctor_id, d.user_id, d.specialization, d.department_id, " +
                      "u.full_name, u.email, u.phone, u.status, " +
                      "dept.department_name " +
@@ -27,11 +29,14 @@ public class DoctorDAO {
              ResultSet rs = ps.executeQuery()) {
             
             while (rs.next()) {
-                list.add(mapResultSetToDoctor(rs));
+                list.add(mapResultSetToDoctor(rs, true));
             }
         } catch (SQLException | ClassNotFoundException e) {
+            System.err.println("Error in getAllDoctors: " + e.getMessage());
             e.printStackTrace();
         }
+        
+        System.out.println("DoctorDAO.getAllDoctors() returned " + list.size() + " doctors");
         return list;
     }
     
@@ -218,24 +223,37 @@ public class DoctorDAO {
     }
     
     /**
-     * Map ResultSet to Doctor object
+     * Map ResultSet to Doctor object (với departments)
      */
-    private Doctor mapResultSetToDoctor(ResultSet rs) throws SQLException {
+    private Doctor mapResultSetToDoctor(ResultSet rs, boolean hasDepartmentsTable) throws SQLException {
         Doctor doctor = new Doctor();
         doctor.setDoctorId(rs.getInt("doctor_id"));
         doctor.setUserId(rs.getInt("user_id"));
         doctor.setSpecialization(rs.getString("specialization"));
         
-        int deptId = rs.getInt("department_id");
-        if (!rs.wasNull()) {
-            doctor.setDepartmentId(deptId);
+        if (hasDepartmentsTable) {
+            try {
+                int deptId = rs.getInt("department_id");
+                if (!rs.wasNull()) {
+                    doctor.setDepartmentId(deptId);
+                }
+                doctor.setDepartmentName(rs.getString("department_name"));
+            } catch (SQLException e) {
+                // Ignore if column doesn't exist
+            }
         }
         
         doctor.setFullName(rs.getString("full_name"));
         doctor.setEmail(rs.getString("email"));
         doctor.setPhone(rs.getString("phone"));
         doctor.setStatus(rs.getString("status"));
-        doctor.setDepartmentName(rs.getString("department_name"));
         return doctor;
+    }
+    
+    /**
+     * Map ResultSet to Doctor object (legacy - giữ lại để tương thích)
+     */
+    private Doctor mapResultSetToDoctor(ResultSet rs) throws SQLException {
+        return mapResultSetToDoctor(rs, true);
     }
 }
