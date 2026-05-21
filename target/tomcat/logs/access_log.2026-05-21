@@ -1,0 +1,15 @@
+0:0:0:0:0:0:0:1 - - [21/May/2026:14:39:58 +0700] "GET /JVCare_MVC HTTP/1.1" 200 28290 http-bio-8080-exec-2 1111
+0:0:0:0:0:0:0:1 - - [21/May/2026:14:39:58 +0700] "GET /JVCare_MVC/images/hero-doctor.jpg HTTP/1.1" 304 - http-bio-8080-exec-3 20
+0:0:0:0:0:0:0:1 - - [21/May/2026:14:40:01 +0700] "GET /JVCare_MVC/login HTTP/1.1" 200 3028 http-bio-8080-exec-4 317
+0:0:0:0:0:0:0:1 - - [21/May/2026:14:40:08 +0700] "POST /JVCare_MVC/login HTTP/1.1" 302 - http-bio-8080-exec-5 737
+0:0:0:0:0:0:0:1 - - [21/May/2026:14:40:08 +0700] "GET /JVCare_MVC/admin/index HTTP/1.1" 200 5853 http-bio-8080-exec-6 101
+0:0:0:0:0:0:0:1 - - [21/May/2026:14:40:12 +0700] "GET /JVCare_MVC/admin/users HTTP/1.1" 200 18122 http-bio-8080-exec-7 408
+0:0:0:0:0:0:0:1 - - [21/May/2026:14:40:14 +0700] "GET /JVCare_MVC/admin/doctors HTTP/1.1" 200 8934 http-bio-8080-exec-8 252
+0:0:0:0:0:0:0:1 - - [21/May/2026:14:40:16 +0700] "GET /JVCare_MVC/admin/patients HTTP/1.1" 200 28353 http-bio-8080-exec-9 222
+0:0:0:0:0:0:0:1 - - [21/May/2026:14:40:18 +0700] "GET /JVCare_MVC/admin/doctors HTTP/1.1" 200 8934 http-bio-8080-exec-10 140
+0:0:0:0:0:0:0:1 - - [21/May/2026:14:40:19 +0700] "GET /JVCare_MVC/admin/users HTTP/1.1" 200 18122 http-bio-8080-exec-2 102
+0:0:0:0:0:0:0:1 - - [21/May/2026:14:40:20 +0700] "GET /JVCare_MVC/admin/users?action=search&keyword= HTTP/1.1" 200 18122 http-bio-8080-exec-2 110
+0:0:0:0:0:0:0:1 - - [21/May/2026:14:40:23 +0700] "GET /JVCare_MVC/admin/users?action=create HTTP/1.1" 200 8176 http-bio-8080-exec-2 157
+0:0:0:0:0:0:0:1 - - [21/May/2026:14:40:32 +0700] "GET /JVCare_MVC/admin/users HTTP/1.1" 200 18122 http-bio-8080-exec-2 145
+0:0:0:0:0:0:0:1 - - [21/May/2026:14:40:34 +0700] "GET /JVCare_MVC/admin/doctors HTTP/1.1" 200 8934 http-bio-8080-exec-2 149
+0:0:0:0:0:0:0:1 - - [21/May/2026:14:40:36 +0700] "GET /JVCare_MVC/admin/doctors?action=create HTTP/1.1" 200 6233 http-bio-8080-exec-2 209
