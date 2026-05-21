@@ -174,6 +174,7 @@ public class PatientDAO {
         if (pPhone == null || pPhone.isEmpty()) pPhone = rs.getString("u_phone");
         p.setPhone(pPhone);
         
+        p.setEmail(rs.getString("email"));
         p.setAddress(rs.getString("address"));
         p.setAllergies(rs.getString("allergies"));
         p.setChronicDiseases(rs.getString("chronic_diseases"));

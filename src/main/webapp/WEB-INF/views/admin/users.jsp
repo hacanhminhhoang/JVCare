@@ -127,99 +127,88 @@
             Tổng số: <span class="font-semibold text-ink">${totalUsers}</span> nhân viên
         </div>
 
-        <!-- Users Table -->
-        <div class="overflow-hidden rounded-xl border border-border bg-card">
-            <div class="overflow-x-auto">
-                <table class="w-full">
-                    <thead class="border-b border-border bg-muted/30">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">ID</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">Username</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">Họ tên</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">Email</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">Số điện thoại</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">Role</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">Trạng thái</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">Thao tác</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-border">
-                        <c:choose>
-                            <c:when test="${empty users}">
-                                <tr>
-                                    <td colspan="8" class="px-6 py-12 text-center">
-                                        <svg class="mx-auto mb-4 text-muted-foreground" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                                        <p class="text-sm text-muted-foreground">Không có nhân viên nào</p>
-                                    </td>
-                                </tr>
-                            </c:when>
-                            <c:otherwise>
-                                <c:forEach var="user" items="${users}">
-                                    <tr class="hover:bg-muted/20 transition">
-                                        <td class="px-6 py-4 text-sm text-ink">${user.userId}</td>
-                                        <td class="px-6 py-4 text-sm font-semibold text-ink">${user.username}</td>
-                                        <td class="px-6 py-4 text-sm text-ink">${user.fullName}</td>
-                                        <td class="px-6 py-4 text-sm text-muted-foreground">${user.email}</td>
-                                        <td class="px-6 py-4 text-sm text-muted-foreground">${user.phone}</td>
-                                        <td class="px-6 py-4">
-                                            <c:choose>
-                                                <c:when test="${user.role == 'ADMIN'}">
-                                                    <span class="inline-flex items-center gap-1 rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                                                        Admin
-                                                    </span>
-                                                </c:when>
-                                                <c:when test="${user.role == 'DOCTOR'}">
-                                                    <span class="inline-flex items-center gap-1 rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
-                                                        Doctor
-                                                    </span>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <span class="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                                                        Patient
-                                                    </span>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <c:choose>
-                                                <c:when test="${user.status == 'ACTIVE'}">
-                                                    <span class="inline-flex items-center gap-1 rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                                                        Active
-                                                    </span>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <span class="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-600">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" x2="9" y1="9" y2="15"/><line x1="9" x2="15" y1="9" y2="15"/></svg>
-                                                        Inactive
-                                                    </span>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <div class="flex gap-2">
-                                                <a href="${pageContext.request.contextPath}/admin/users?action=edit&id=${user.userId}" 
-                                                   class="rounded-lg bg-yellow-100 px-3 py-1.5 text-xs font-medium text-yellow-800 hover:bg-yellow-200 transition">
-                                                    Sửa
-                                                </a>
-                                                <a href="${pageContext.request.contextPath}/admin/users?action=delete&id=${user.userId}" 
-                                                   onclick="return confirm('Bạn có chắc muốn xóa nhân viên ${user.username}?')"
-                                                   class="rounded-lg bg-red-100 px-3 py-1.5 text-xs font-medium text-red-800 hover:bg-red-200 transition">
-                                                    Xóa
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                            </c:otherwise>
-                        </c:choose>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        <!-- Users Grid -->
+        <c:choose>
+            <c:when test="${empty users}">
+                <div class="rounded-xl border border-dashed border-border bg-card p-12 text-center">
+                    <svg class="mx-auto mb-4 text-muted-foreground" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    <p class="text-sm text-muted-foreground">Không có nhân viên nào</p>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    <c:forEach var="user" items="${users}">
+                        <div class="group rounded-xl border border-border bg-card p-6 transition hover:shadow-lg">
+                            <div class="mb-4 flex items-start justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-600">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-ink">${user.fullName}</h3>
+                                        <p class="text-xs text-muted-foreground">ID: ${user.userId} • @${user.username}</p>
+                                    </div>
+                                </div>
+                                <c:choose>
+                                    <c:when test="${user.status == 'ACTIVE'}">
+                                        <span class="inline-flex items-center gap-1 rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800">
+                                            Active
+                                        </span>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span class="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
+                                            Inactive
+                                        </span>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                            
+                            <div class="mb-4 space-y-2">
+                                <div class="flex items-center gap-2 text-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                                    <span class="text-muted-foreground">${user.email}</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                                    <span class="text-muted-foreground">${user.phone}</span>
+                                </div>
+                                <div class="mt-3">
+                                    <c:choose>
+                                        <c:when test="${user.role == 'ADMIN'}">
+                                            <span class="inline-flex items-center gap-1 rounded-full bg-red-100 px-3 py-1 text-xs font-medium text-red-800">
+                                                Admin
+                                            </span>
+                                        </c:when>
+                                        <c:when test="${user.role == 'DOCTOR'}">
+                                            <span class="inline-flex items-center gap-1 rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-800">
+                                                Doctor
+                                            </span>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <span class="inline-flex items-center gap-1 rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-800">
+                                                Patient
+                                            </span>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
+                            </div>
+                            
+                            <div class="flex gap-2 border-t border-border pt-4">
+                                <a href="${pageContext.request.contextPath}/admin/users?action=edit&id=${user.userId}" 
+                                   class="flex-1 rounded-lg bg-yellow-100 px-3 py-2 text-center text-xs font-medium text-yellow-800 hover:bg-yellow-200 transition">
+                                    Sửa
+                                </a>
+                                <a href="${pageContext.request.contextPath}/admin/users?action=delete&id=${user.userId}" 
+                                   onclick="return confirm('Bạn có chắc muốn xóa nhân viên ${user.username}?')"
+                                   class="rounded-lg bg-red-100 px-3 py-2 text-center text-xs font-medium text-red-800 hover:bg-red-200 transition">
+                                    Xóa
+                                </a>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </div>
+            </c:otherwise>
+        </c:choose>
 
         <!-- Pagination -->
         <c:if test="${totalPages > 1}">

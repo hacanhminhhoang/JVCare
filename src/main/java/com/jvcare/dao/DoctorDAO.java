@@ -10,14 +10,16 @@ import java.util.List;
 public class DoctorDAO {
     
     /**
-     * Lấy tất cả doctors với thông tin từ bảng users
+     * Lấy tất cả doctors với thông tin từ bảng users và departments
      */
     public List<Doctor> getAllDoctors() {
         List<Doctor> list = new ArrayList<>();
-        String sql = "SELECT d.doctor_id, d.user_id, d.specialization, " +
-                     "u.full_name, u.email, u.phone, u.status " +
+        String sql = "SELECT d.doctor_id, d.user_id, d.specialization, d.department_id, " +
+                     "u.full_name, u.email, u.phone, u.status, " +
+                     "dept.department_name " +
                      "FROM doctors d " +
                      "JOIN users u ON d.user_id = u.user_id " +
+                     "LEFT JOIN departments dept ON d.department_id = dept.department_id " +
                      "ORDER BY u.full_name";
         
         try (Connection conn = DBConnection.getConnection();
@@ -37,10 +39,12 @@ public class DoctorDAO {
      * Lấy doctor theo ID
      */
     public Doctor getDoctorById(int doctorId) {
-        String sql = "SELECT d.doctor_id, d.user_id, d.specialization, " +
-                     "u.full_name, u.email, u.phone, u.status " +
+        String sql = "SELECT d.doctor_id, d.user_id, d.specialization, d.department_id, " +
+                     "u.full_name, u.email, u.phone, u.status, " +
+                     "dept.department_name " +
                      "FROM doctors d " +
                      "JOIN users u ON d.user_id = u.user_id " +
+                     "LEFT JOIN departments dept ON d.department_id = dept.department_id " +
                      "WHERE d.doctor_id = ?";
         
         try (Connection conn = DBConnection.getConnection();
@@ -62,10 +66,12 @@ public class DoctorDAO {
      * Lấy doctor theo user_id
      */
     public Doctor getDoctorByUserId(int userId) {
-        String sql = "SELECT d.doctor_id, d.user_id, d.specialization, " +
-                     "u.full_name, u.email, u.phone, u.status " +
+        String sql = "SELECT d.doctor_id, d.user_id, d.specialization, d.department_id, " +
+                     "u.full_name, u.email, u.phone, u.status, " +
+                     "dept.department_name " +
                      "FROM doctors d " +
                      "JOIN users u ON d.user_id = u.user_id " +
+                     "LEFT JOIN departments dept ON d.department_id = dept.department_id " +
                      "WHERE d.user_id = ?";
         
         try (Connection conn = DBConnection.getConnection();
@@ -87,13 +93,19 @@ public class DoctorDAO {
      * Tạo doctor mới
      */
     public boolean createDoctor(Doctor doctor) {
-        String sql = "INSERT INTO doctors (user_id, specialization) VALUES (?, ?)";
+        String sql = "INSERT INTO doctors (user_id, specialization, department_id) VALUES (?, ?, ?)";
         
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             
             ps.setInt(1, doctor.getUserId());
             ps.setString(2, doctor.getSpecialization());
+            
+            if (doctor.getDepartmentId() != null) {
+                ps.setInt(3, doctor.getDepartmentId());
+            } else {
+                ps.setNull(3, Types.INTEGER);
+            }
             
             int affectedRows = ps.executeUpdate();
             
@@ -114,13 +126,20 @@ public class DoctorDAO {
      * Cập nhật doctor
      */
     public boolean updateDoctor(Doctor doctor) {
-        String sql = "UPDATE doctors SET specialization = ? WHERE doctor_id = ?";
+        String sql = "UPDATE doctors SET specialization = ?, department_id = ? WHERE doctor_id = ?";
         
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             
             ps.setString(1, doctor.getSpecialization());
-            ps.setInt(2, doctor.getDoctorId());
+            
+            if (doctor.getDepartmentId() != null) {
+                ps.setInt(2, doctor.getDepartmentId());
+            } else {
+                ps.setNull(2, Types.INTEGER);
+            }
+            
+            ps.setInt(3, doctor.getDoctorId());
             
             return ps.executeUpdate() > 0;
         } catch (SQLException | ClassNotFoundException e) {
@@ -151,11 +170,13 @@ public class DoctorDAO {
      */
     public List<Doctor> searchDoctors(String keyword) {
         List<Doctor> list = new ArrayList<>();
-        String sql = "SELECT d.doctor_id, d.user_id, d.specialization, " +
-                     "u.full_name, u.email, u.phone, u.status " +
+        String sql = "SELECT d.doctor_id, d.user_id, d.specialization, d.department_id, " +
+                     "u.full_name, u.email, u.phone, u.status, " +
+                     "dept.department_name " +
                      "FROM doctors d " +
                      "JOIN users u ON d.user_id = u.user_id " +
-                     "WHERE u.full_name LIKE ? OR d.specialization LIKE ? OR u.email LIKE ? " +
+                     "LEFT JOIN departments dept ON d.department_id = dept.department_id " +
+                     "WHERE u.full_name LIKE ? OR d.specialization LIKE ? OR u.email LIKE ? OR dept.department_name LIKE ? " +
                      "ORDER BY u.full_name";
         
         try (Connection conn = DBConnection.getConnection();
@@ -165,6 +186,7 @@ public class DoctorDAO {
             ps.setString(1, searchPattern);
             ps.setString(2, searchPattern);
             ps.setString(3, searchPattern);
+            ps.setString(4, searchPattern);
             
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -203,10 +225,17 @@ public class DoctorDAO {
         doctor.setDoctorId(rs.getInt("doctor_id"));
         doctor.setUserId(rs.getInt("user_id"));
         doctor.setSpecialization(rs.getString("specialization"));
+        
+        int deptId = rs.getInt("department_id");
+        if (!rs.wasNull()) {
+            doctor.setDepartmentId(deptId);
+        }
+        
         doctor.setFullName(rs.getString("full_name"));
         doctor.setEmail(rs.getString("email"));
         doctor.setPhone(rs.getString("phone"));
         doctor.setStatus(rs.getString("status"));
+        doctor.setDepartmentName(rs.getString("department_name"));
         return doctor;
     }
 }

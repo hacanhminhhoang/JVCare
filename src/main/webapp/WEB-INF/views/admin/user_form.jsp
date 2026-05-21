@@ -130,12 +130,16 @@
                                 </label>
                                 <select name="role" required 
                                         ${not empty user ? 'disabled' : ''}
-                                        onchange="toggleSpecialization()"
                                         class="w-full rounded-lg border border-border bg-card px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand ${not empty user ? 'bg-muted/50 cursor-not-allowed' : ''}">
-                                    <option value="">-- Chọn role --</option>
-                                    <option value="ADMIN" ${user.role == 'ADMIN' ? 'selected' : ''}>Admin</option>
-                                    <option value="DOCTOR" ${user.role == 'DOCTOR' ? 'selected' : ''}>Doctor</option>
-                                    <option value="PATIENT" ${user.role == 'PATIENT' ? 'selected' : ''}>Patient</option>
+                                    <option value="ADMIN" ${user.role == 'ADMIN' ? 'selected' : ''}>Admin / Nhân viên</option>
+                                    <c:if test="${not empty user}">
+                                        <c:if test="${user.role == 'DOCTOR'}">
+                                            <option value="DOCTOR" selected>Doctor</option>
+                                        </c:if>
+                                        <c:if test="${user.role == 'PATIENT'}">
+                                            <option value="PATIENT" selected>Patient</option>
+                                        </c:if>
+                                    </c:if>
                                 </select>
                                 <c:if test="${not empty user}">
                                     <input type="hidden" name="role" value="${user.role}">
@@ -144,17 +148,6 @@
                             </div>
                         </div>
 
-                        <!-- Specialization (for DOCTOR) -->
-                        <div id="specializationDiv" style="display: ${user.role == 'DOCTOR' ? 'block' : 'none'};">
-                            <label class="mb-2 block text-sm font-medium text-ink">
-                                Chuyên khoa <span class="text-red-600">*</span>
-                            </label>
-                            <input type="text" name="specialization" 
-                                   value="${specialization}"
-                                   placeholder="VD: Nội khoa, Ngoại khoa, Tim mạch..."
-                                   class="w-full rounded-lg border border-border bg-card px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand">
-                            <p class="mt-1 text-xs text-muted-foreground">Bắt buộc cho bác sĩ</p>
-                        </div>
 
                         <!-- Status (only for edit) -->
                         <c:if test="${not empty user}">
@@ -185,38 +178,7 @@
     </main>
 
     <script>
-        // Toggle specialization field based on role
-        function toggleSpecialization() {
-            const roleSelect = document.querySelector('select[name="role"]');
-            const specializationDiv = document.getElementById('specializationDiv');
-            const specializationInput = document.querySelector('input[name="specialization"]');
-            
-            if (roleSelect.value === 'DOCTOR') {
-                specializationDiv.style.display = 'block';
-                specializationInput.required = true;
-            } else {
-                specializationDiv.style.display = 'none';
-                specializationInput.required = false;
-            }
-        }
-
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            toggleSpecialization();
-        });
-
-        // Form validation
-        document.getElementById('userForm').addEventListener('submit', function(e) {
-            const roleSelect = document.querySelector('select[name="role"]');
-            const specializationInput = document.querySelector('input[name="specialization"]');
-            
-            if (roleSelect.value === 'DOCTOR' && !specializationInput.value.trim()) {
-                e.preventDefault();
-                alert('Vui lòng nhập chuyên khoa cho bác sĩ!');
-                specializationInput.focus();
-                return false;
-            }
-        });
+        // Form validation is purely HTML5 based now
     </script>
 </body>
 </html>

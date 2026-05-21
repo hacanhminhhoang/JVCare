@@ -4,12 +4,16 @@ public class Doctor {
     private int doctorId;
     private int userId;
     private String specialization;
+    private Integer departmentId;
     
     // Thông tin từ bảng users (JOIN)
     private String fullName;
     private String email;
     private String phone;
     private String status;
+    
+    // Thông tin từ bảng departments (JOIN)
+    private String departmentName;
     
     // Constructors
     public Doctor() {}
@@ -75,5 +79,21 @@ public class Doctor {
     
     public void setStatus(String status) {
         this.status = status;
+    }
+    
+    public Integer getDepartmentId() {
+        return departmentId;
+    }
+    
+    public void setDepartmentId(Integer departmentId) {
+        this.departmentId = departmentId;
+    }
+    
+    public String getDepartmentName() {
+        return departmentName;
+    }
+    
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
     }
 }

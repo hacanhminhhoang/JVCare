@@ -103,6 +103,11 @@
                     Tìm kiếm
                 </button>
             </form>
+            <a href="${pageContext.request.contextPath}/admin/patients?action=create" 
+               class="inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2 text-sm font-medium text-brand-foreground hover:bg-brand/90 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
+                Thêm bệnh nhân mới
+            </a>
         </div>
 
         <!-- Stats -->
@@ -154,13 +159,15 @@
                                             </c:otherwise>
                                         </c:choose>
                                     </div>
-                                </c:if>
-                            </div>
-                            
                             <div class="flex gap-2 border-t border-border pt-4">
-                                <a href="${pageContext.request.contextPath}/admin/patients?action=view&id=${patient.patientId}" 
-                                   class="flex-1 rounded-lg bg-brand-soft px-3 py-2 text-center text-xs font-medium text-brand hover:bg-brand/10 transition">
-                                    Xem chi tiết
+                                <a href="${pageContext.request.contextPath}/admin/patients?action=edit&id=${patient.patientId}" 
+                                   class="flex-1 rounded-lg bg-yellow-100 px-3 py-2 text-center text-xs font-medium text-yellow-800 hover:bg-yellow-200 transition">
+                                    Sửa
+                                </a>
+                                <a href="${pageContext.request.contextPath}/admin/patients?action=delete&id=${patient.patientId}" 
+                                   onclick="return confirm('Bạn có chắc muốn xóa bệnh nhân này?')"
+                                   class="rounded-lg bg-red-100 px-3 py-2 text-center text-xs font-medium text-red-800 hover:bg-red-200 transition">
+                                    Xóa
                                 </a>
                             </div>
                         </div>

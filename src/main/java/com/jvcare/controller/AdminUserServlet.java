@@ -1,9 +1,7 @@
 package com.jvcare.controller;
 
 import com.jvcare.dao.UserDAO;
-import com.jvcare.dao.DoctorDAO;
 import com.jvcare.model.User;
-import com.jvcare.model.Doctor;
 import org.mindrot.jbcrypt.BCrypt;
 
 import javax.servlet.ServletException;
@@ -14,9 +12,7 @@ import java.util.List;
 
 @WebServlet("/admin/users")
 public class AdminUserServlet extends HttpServlet {
-    
     private UserDAO userDAO = new UserDAO();
-    private DoctorDAO doctorDAO = new DoctorDAO();
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
@@ -133,14 +129,6 @@ public class AdminUserServlet extends HttpServlet {
             return;
         }
         
-        // Nếu user là DOCTOR, lấy thông tin specialization
-        if ("DOCTOR".equals(user.getRole())) {
-            Doctor doctor = doctorDAO.getDoctorByUserId(userId);
-            if (doctor != null) {
-                request.setAttribute("specialization", doctor.getSpecialization());
-            }
-        }
-        
         request.setAttribute("user", user);
         request.getRequestDispatcher("/WEB-INF/views/admin/user_form.jsp").forward(request, response);
     }
@@ -159,7 +147,6 @@ public class AdminUserServlet extends HttpServlet {
             String fullName = request.getParameter("fullName");
             String role = request.getParameter("role");
             String phone = request.getParameter("phone");
-            String specialization = request.getParameter("specialization");
             
             // Validate
             if (username == null || username.trim().isEmpty()) {
@@ -188,13 +175,6 @@ public class AdminUserServlet extends HttpServlet {
                 return;
             }
             
-            // Validate specialization cho DOCTOR
-            if ("DOCTOR".equals(role) && (specialization == null || specialization.trim().isEmpty())) {
-                request.setAttribute("error", "Chuyên khoa không được để trống cho bác sĩ");
-                request.getRequestDispatcher("/WEB-INF/views/admin/user_form.jsp").forward(request, response);
-                return;
-            }
-            
             // Hash password
             String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
             
@@ -212,14 +192,6 @@ public class AdminUserServlet extends HttpServlet {
             boolean success = userDAO.createUser(user);
             
             if (success) {
-                // Nếu là DOCTOR, tạo bản ghi trong bảng doctors
-                if ("DOCTOR".equals(role)) {
-                    Doctor doctor = new Doctor();
-                    doctor.setUserId(user.getUserId());
-                    doctor.setSpecialization(specialization);
-                    doctorDAO.createDoctor(doctor);
-                }
-                
                 response.sendRedirect(request.getContextPath() + "/admin/users?success=created");
             } else {
                 request.setAttribute("error", "Không thể tạo user");
@@ -246,7 +218,6 @@ public class AdminUserServlet extends HttpServlet {
             String fullName = request.getParameter("fullName");
             String phone = request.getParameter("phone");
             String status = request.getParameter("status");
-            String specialization = request.getParameter("specialization");
             
             // Kiểm tra user tồn tại
             User existingUser = userDAO.getUserById(userId);
@@ -273,15 +244,6 @@ public class AdminUserServlet extends HttpServlet {
             boolean success = userDAO.updateUser(existingUser);
             
             if (success) {
-                // Nếu là DOCTOR, cập nhật specialization
-                if ("DOCTOR".equals(existingUser.getRole()) && specialization != null) {
-                    Doctor doctor = doctorDAO.getDoctorByUserId(userId);
-                    if (doctor != null) {
-                        doctor.setSpecialization(specialization);
-                        doctorDAO.updateDoctor(doctor);
-                    }
-                }
-                
                 response.sendRedirect(request.getContextPath() + "/admin/users?success=updated");
             } else {
                 request.setAttribute("error", "Không thể cập nhật user");

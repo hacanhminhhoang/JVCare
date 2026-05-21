@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.List;
 
 @WebServlet("/admin/patients")
@@ -26,6 +27,12 @@ public class AdminPatientServlet extends HttpServlet {
         
         if ("view".equals(action)) {
             viewPatient(request, response);
+        } else if ("create".equals(action)) {
+            showCreateForm(request, response);
+        } else if ("edit".equals(action)) {
+            showEditForm(request, response);
+        } else if ("delete".equals(action)) {
+            deletePatient(request, response);
         } else if ("search".equals(action)) {
             searchPatients(request, response);
         } else {
@@ -103,6 +110,119 @@ public class AdminPatientServlet extends HttpServlet {
         request.getRequestDispatcher("/WEB-INF/views/admin/patients.jsp").forward(request, response);
     }
     
+    private void showCreateForm(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        request.getRequestDispatcher("/WEB-INF/views/admin/patient_form.jsp").forward(request, response);
+    }
+    
+    private void showEditForm(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        int patientId = Integer.parseInt(request.getParameter("id"));
+        Patient patient = patientDAO.getPatientById(patientId);
+        
+        if (patient == null) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Bệnh nhân không tồn tại");
+            return;
+        }
+        
+        request.setAttribute("patient", patient);
+        request.getRequestDispatcher("/WEB-INF/views/admin/patient_form.jsp").forward(request, response);
+    }
+    
+    private void deletePatient(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        try {
+            int patientId = Integer.parseInt(request.getParameter("id"));
+            patientDAO.deletePatient(patientId);
+            response.sendRedirect(request.getContextPath() + "/admin/patients?success=deleted");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect(request.getContextPath() + "/admin/patients?error=delete_failed");
+        }
+    }
+    
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        
+        if (!checkAdminAccess(request, response)) return;
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        
+        String action = request.getParameter("action");
+        if ("create".equals(action)) {
+            createPatient(request, response);
+        } else if ("update".equals(action)) {
+            updatePatient(request, response);
+        }
+    }
+    
+    private void createPatient(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        try {
+            Patient patient = new Patient();
+            patient.setFullName(request.getParameter("fullName"));
+            String dobStr = request.getParameter("dateOfBirth");
+            if (dobStr != null && !dobStr.isEmpty()) {
+                patient.setDateOfBirth(Date.valueOf(dobStr));
+            }
+            patient.setGender(request.getParameter("gender"));
+            patient.setPhone(request.getParameter("phone"));
+            patient.setEmail(request.getParameter("email"));
+            patient.setAddress(request.getParameter("address"));
+            patient.setAllergies(request.getParameter("allergies"));
+            patient.setChronicDiseases(request.getParameter("chronicDiseases"));
+            patient.setIdCard(request.getParameter("idCard"));
+            
+            if (patientDAO.createPatient(patient)) {
+                response.sendRedirect(request.getContextPath() + "/admin/patients?success=created");
+            } else {
+                request.setAttribute("error", "Không thể tạo bệnh nhân");
+                showCreateForm(request, response);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("error", "Lỗi: " + e.getMessage());
+            showCreateForm(request, response);
+        }
+    }
+    
+    private void updatePatient(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        try {
+            int patientId = Integer.parseInt(request.getParameter("patientId"));
+            Patient patient = patientDAO.getPatientById(patientId);
+            if (patient == null) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND);
+                return;
+            }
+            
+            patient.setFullName(request.getParameter("fullName"));
+            String dobStr = request.getParameter("dateOfBirth");
+            if (dobStr != null && !dobStr.isEmpty()) {
+                patient.setDateOfBirth(Date.valueOf(dobStr));
+            }
+            patient.setGender(request.getParameter("gender"));
+            patient.setPhone(request.getParameter("phone"));
+            patient.setEmail(request.getParameter("email"));
+            patient.setAddress(request.getParameter("address"));
+            patient.setAllergies(request.getParameter("allergies"));
+            patient.setChronicDiseases(request.getParameter("chronicDiseases"));
+            patient.setIdCard(request.getParameter("idCard"));
+            
+            if (patientDAO.updatePatient(patient)) {
+                response.sendRedirect(request.getContextPath() + "/admin/patients?success=updated");
+            } else {
+                request.setAttribute("error", "Không thể cập nhật bệnh nhân");
+                showEditForm(request, response);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("error", "Lỗi: " + e.getMessage());
+            showEditForm(request, response);
+        }
+    }
+
     /**
      * Kiểm tra quyền truy cập ADMIN
      */
