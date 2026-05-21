@@ -152,10 +152,26 @@
 
             <div class="form-group">
                 <label class="required" for="medicationName">Tên thuốc</label>
-                <input type="text" id="medicationName" name="medicationName"
+                <input type="text" id="medicationName" name="medicationName" list="medication-list" autocomplete="off"
                        value="${prescription.medicationName}"
                        placeholder="VD: Paracetamol, Amoxicillin..."
                        required maxlength="150">
+                <datalist id="medication-list">
+                    <option value="Paracetamol">Giảm đau, hạ sốt</option>
+                    <option value="Amoxicillin">Kháng sinh</option>
+                    <option value="Ibuprofen">Kháng viêm, giảm đau</option>
+                    <option value="Vitamin C">Bổ sung vitamin</option>
+                    <option value="Loratadine">Dị ứng</option>
+                    <option value="Cetirizine">Dị ứng</option>
+                    <option value="Omeprazole">Dạ dày</option>
+                    <option value="Pantoprazole">Dạ dày</option>
+                    <option value="Amlodipine">Huyết áp</option>
+                    <option value="Aspirin">Huyết áp, tim mạch</option>
+                    <option value="Hydrocortisone cream 1%">Bôi da</option>
+                    <option value="Erythromycin">Kháng sinh</option>
+                    <option value="Alpha Choay">Kháng viêm dạng men</option>
+                    <option value="Oresol">Bù nước</option>
+                </datalist>
             </div>
 
             <div class="row">
