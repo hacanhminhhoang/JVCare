@@ -17,19 +17,43 @@ import java.util.ArrayList;
  */
 public class UserService {
     
-    private UserDAO userDAO = new UserDAO();
-    private DoctorDAO doctorDAO = new DoctorDAO();
+    private UserDAO userDAO;
+    private DoctorDAO doctorDAO;
+    
+    // Constructor mặc định
+    public UserService() {
+        this.userDAO = new UserDAO();
+        this.doctorDAO = new DoctorDAO();
+    }
+    
+    // Constructor cho dependency injection (dùng cho desktop app)
+    public UserService(UserDAO userDAO) {
+        this.userDAO = userDAO;
+        this.doctorDAO = new DoctorDAO();
+    }
     
     /**
-     * Lấy tất cả users với phân trang
+     * Lấy tất cả users với phân trang (trả về List<User> cho desktop app)
      */
-    public List<UserDTO> getAllUsers(int page, int pageSize) throws BusinessException {
+    public List<User> getAllUsers(int page, int pageSize) throws BusinessException {
         try {
             // Validate pagination parameters
             if (page < 1) page = 1;
             if (pageSize < 1 || pageSize > 100) pageSize = 10;
             
-            List<User> users = userDAO.getAllUsers(page, pageSize);
+            return userDAO.getAllUsers(page, pageSize);
+                       
+        } catch (Exception e) {
+            throw new BusinessException("Lỗi khi lấy danh sách users", e);
+        }
+    }
+    
+    /**
+     * Lấy tất cả users với phân trang (trả về List<UserDTO> cho web app)
+     */
+    public List<UserDTO> getAllUsersDTO(int page, int pageSize) throws BusinessException {
+        try {
+            List<User> users = getAllUsers(page, pageSize);
             List<UserDTO> dtoList = new ArrayList<>();
             
             for (User user : users) {
@@ -44,14 +68,49 @@ public class UserService {
     }
     
     /**
-     * Tạo user mới
+     * Tạo user mới (nhận User entity cho desktop app)
      */
-    public boolean createUser(UserDTO userDTO) throws BusinessException, ValidationException {
+    public boolean createUser(User user) throws BusinessException, ValidationException {
         try {
             // 1. Validate input
-            validateUser(userDTO, true);
+            validateUserEntity(user, true);
             
             // 2. Check business rules
+            if (userDAO.existsByUsername(user.getUsername())) {
+                throw new ValidationException("Username đã tồn tại");
+            }
+            
+            if (userDAO.existsByEmail(user.getEmail())) {
+                throw new ValidationException("Email đã tồn tại");
+            }
+            
+            // 3. Hash password
+            String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+            user.setPasswordHash(hashedPassword);
+            
+            if (user.getStatus() == null || user.getStatus().isEmpty()) {
+                user.setStatus("ACTIVE");
+            }
+            
+            // 4. Save to database
+            return userDAO.createUser(user);
+            
+        } catch (ValidationException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new BusinessException("Lỗi khi tạo user", e);
+        }
+    }
+    
+    /**
+     * Tạo user mới (nhận UserDTO cho web app)
+     */
+    public boolean createUserDTO(UserDTO userDTO) throws BusinessException, ValidationException {
+        try {
+            // Validate
+            validateUser(userDTO, true);
+            
+            // Check business rules
             if (userDAO.existsByUsername(userDTO.getUsername())) {
                 throw new ValidationException("Username đã tồn tại");
             }
@@ -60,18 +119,18 @@ public class UserService {
                 throw new ValidationException("Email đã tồn tại");
             }
             
-            // 3. Hash password
+            // Hash password
             String hashedPassword = BCrypt.hashpw(userDTO.getPassword(), BCrypt.gensalt());
             
-            // 4. Convert DTO to Entity
+            // Convert DTO to Entity
             User user = convertToEntity(userDTO);
             user.setPasswordHash(hashedPassword);
             user.setStatus("ACTIVE");
             
-            // 5. Save to database
+            // Save to database
             boolean created = userDAO.createUser(user);
             
-            // 6. If user is DOCTOR, create doctor record
+            // If user is DOCTOR, create doctor record
             if (created && "DOCTOR".equals(userDTO.getRole())) {
                 Doctor doctor = new Doctor();
                 doctor.setUserId(user.getUserId());
@@ -89,9 +148,48 @@ public class UserService {
     }
     
     /**
-     * Cập nhật user
+     * Cập nhật user (nhận User entity cho desktop app)
      */
-    public boolean updateUser(UserDTO userDTO) throws BusinessException, ValidationException {
+    public boolean updateUser(User user) throws BusinessException, ValidationException {
+        try {
+            // Validate
+            validateUserEntity(user, false);
+            
+            // Check if user exists
+            User existingUser = userDAO.getUserById(user.getUserId());
+            if (existingUser == null) {
+                throw new ValidationException("User không tồn tại");
+            }
+            
+            // Check email duplicate (exclude current user)
+            if (userDAO.existsByEmailExcludingUser(user.getEmail(), user.getUserId())) {
+                throw new ValidationException("Email đã được sử dụng");
+            }
+            
+            // Keep old password if not changed
+            if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+                String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+                user.setPasswordHash(hashedPassword);
+            } else {
+                user.setPasswordHash(existingUser.getPasswordHash());
+            }
+            
+            // Keep username
+            user.setUsername(existingUser.getUsername());
+            
+            return userDAO.updateUser(user);
+            
+        } catch (ValidationException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new BusinessException("Lỗi khi cập nhật user", e);
+        }
+    }
+    
+    /**
+     * Cập nhật user (nhận UserDTO cho web app)
+     */
+    public boolean updateUserDTO(UserDTO userDTO) throws BusinessException, ValidationException {
         try {
             // Validate
             validateUser(userDTO, false);
@@ -151,12 +249,28 @@ public class UserService {
     }
     
     /**
-     * Tìm kiếm users
+     * Tìm kiếm users (trả về List<User> cho desktop app)
      */
-    public List<UserDTO> searchUsers(String keyword) throws BusinessException {
+    public List<User> searchUsers(String keyword, int page, int pageSize) throws BusinessException {
         try {
             if (keyword == null || keyword.trim().isEmpty()) {
-                return getAllUsers(1, 10);
+                return getAllUsers(page, pageSize);
+            }
+            
+            return userDAO.searchUsers(keyword);
+                       
+        } catch (Exception e) {
+            throw new BusinessException("Lỗi khi tìm kiếm users", e);
+        }
+    }
+    
+    /**
+     * Tìm kiếm users (trả về List<UserDTO> cho web app)
+     */
+    public List<UserDTO> searchUsersDTO(String keyword) throws BusinessException {
+        try {
+            if (keyword == null || keyword.trim().isEmpty()) {
+                return getAllUsersDTO(1, 10);
             }
             
             List<User> users = userDAO.searchUsers(keyword);
@@ -174,9 +288,20 @@ public class UserService {
     }
     
     /**
-     * Lấy user theo ID
+     * Lấy user theo ID (trả về User entity cho desktop app)
      */
-    public UserDTO getUserById(int userId) throws BusinessException {
+    public User getUserById(int userId) throws BusinessException {
+        try {
+            return userDAO.getUserById(userId);
+        } catch (Exception e) {
+            throw new BusinessException("Lỗi khi lấy thông tin user", e);
+        }
+    }
+    
+    /**
+     * Lấy user theo ID (trả về UserDTO cho web app)
+     */
+    public UserDTO getUserByIdDTO(int userId) throws BusinessException {
         try {
             User user = userDAO.getUserById(userId);
             if (user == null) {
@@ -213,7 +338,73 @@ public class UserService {
     // ==================== PRIVATE METHODS ====================
     
     /**
-     * Validate user data
+     * Validate user entity (cho desktop app)
+     */
+    private void validateUserEntity(User user, boolean isCreate) throws ValidationException {
+        if (user == null) {
+            throw new ValidationException("User data không được null");
+        }
+        
+        // Username validation
+        if (user.getUsername() == null || user.getUsername().trim().isEmpty()) {
+            throw new ValidationException("Username không được để trống");
+        }
+        
+        if (user.getUsername().length() < 3 || user.getUsername().length() > 50) {
+            throw new ValidationException("Username phải từ 3-50 ký tự");
+        }
+        
+        if (!user.getUsername().matches("^[a-zA-Z0-9_]+$")) {
+            throw new ValidationException("Username chỉ được chứa chữ cái, số và dấu gạch dưới");
+        }
+        
+        // Password validation (only for creation)
+        if (isCreate) {
+            if (user.getPassword() == null || user.getPassword().isEmpty()) {
+                throw new ValidationException("Password không được để trống");
+            }
+            
+            if (user.getPassword().length() < 6) {
+                throw new ValidationException("Password phải có ít nhất 6 ký tự");
+            }
+        }
+        
+        // Email validation
+        if (user.getEmail() == null || !user.getEmail().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+            throw new ValidationException("Email không hợp lệ");
+        }
+        
+        // Full name validation
+        if (user.getFullName() == null || user.getFullName().trim().isEmpty()) {
+            throw new ValidationException("Họ tên không được để trống");
+        }
+        
+        if (user.getFullName().length() > 100) {
+            throw new ValidationException("Họ tên không được quá 100 ký tự");
+        }
+        
+        // Role validation
+        if (user.getRole() == null) {
+            throw new ValidationException("Role không được để trống");
+        }
+        
+        if (!user.getRole().equals("ADMIN") && 
+            !user.getRole().equals("RECEPTIONIST") && 
+            !user.getRole().equals("DOCTOR") && 
+            !user.getRole().equals("PATIENT")) {
+            throw new ValidationException("Role không hợp lệ");
+        }
+        
+        // Phone validation (optional)
+        if (user.getPhone() != null && !user.getPhone().isEmpty()) {
+            if (!user.getPhone().matches("^[0-9]{10,11}$")) {
+                throw new ValidationException("Số điện thoại không hợp lệ (phải có 10-11 chữ số)");
+            }
+        }
+    }
+    
+    /**
+     * Validate user data (cho web app)
      */
     private void validateUser(UserDTO userDTO, boolean isCreate) throws ValidationException {
         if (userDTO == null) {
