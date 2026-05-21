@@ -57,7 +57,7 @@ public class UserDAO {
     public List<User> getAllUsers(int page, int pageSize) {
         List<User> list = new ArrayList<>();
         int offset = (page - 1) * pageSize;
-        String sql = "SELECT * FROM users WHERE role IN ('ADMIN', 'RECEPTIONIST') ORDER BY user_id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        String sql = "SELECT * FROM users WHERE role IN ('ADMIN', 'RECEPTIONIST') AND status = 'ACTIVE' ORDER BY user_id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
         
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -79,7 +79,7 @@ public class UserDAO {
      * Đếm tổng số users
      */
     public int getTotalUsers() {
-        String sql = "SELECT COUNT(*) FROM users WHERE role IN ('ADMIN', 'RECEPTIONIST')";
+        String sql = "SELECT COUNT(*) FROM users WHERE role IN ('ADMIN', 'RECEPTIONIST') AND status = 'ACTIVE'";
         
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
