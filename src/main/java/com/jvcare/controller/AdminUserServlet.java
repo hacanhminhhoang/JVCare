@@ -52,6 +52,8 @@ public class AdminUserServlet extends HttpServlet {
             createUser(request, response);
         } else if ("update".equals(action)) {
             updateUser(request, response);
+        } else if ("search".equals(action)) {
+            searchUsers(request, response);
         }
     }
     
@@ -129,7 +131,7 @@ public class AdminUserServlet extends HttpServlet {
             return;
         }
         
-        request.setAttribute("user", user);
+        request.setAttribute("editUser", user);
         request.getRequestDispatcher("/WEB-INF/views/admin/user_form.jsp").forward(request, response);
     }
     
@@ -230,7 +232,7 @@ public class AdminUserServlet extends HttpServlet {
             // Kiểm tra duplicate email (trừ user hiện tại)
             if (userDAO.existsByEmailExcludingUser(email, userId)) {
                 request.setAttribute("error", "Email đã được sử dụng");
-                request.setAttribute("user", existingUser);
+                request.setAttribute("editUser", existingUser);
                 request.getRequestDispatcher("/WEB-INF/views/admin/user_form.jsp").forward(request, response);
                 return;
             }
@@ -247,7 +249,7 @@ public class AdminUserServlet extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/admin/users?success=updated");
             } else {
                 request.setAttribute("error", "Không thể cập nhật user");
-                request.setAttribute("user", existingUser);
+                request.setAttribute("editUser", existingUser);
                 request.getRequestDispatcher("/WEB-INF/views/admin/user_form.jsp").forward(request, response);
             }
             

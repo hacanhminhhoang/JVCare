@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${empty user ? 'Thêm' : 'Sửa'} Bác sĩ - JVCare</title>
+    <title>${empty editUser ? 'Thêm' : 'Sửa'} Bác sĩ - JVCare</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -36,9 +36,9 @@
     <main class="flex-1 overflow-auto p-6 md:p-10">
         <div class="mx-auto max-w-3xl">
             <div class="mb-6">
-                <h1 class="font-display text-3xl font-bold text-ink">${empty user ? 'Thêm' : 'Sửa'} Bác sĩ</h1>
+                <h1 class="font-display text-3xl font-bold text-ink">${empty editUser ? 'Thêm' : 'Sửa'} Bác sĩ</h1>
                 <p class="mt-2 text-sm text-muted-foreground">
-                    ${empty user ? 'Tạo tài khoản bác sĩ mới' : 'Cập nhật thông tin bác sĩ'}
+                    ${empty editUser ? 'Thêm tài khoản bác sĩ mới' : 'Cập nhật thông tin bác sĩ'}
                 </p>
             </div>
 
@@ -50,23 +50,23 @@
             </c:if>
 
             <div class="rounded-xl border border-border bg-card p-6">
-                <form method="post" action="${pageContext.request.contextPath}/admin/doctors">
-                    <input type="hidden" name="action" value="${empty user ? 'create' : 'update'}">
-                    <c:if test="${not empty user}">
-                        <input type="hidden" name="userId" value="${user.userId}">
+                <form action="${pageContext.request.contextPath}/admin/doctors" method="post" class="space-y-6">
+                    <input type="hidden" name="action" value="${empty editUser ? 'create' : 'update'}">
+                    <c:if test="${not empty editUser}">
+                        <input type="hidden" name="userId" value="${editUser.userId}">
                     </c:if>
 
                     <div class="space-y-6">
                         <div class="grid gap-6 md:grid-cols-2">
                             <div>
                                 <label class="mb-2 block text-sm font-medium text-ink">Username <span class="text-red-600">*</span></label>
-                                <input type="text" name="username" value="${user.username}" required ${not empty user ? 'readonly' : ''} pattern="[a-zA-Z0-9_]{3,50}" class="w-full rounded-lg border border-border bg-card px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand ${not empty user ? 'bg-muted/50 cursor-not-allowed' : ''}">
+                                <input type="text" id="username" name="username" value="${editUser.username}" required ${not empty editUser ? 'readonly' : ''} pattern="[a-zA-Z0-9_]{3,50}" class="w-full rounded-lg border border-border bg-card px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand ${not empty editUser ? 'bg-muted/50 cursor-not-allowed' : ''}">
                             </div>
 
-                            <c:if test="${empty user}">
+                            <c:if test="${empty editUser}">
                                 <div>
-                                    <label class="mb-2 block text-sm font-medium text-ink">Password <span class="text-red-600">*</span></label>
-                                    <input type="password" name="password" required minlength="6" class="w-full rounded-lg border border-border bg-card px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand">
+                                    <label for="password" class="mb-2 block text-sm font-medium text-ink">Password <span class="text-red-600">*</span></label>
+                                    <input type="password" id="password" name="password" required minlength="6" class="w-full rounded-lg border border-border bg-card px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand">
                                 </div>
                             </c:if>
                         </div>
@@ -74,27 +74,27 @@
                         <div class="grid gap-6 md:grid-cols-2">
                             <div>
                                 <label class="mb-2 block text-sm font-medium text-ink">Họ tên <span class="text-red-600">*</span></label>
-                                <input type="text" name="fullName" value="${user.fullName}" required class="w-full rounded-lg border border-border bg-card px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand">
+                                <input type="text" id="fullName" name="fullName" value="${editUser.fullName}" required class="w-full rounded-lg border border-border bg-card px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand">
                             </div>
 
                             <div>
                                 <label class="mb-2 block text-sm font-medium text-ink">Email <span class="text-red-600">*</span></label>
-                                <input type="email" name="email" value="${user.email}" required class="w-full rounded-lg border border-border bg-card px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand">
+                                <input type="email" id="email" name="email" value="${editUser.email}" required class="w-full rounded-lg border border-border bg-card px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand">
                             </div>
                         </div>
 
                         <div class="grid gap-6 md:grid-cols-2">
                             <div>
                                 <label class="mb-2 block text-sm font-medium text-ink">Số điện thoại</label>
-                                <input type="text" name="phone" value="${user.phone}" pattern="[0-9]{10,11}" class="w-full rounded-lg border border-border bg-card px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand">
+                                <input type="text" id="phone" name="phone" value="${editUser.phone}" pattern="[0-9]{10,11}" class="w-full rounded-lg border border-border bg-card px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand">
                             </div>
                             
-                            <c:if test="${not empty user}">
+                            <c:if test="${not empty editUser}">
                                 <div>
-                                    <label class="mb-2 block text-sm font-medium text-ink">Trạng thái</label>
-                                    <select name="status" class="w-full rounded-lg border border-border bg-card px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand">
-                                        <option value="ACTIVE" ${user.status == 'ACTIVE' ? 'selected' : ''}>Active - Hoạt động</option>
-                                        <option value="INACTIVE" ${user.status == 'INACTIVE' ? 'selected' : ''}>Inactive - Không hoạt động</option>
+                                    <label for="status" class="mb-2 block text-sm font-medium text-ink">Trạng thái</label>
+                                    <select id="status" name="status" class="w-full rounded-lg border border-border bg-card px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand">
+                                        <option value="ACTIVE" ${editUser.status == 'ACTIVE' ? 'selected' : ''}>Active - Hoạt động</option>
+                                        <option value="INACTIVE" ${editUser.status == 'INACTIVE' ? 'selected' : ''}>Inactive - Khóa</option>
                                     </select>
                                 </div>
                             </c:if>
@@ -120,7 +120,7 @@
 
                     <div class="mt-8 flex gap-3">
                         <a href="${pageContext.request.contextPath}/admin/doctors" class="rounded-lg border border-border bg-card px-6 py-2 text-sm font-medium text-ink hover:bg-muted transition">Hủy</a>
-                        <button type="submit" class="rounded-lg bg-brand px-6 py-2 text-sm font-medium text-brand-foreground hover:bg-brand/90 transition">${empty user ? 'Tạo bác sĩ' : 'Cập nhật'}</button>
+                        <button type="submit" class="rounded-lg bg-brand px-6 py-2 text-sm font-medium text-brand-foreground hover:bg-brand/90 transition">${empty editUser ? 'Tạo bác sĩ' : 'Cập nhật'}</button>
                     </div>
                 </form>
             </div>

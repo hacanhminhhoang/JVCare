@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${empty user ? 'Thêm' : 'Sửa'} Nhân viên - JVCare</title>
+    <title>${empty editUser ? 'Thêm' : 'Sửa'} Nhân viên - JVCare</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -36,9 +36,9 @@
     <main class="flex-1 overflow-auto p-6 md:p-10">
         <div class="mx-auto max-w-3xl">
             <div class="mb-6">
-                <h1 class="font-display text-3xl font-bold text-ink">${empty user ? 'Thêm' : 'Sửa'} Nhân viên</h1>
+                <h1 class="font-display text-3xl font-bold text-ink">${empty editUser ? 'Thêm' : 'Sửa'} Nhân viên</h1>
                 <p class="mt-2 text-sm text-muted-foreground">
-                    ${empty user ? 'Tạo tài khoản nhân viên mới trong hệ thống' : 'Cập nhật thông tin nhân viên'}
+                    ${empty editUser ? 'Thêm tài khoản nhân viên mới' : 'Cập nhật thông tin nhân viên'}
                 </p>
             </div>
 
@@ -51,10 +51,10 @@
             </c:if>
 
             <div class="rounded-xl border border-border bg-card p-6">
-                <form method="post" action="${pageContext.request.contextPath}/admin/users" id="userForm">
-                    <input type="hidden" name="action" value="${empty user ? 'create' : 'update'}">
-                    <c:if test="${not empty user}">
-                        <input type="hidden" name="userId" value="${user.userId}">
+                <form action="${pageContext.request.contextPath}/admin/users" method="post" class="space-y-6">
+                    <input type="hidden" name="action" value="${empty editUser ? 'create' : 'update'}">
+                    <c:if test="${not empty editUser}">
+                        <input type="hidden" name="userId" value="${editUser.userId}">
                     </c:if>
 
                     <div class="space-y-6">
@@ -65,18 +65,18 @@
                                     Username <span class="text-red-600">*</span>
                                 </label>
                                 <input type="text" name="username" 
-                                       value="${user.username}" 
+                                       value="${editUser.username}" 
                                        required 
-                                       ${not empty user ? 'readonly' : ''}
+                                       ${not empty editUser ? 'readonly' : ''}
                                        pattern="[a-zA-Z0-9_]{3,50}"
                                        title="Username phải từ 3-50 ký tự, chỉ chứa chữ cái, số và dấu gạch dưới"
-                                       class="w-full rounded-lg border border-border bg-card px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand ${not empty user ? 'bg-muted/50 cursor-not-allowed' : ''}">
-                                <c:if test="${not empty user}">
+                                       class="w-full rounded-lg border border-border bg-card px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand ${not empty editUser ? 'bg-muted/50 cursor-not-allowed' : ''}">
+                                <c:if test="${not empty editUser}">
                                     <p class="mt-1 text-xs text-muted-foreground">Username không thể thay đổi</p>
                                 </c:if>
                             </div>
 
-                            <c:if test="${empty user}">
+                            <c:if test="${empty editUser}">
                                 <div>
                                     <label class="mb-2 block text-sm font-medium text-ink">
                                         Password <span class="text-red-600">*</span>
@@ -97,7 +97,7 @@
                                     Họ tên <span class="text-red-600">*</span>
                                 </label>
                                 <input type="text" name="fullName" 
-                                       value="${user.fullName}" 
+                                       value="${editUser.fullName}" 
                                        required maxlength="100"
                                        class="w-full rounded-lg border border-border bg-card px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand">
                             </div>
@@ -107,7 +107,7 @@
                                     Email <span class="text-red-600">*</span>
                                 </label>
                                 <input type="email" name="email" 
-                                       value="${user.email}" 
+                                       value="${editUser.email}" 
                                        required
                                        class="w-full rounded-lg border border-border bg-card px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand">
                             </div>
@@ -118,7 +118,7 @@
                             <div>
                                 <label class="mb-2 block text-sm font-medium text-ink">Số điện thoại</label>
                                 <input type="text" name="phone" 
-                                       value="${user.phone}"
+                                       value="${editUser.phone}"
                                        pattern="[0-9]{10,11}"
                                        title="Số điện thoại phải có 10-11 chữ số"
                                        class="w-full rounded-lg border border-border bg-card px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand">
@@ -129,33 +129,33 @@
                                     Role <span class="text-red-600">*</span>
                                 </label>
                                 <select name="role" required 
-                                        ${not empty user ? 'disabled' : ''}
-                                        class="w-full rounded-lg border border-border bg-card px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand ${not empty user ? 'bg-muted/50 cursor-not-allowed' : ''}">
-                                    <option value="ADMIN" ${user.role == 'ADMIN' ? 'selected' : ''}>Admin / Nhân viên</option>
-                                    <c:if test="${not empty user}">
-                                        <c:if test="${user.role == 'DOCTOR'}">
-                                            <option value="DOCTOR" selected>Doctor</option>
-                                        </c:if>
-                                        <c:if test="${user.role == 'PATIENT'}">
-                                            <option value="PATIENT" selected>Patient</option>
-                                        </c:if>
-                                    </c:if>
+                                        ${not empty editUser ? 'disabled' : ''}
+                                        class="w-full rounded-lg border border-border bg-card px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand ${not empty editUser ? 'bg-muted/50 cursor-not-allowed' : ''}">
+                                    <c:choose>
+                                        <c:when test="${empty editUser}">
+                                            <option value="RECEPTIONIST">Lễ tân (Receptionist)</option>
+                                            <option value="ADMIN">Quản trị viên (Admin)</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="RECEPTIONIST" ${editUser.role == 'RECEPTIONIST' ? 'selected' : ''}>Lễ tân (Receptionist)</option>
+                                            <option value="ADMIN" ${editUser.role == 'ADMIN' ? 'selected' : ''}>Quản trị viên (Admin)</option>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </select>
-                                <c:if test="${not empty user}">
-                                    <input type="hidden" name="role" value="${user.role}">
+                                <c:if test="${not empty editUser}">
+                                    <input type="hidden" name="role" value="${editUser.role}">
                                     <p class="mt-1 text-xs text-muted-foreground">Role không thể thay đổi</p>
                                 </c:if>
                             </div>
                         </div>
 
-
                         <!-- Status (only for edit) -->
-                        <c:if test="${not empty user}">
+                        <c:if test="${not empty editUser}">
                             <div>
                                 <label class="mb-2 block text-sm font-medium text-ink">Trạng thái</label>
                                 <select name="status" class="w-full rounded-lg border border-border bg-card px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand">
-                                    <option value="ACTIVE" ${user.status == 'ACTIVE' ? 'selected' : ''}>Active - Hoạt động</option>
-                                    <option value="INACTIVE" ${user.status == 'INACTIVE' ? 'selected' : ''}>Inactive - Không hoạt động</option>
+                                    <option value="ACTIVE" ${editUser.status == 'ACTIVE' ? 'selected' : ''}>Active - Hoạt động</option>
+                                    <option value="INACTIVE" ${editUser.status == 'INACTIVE' ? 'selected' : ''}>Inactive - Không hoạt động</option>
                                 </select>
                             </div>
                         </c:if>
@@ -169,7 +169,7 @@
                         </a>
                         <button type="submit" 
                                 class="rounded-lg bg-brand px-6 py-2 text-sm font-medium text-brand-foreground hover:bg-brand/90 transition">
-                            ${empty user ? 'Tạo mới' : 'Cập nhật'}
+                            ${empty editUser ? 'Tạo nhân viên' : 'Cập nhật'}
                         </button>
                     </div>
                 </form>

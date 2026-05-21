@@ -142,7 +142,7 @@ public class AdminDoctorServlet extends HttpServlet {
         
         List<Department> departments = departmentDAO.getAllActiveDepartments();
         request.setAttribute("departments", departments);
-        request.setAttribute("user", user);
+        request.setAttribute("editUser", user);
         request.setAttribute("doctor", doctor);
         request.getRequestDispatcher("/WEB-INF/views/admin/doctor_form.jsp").forward(request, response);
     }
@@ -175,6 +175,8 @@ public class AdminDoctorServlet extends HttpServlet {
             createDoctor(request, response);
         } else if ("update".equals(action)) {
             updateDoctor(request, response);
+        } else if ("search".equals(action)) {
+            searchDoctors(request, response);
         }
     }
     
