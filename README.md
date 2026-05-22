@@ -19,9 +19,9 @@ JVCare_MVC là hệ thống quản lý bệnh án điện tử được phát tr
 
 | STT | Họ tên | MSSV | Nhiệm vụ | Email |
 |-----|--------|------|----------|-------|
-| 1 | Hà Cảnh Minh Hoàng | 2415053122219 | Admin & Reports (Task 1 và 4) | hcmhoang13@gmail.com |
+| 1 | Hà Cảnh Minh Hoàng | 2415053122219 | Admin & Reports | hcmhoang13@gmail.com |
 | 2 | Đặng Thái Nguyên | 2415053122224 | Doctor - Bệnh án & Đơn thuốc | Catraconnguyen76@gmail.com |
-| 3 | Lê Thế Duy | 2415053122208 | Patient - Đặt lịch & Hồ sơ (Task 3) | letheduy1209@gmail.com |
+| 3 | Lê Thế Duy | 2415053122208 | Patient - Đặt lịch & Hồ sơ | letheduy1209@gmail.com |
 | 4 | Phạm Hữu Nguyên | 23115053122327 | Tính năng nâng cao & UI/UX | phamhuunguyen000@gmail.com |
 
 ---
