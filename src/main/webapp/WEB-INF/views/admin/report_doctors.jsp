@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page import="java.time.LocalDate, java.time.format.DateTimeFormatter" %>
 <%
     LocalDate now = LocalDate.now();
@@ -239,12 +240,12 @@
                 <div class="summary-item">
                     <strong>Trung bình lịch hẹn/bác sĩ:</strong> 
                     <c:set var="avgAppts" value="${totalAppts * 1.0 / totalDoctors}"/>
-                    ${String.format("%.1f", avgAppts)} lịch hẹn
+                    <fmt:formatNumber value="${avgAppts}" pattern="0.0" minFractionDigits="1" maxFractionDigits="1"/> lịch hẹn
                 </div>
                 <div class="summary-item">
                     <strong>Trung bình bệnh án/bác sĩ:</strong> 
                     <c:set var="avgRecs" value="${totalRecs * 1.0 / totalDoctors}"/>
-                    ${String.format("%.1f", avgRecs)} bệnh án
+                    <fmt:formatNumber value="${avgRecs}" pattern="0.0" minFractionDigits="1" maxFractionDigits="1"/> bệnh án
                 </div>
             </c:if>
         </div>
@@ -313,7 +314,7 @@
                             <c:if test="${not empty doctorPerformance}">
                                 - Đội ngũ bác sĩ hoạt động hiệu quả với tổng ${totalAppts} lịch hẹn và ${totalRecs} bệnh án<br>
                                 <c:set var="avgAppts" value="${totalAppts * 1.0 / totalDoctors}"/>
-                                - Trung bình mỗi bác sĩ phụ trách ${String.format("%.1f", avgAppts)} lịch hẹn<br>
+                                - Trung bình mỗi bác sĩ phụ trách <fmt:formatNumber value="${avgAppts}" pattern="0.0" minFractionDigits="1" maxFractionDigits="1"/> lịch hẹn<br>
                                 - Cần tiếp tục duy trì và nâng cao chất lượng dịch vụ khám chữa bệnh
                             </c:if>
                             <c:if test="${empty doctorPerformance}">

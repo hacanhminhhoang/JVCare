@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page import="java.time.LocalDate, java.time.format.DateTimeFormatter" %>
 <%
     LocalDate now = LocalDate.now();
@@ -242,7 +243,7 @@
                     <strong>Tỷ lệ hoàn thành:</strong> 
                     <c:set var="completed" value="${appointmentStats['COMPLETED'] != null ? appointmentStats['COMPLETED'] : 0}"/>
                     <c:set var="completionRate" value="${completed * 100.0 / total}"/>
-                    ${String.format("%.1f%%", completionRate)}
+                    <fmt:formatNumber value="${completionRate}" pattern="0.0" minFractionDigits="1" maxFractionDigits="1"/>%
                 </div>
             </c:if>
         </div>
@@ -278,7 +279,7 @@
                                 <c:choose>
                                     <c:when test="${total > 0}">
                                         <c:set var="rate" value="${entry.value * 100.0 / total}"/>
-                                        ${String.format("%.1f%%", rate)}
+                                        <fmt:formatNumber value="${rate}" pattern="0.0" minFractionDigits="1" maxFractionDigits="1"/>%
                                     </c:when>
                                     <c:otherwise>0.0%</c:otherwise>
                                 </c:choose>

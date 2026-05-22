@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page import="java.time.LocalDate, java.time.format.DateTimeFormatter" %>
 <%
     LocalDate now = LocalDate.now();
@@ -232,7 +233,8 @@
                     <strong>Tỷ lệ nam/nữ:</strong> 
                     <c:set var="maleRate" value="${patientStats['malePatients'] * 100.0 / patientStats['totalPatients']}"/>
                     <c:set var="femaleRate" value="${patientStats['femalePatients'] * 100.0 / patientStats['totalPatients']}"/>
-                    ${String.format("%.1f%%", maleRate)} / ${String.format("%.1f%%", femaleRate)}
+                    <fmt:formatNumber value="${maleRate}" pattern="0.0" minFractionDigits="1" maxFractionDigits="1"/>% / 
+                    <fmt:formatNumber value="${femaleRate}" pattern="0.0" minFractionDigits="1" maxFractionDigits="1"/>%
                 </div>
             </c:if>
         </div>
@@ -264,7 +266,7 @@
                             <c:choose>
                                 <c:when test="${patientStats['totalPatients'] > 0}">
                                     <c:set var="maleRate" value="${patientStats['malePatients'] * 100.0 / patientStats['totalPatients']}"/>
-                                    ${String.format("%.1f%%", maleRate)}
+                                    <fmt:formatNumber value="${maleRate}" pattern="0.0" minFractionDigits="1" maxFractionDigits="1"/>%
                                 </c:when>
                                 <c:otherwise>0.0%</c:otherwise>
                             </c:choose>
@@ -278,7 +280,7 @@
                             <c:choose>
                                 <c:when test="${patientStats['totalPatients'] > 0}">
                                     <c:set var="femaleRate" value="${patientStats['femalePatients'] * 100.0 / patientStats['totalPatients']}"/>
-                                    ${String.format("%.1f%%", femaleRate)}
+                                    <fmt:formatNumber value="${femaleRate}" pattern="0.0" minFractionDigits="1" maxFractionDigits="1"/>%
                                 </c:when>
                                 <c:otherwise>0.0%</c:otherwise>
                             </c:choose>
@@ -304,8 +306,8 @@
                                 - Tổng số bệnh nhân đã đăng ký: ${patientStats['totalPatients']} người<br>
                                 <c:set var="maleRate" value="${patientStats['malePatients'] * 100.0 / patientStats['totalPatients']}"/>
                                 <c:set var="femaleRate" value="${patientStats['femalePatients'] * 100.0 / patientStats['totalPatients']}"/>
-                                - Cơ cấu giới tính: Nam ${String.format("%.1f%%", maleRate)}, 
-                                Nữ ${String.format("%.1f%%", femaleRate)}<br>
+                                - Cơ cấu giới tính: Nam <fmt:formatNumber value="${maleRate}" pattern="0.0" minFractionDigits="1" maxFractionDigits="1"/>%, 
+                                Nữ <fmt:formatNumber value="${femaleRate}" pattern="0.0" minFractionDigits="1" maxFractionDigits="1"/>%<br>
                                 - Hệ thống quản lý bệnh nhân hoạt động ổn định
                             </c:if>
                             <c:if test="${patientStats['totalPatients'] == 0}">
