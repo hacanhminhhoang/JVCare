@@ -72,6 +72,27 @@
         </header>
 
     <main class="mx-auto max-w-7xl p-6 md:p-10">
+        <c:if test="${not empty stats}">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+                <div class="bg-blue-50 border border-blue-200 rounded-xl p-6 text-center shadow-sm hover:shadow transition">
+                    <div class="text-3xl font-bold text-blue-600 mb-1">${stats.totalAppointments}</div>
+                    <div class="text-sm font-medium text-blue-800">Lịch khám hôm nay</div>
+                </div>
+                <div class="bg-green-50 border border-green-200 rounded-xl p-6 text-center shadow-sm hover:shadow transition">
+                    <div class="text-3xl font-bold text-green-600 mb-1">${stats.totalPatients}</div>
+                    <div class="text-sm font-medium text-green-800">Bệnh nhân đã khám</div>
+                </div>
+                <div class="bg-purple-50 border border-purple-200 rounded-xl p-6 text-center shadow-sm hover:shadow transition">
+                    <div class="text-3xl font-bold text-purple-600 mb-1">${stats.totalRecords}</div>
+                    <div class="text-sm font-medium text-purple-800">Tổng bệnh án</div>
+                </div>
+                <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-6 text-center shadow-sm hover:shadow transition">
+                    <div class="text-3xl font-bold text-yellow-600 mb-1">${stats.pendingAppointments}</div>
+                    <div class="text-sm font-medium text-yellow-800">Lịch chờ xác nhận</div>
+                </div>
+            </div>
+        </c:if>
+
         <div class="flex items-center justify-between mb-8">
             <h1 class="font-display text-3xl font-bold text-ink">Danh sách bệnh nhân</h1>
             <a href="${pageContext.request.contextPath}/doctor/patient-detail" class="inline-flex items-center gap-2 rounded-xl bg-brand px-4 py-2 text-sm font-semibold text-brand-foreground hover:opacity-90">
