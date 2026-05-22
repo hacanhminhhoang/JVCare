@@ -19,7 +19,7 @@ public class GroqAIClient {
 
     static {
         try {
-            dotenv = Dotenv.configure().directory("d:/HocKi225/LapTrinhJavaNangCao/JVCare_MVC/").load();
+            dotenv = Dotenv.configure().ignoreIfMissing().load();
             apiKey = dotenv.get("GROQ_API_KEY");
         } catch (Exception e) {
             System.err.println("Could not load .env file. Proceeding with system environment variables if available.");

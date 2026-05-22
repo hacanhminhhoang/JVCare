@@ -12,6 +12,11 @@ public class Prescription {
     private String medicationName;
     private String dosage;
     private String instructions;
+    
+    // New fields mapping to prescriptions table
+    private int recordId;
+    private String frequency;
+    private int durationDays;
 
     public int getPrescriptionId() { return prescriptionId; }
     public void setPrescriptionId(int prescriptionId) { this.prescriptionId = prescriptionId; }
@@ -30,4 +35,13 @@ public class Prescription {
 
     public String getInstructions() { return instructions; }
     public void setInstructions(String instructions) { this.instructions = instructions; }
+
+    public int getRecordId() { return recordId; }
+    public void setRecordId(int recordId) { this.recordId = recordId; }
+
+    public String getFrequency() { return frequency; }
+    public void setFrequency(String frequency) { this.frequency = frequency; }
+
+    public int getDurationDays() { return durationDays; }
+    public void setDurationDays(int durationDays) { this.durationDays = durationDays; }
 }
