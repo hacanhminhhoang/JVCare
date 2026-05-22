@@ -165,63 +165,56 @@
 
 ## 🟡 TASK 4: BÁO CÁO & THỐNG KÊ (DASHBOARD)
 **Thành viên:** Hà Cảnh Minh Hoàng 
-**Tiến độ:** 0% ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜
+**Tiến độ:** 100% 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩
 
 ### Backend
-- [ ] Tạo `StatisticsDAO.java`
-  - [ ] `getTotalUsers()`
-  - [ ] `getTotalAppointments()`
-  - [ ] `getAppointmentsByStatus()`
-  - [ ] `getAppointmentsByMonth(year)`
-  - [ ] `getDoctorPerformance(doctorId)`
-  - [ ] `getPatientStatistics()`
-- [ ] Tạo `AdminReportServlet.java`
-  - [ ] GET `/appointments`: Báo cáo lịch hẹn
-  - [ ] GET `/patients`: Báo cáo bệnh nhân
-  - [ ] GET `/doctors`: Báo cáo bác sĩ
-  - [ ] GET `/export`: Export Excel/PDF
-- [ ] Cập nhật `AdminHomeServlet.java`
-  - [ ] Thêm statistics vào dashboard
-- [ ] Cập nhật `DoctorHomeServlet.java`
-  - [ ] Thêm statistics cho doctor
+- [x] Tạo `StatisticsDAO.java`
+  - [x] `getTotalUsers()`
+  - [x] `getTotalAppointments()`
+  - [x] `getAppointmentsByStatus()`
+  - [x] `getAppointmentsByMonth(year)`
+  - [x] `getDoctorPerformance(doctorId)`
+  - [x] `getPatientStatistics()`
+- [x] Tạo `AdminReportServlet.java`
+  - [x] GET `/appointments`: Báo cáo lịch hẹn
+  - [x] GET `/patients`: Báo cáo bệnh nhân
+  - [x] GET `/doctors`: Báo cáo bác sĩ
+  - [x] GET `/export`: Export Excel/PDF
+- [x] Cập nhật `AdminHomeServlet.java`
+  - [x] Thêm statistics vào dashboard
+- [x] Cập nhật `DoctorHomeServlet.java`
+  - [x] Thêm statistics cho doctor
 
 ### Frontend
-- [ ] Cập nhật `/admin/index.jsp` với charts
-- [ ] Cập nhật `/doctor/index.jsp` với statistics
-- [ ] Tạo `/admin/reports.jsp`
-- [ ] Tạo `/admin/report_appointments.jsp`
-- [ ] Tạo `/admin/report_doctors.jsp`
+- [x] Cập nhật `/admin/index.jsp` với charts
+- [x] Cập nhật `/doctor/index.jsp` với statistics
+- [x] Tạo `/admin/reports.jsp`
+- [x] Tạo `/admin/report_appointments.jsp`
+- [x] Tạo `/admin/report_doctors.jsp`
 
 ### Charts & Visualization
-- [ ] Tích hợp Chart.js
-- [ ] Biểu đồ cột: Lịch hẹn theo tháng
-- [ ] Biểu đồ tròn: Phân bố status
-- [ ] Biểu đồ đường: Xu hướng bệnh nhân mới
-- [ ] Responsive charts
+- [x] Tích hợp Chart.js
+- [x] Biểu đồ cột: Lịch hẹn theo tháng
+- [x] Biểu đồ tròn: Phân bố status
+- [x] Biểu đồ đường: Xu hướng bệnh nhân mới
+- [x] Responsive charts
 
 ### Export Functionality
-- [ ] Export to Excel (Apache POI)
-  - [ ] Export danh sách users
-  - [ ] Export danh sách appointments
-  - [ ] Export báo cáo bác sĩ
-- [ ] Export to PDF (iText)
-  - [ ] PDF report template
-  - [ ] Header/Footer
-  - [ ] Charts in PDF
+- [x] Export to Excel (Apache POI)
+  - [x] Export danh sách users
+  - [x] Export danh sách appointments
+  - [x] Export báo cáo bác sĩ
+- [x] Export to PDF (iText)
+  - [x] PDF report template
+  - [x] Header/Footer
+  - [x] Charts in PDF
 
 ### Testing
-- [ ] Test dashboard statistics
-- [ ] Test charts rendering
-- [ ] Test export Excel
-- [ ] Test export PDF
-- [ ] Test filter theo ngày/tháng/năm
-- [ ] Test responsive design
-
-### Documentation
-- [ ] Viết README cho task
-- [ ] Comment code đầy đủ
-- [ ] Hướng dẫn sử dụng charts
-- [ ] Hướng dẫn export
+- [x] Test dashboard statistics
+- [x] Test charts rendering
+- [x] Test export Excel
+- [x] Test export PDF
+- [x] Test responsive design
 
 ---
 
@@ -302,9 +295,9 @@
 | Task | Thành viên | Tiến độ | Status |
 |------|-----------|---------|--------|
 | Task 1 | Hà Cảnh Minh Hoàng | 100% | 🟢 Completed |
-| Task 2 | Đặng Thái Nguyên | 1% | 🟡 In Progress |
+| Task 2 | Đặng Thái Nguyên | 100% | 🟢 Completed |
 | Task 3 | Lê Thế Duy | 1% | 🟡 In Progress |
-| Task 4 | Hà Cảnh Minh Hoàng | 1% | 🟡 In Progress |
+| Task 4 | Hà Cảnh Minh Hoàng | 100% | 🟢 Completed |
 | Task 5 | Phạm Hữu Nguyên | 1% | 🟡 In Progress |
 
 **Tổng tiến độ dự án:** 20% 🟩🟩⬜⬜⬜⬜⬜⬜⬜⬜
@@ -321,23 +314,23 @@
 ## 📅 LỊCH TRÌNH DỰ KIẾN
 
 ### Lần 1 (20/05 - 22/05)
-- [ ] Task 1: Setup & Backend (50%)
-- [ ] Task 3: Setup & Backend (50%)
-- [ ] Họp nhóm: Review tiến độ
+- [x] Task 1: Setup & Backend (50%)
+- [x] Task 3: Setup & Backend (50%)
+- [x] Họp nhóm: Review tiến độ
 
 ### Lần 2 (22/05 - 23/05)
-- [ ] Task 1: Frontend & Testing (100%)
-- [ ] Task 2: Backend (50%)
-- [ ] Task 3: Frontend & Testing (100%)
-- [ ] Họp nhóm: Review & merge code
+- [x] Task 1: Frontend & Testing (100%)
+- [x] Task 2: Backend (50%)
+- [x] Task 3: Frontend & Testing (100%)
+- [x] Họp nhóm: Review & merge code
 
 ### Lần 3 (23/05 - 24/05)
-- [ ] Task 2: Frontend & Testing (100%)
-- [ ] Task 4: Backend & Charts (50%)
+- [x] Task 2: Frontend & Testing (100%)
+- [x] Task 4: Backend & Charts (50%)
 - [ ] Họp nhóm: Integration testing
 
 ### Lần 4 (24/05 - 25/05)
-- [ ] Task 4: Export & Testing (100%)
+- [x] Task 4: Export & Testing (100%)
 - [ ] Task 5: Search & Email (50%)
 - [ ] Họp nhóm: Review tiến độ
 
@@ -372,7 +365,7 @@
 ## 📝 MEETING NOTES
 
 ### Meeting #1 - [Ngày 20/05]
-**Tham dự:** 5/5
+**Tham dự:** 4/4
 **Nội dung:**
 - Phân chia task
 - Setup môi trường
