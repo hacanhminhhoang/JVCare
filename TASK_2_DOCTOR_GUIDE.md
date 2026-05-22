@@ -3,8 +3,7 @@
 ## 📋 TỔNG QUAN
 Phát triển chức năng cho bác sĩ tạo và quản lý bệnh án, đơn thuốc cho bệnh nhân sau khi hoàn thành lịch hẹn.
 
-**Độ khó:** ⭐⭐⭐⭐⭐ (Khá - Khó)  
-**Thời gian ước tính:** 3-4 tuần
+**Thời gian ước tính:** 2-3 ngày
 
 ---
 

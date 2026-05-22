@@ -3,8 +3,7 @@
 ## 📋 TỔNG QUAN
 Phát triển dashboard và báo cáo thống kê cho Admin và Doctor với biểu đồ và export Excel/PDF.
 
-**Độ khó:** ⭐⭐⭐⭐ (Trung bình - Khá)  
-**Thời gian ước tính:** 2-3 tuần
+**Thời gian ước tính:** 1-2 ngày
 
 ---
 

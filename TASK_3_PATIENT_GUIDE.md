@@ -2,9 +2,8 @@
 
 ## 📋 TỔNG QUAN
 Phát triển chức năng cho bệnh nhân đặt lịch khám, quản lý hồ sơ cá nhân và xem lịch sử khám bệnh.
-
-**Độ khó:** ⭐⭐⭐ (Trung bình)  
-**Thời gian ước tính:** 2 tuần
+ 
+**Thời gian ước tính:** 2-3 ngày
 
 ---
 

@@ -3,8 +3,7 @@
 ## 📋 TỔNG QUAN
 Phát triển các tính năng nâng cao: tìm kiếm, filter, email notification, pagination và cải thiện UI/UX.
 
-**Độ khó:** ⭐⭐⭐⭐ (Trung bình - Khá)  
-**Thời gian ước tính:** 2-3 tuần
+**Thời gian ước tính:** 1-2 ngày
 
 ---
 

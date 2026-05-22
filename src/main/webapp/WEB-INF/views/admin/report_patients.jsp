@@ -1,80 +1,339 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="java.time.LocalDate, java.time.format.DateTimeFormatter" %>
+<%
+    LocalDate now = LocalDate.now();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("'Ngày' dd 'tháng' MM 'năm' yyyy");
+    String formattedDate = now.format(formatter);
+    request.setAttribute("formattedDate", formattedDate);
+%>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <title>Báo Cáo Thống Kê Bệnh Nhân — Admin JVCare</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @media print {
+            @page { size: A4; margin: 20mm; }
+            body { margin: 0; background: white; }
+            .no-print { display: none !important; }
+            .document { box-shadow: none; padding: 0; }
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Times New Roman', Times, serif; 
+            background: #f5f5f5; 
+            padding: 20px;
+            color: #000;
+            line-height: 1.6;
+        }
+        .document {
+            max-width: 210mm;
+            margin: 0 auto;
+            background: white;
+            padding: 25mm 20mm;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            min-height: 297mm;
+        }
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            font-size: 13px;
+        }
+        .header-left, .header-right {
+            width: 45%;
+            text-align: center;
+        }
+        .header-left {
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .header-right {
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .header-underline {
+            display: inline-block;
+            border-bottom: 1px solid #000;
+            width: 80px;
+            margin: 3px 0;
+        }
+        .title-section {
+            text-align: center;
+            margin: 40px 0 30px 0;
+        }
+        .title-main {
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        .title-sub {
+            font-size: 14px;
+            font-style: italic;
+            margin-bottom: 5px;
+        }
+        .content-section {
+            margin: 25px 0;
+        }
+        .section-title {
+            font-size: 15px;
+            font-weight: bold;
+            margin: 20px 0 10px 0;
+            text-transform: uppercase;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 13px;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 8px 10px;
+            text-align: left;
+        }
+        th {
+            background: #f0f0f0;
+            font-weight: bold;
+            text-align: center;
+        }
+        td.number {
+            text-align: center;
+        }
+        td.right {
+            text-align: right;
+        }
+        .total-row {
+            font-weight: bold;
+            background: #e8e8e8;
+        }
+        .summary-box {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #000;
+            background: #fafafa;
+        }
+        .summary-item {
+            margin: 8px 0;
+            font-size: 14px;
+        }
+        .summary-item strong {
+            display: inline-block;
+            width: 200px;
+        }
+        .signatures {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+            page-break-inside: avoid;
+        }
+        .signature-box {
+            width: 45%;
+            text-align: center;
+            font-size: 13px;
+        }
+        .sign-title {
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        .sign-subtitle {
+            font-style: italic;
+            font-size: 12px;
+            margin-bottom: 60px;
+        }
+        .sign-name {
+            font-weight: bold;
+        }
+        .stamp {
+            color: #c00;
+            border: 2px solid #c00;
+            border-radius: 50%;
+            padding: 15px;
+            display: inline-block;
+            font-size: 11px;
+            font-weight: bold;
+            transform: rotate(-15deg);
+            margin: -50px 0 10px 0;
+            line-height: 1.3;
+        }
+        .btn-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .btn {
+            background: #2563eb;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-family: Arial, sans-serif;
+            margin: 0 5px;
+        }
+        .btn:hover {
+            background: #1d4ed8;
+        }
+        .btn-secondary {
+            background: #6b7280;
+        }
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+    </style>
 </head>
-<body class="bg-gray-50 min-h-screen p-8">
-    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-sm border p-8">
-        <div class="flex justify-between items-center mb-8 border-b pb-4">
-            <div>
-                <h1 class="text-3xl font-bold text-purple-700">Báo Cáo Thống Kê Bệnh Nhân (HTML)</h1>
-                <p class="text-gray-500 mt-1">Dữ liệu tính đến thời điểm hiện tại</p>
-            </div>
-            <a href="${pageContext.request.contextPath}/admin/reports" class="text-gray-500 hover:text-purple-600 transition">
-                <i class="fas fa-arrow-left mr-1"></i> Trở về
-            </a>
-        </div>
+<body>
+    <div class="no-print btn-container">
+        <button class="btn" onclick="window.print()">
+            <i class="fas fa-print"></i> In / Lưu PDF
+        </button>
+        <a href="${pageContext.request.contextPath}/admin/reports" class="btn btn-secondary" style="text-decoration: none; display: inline-block;">
+            <i class="fas fa-arrow-left"></i> Trở về
+        </a>
+    </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div class="bg-purple-50 p-6 rounded-lg border border-purple-100 text-center">
-                <div class="text-4xl font-bold text-purple-700 mb-2">${patientStats['totalPatients']}</div>
-                <div class="text-sm font-medium text-purple-600 uppercase tracking-wider">Tổng bệnh nhân</div>
+    <div class="document">
+        <!-- Header chính thức -->
+        <div class="header-section">
+            <div class="header-left">
+                PHÒNG KHÁM ĐA KHOA JVCARE<br>
+                <span class="header-underline"></span>
             </div>
-            <div class="bg-blue-50 p-6 rounded-lg border border-blue-100 text-center">
-                <div class="text-4xl font-bold text-blue-700 mb-2">${patientStats['malePatients']}</div>
-                <div class="text-sm font-medium text-blue-600 uppercase tracking-wider">Nam giới</div>
-            </div>
-            <div class="bg-pink-50 p-6 rounded-lg border border-pink-100 text-center">
-                <div class="text-4xl font-bold text-pink-700 mb-2">${patientStats['femalePatients']}</div>
-                <div class="text-sm font-medium text-pink-600 uppercase tracking-wider">Nữ giới</div>
+            <div class="header-right">
+                CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM<br>
+                Độc lập - Tự do - Hạnh phúc<br>
+                <span class="header-underline"></span>
             </div>
         </div>
 
-        <h2 class="text-xl font-bold text-gray-800 mb-4 border-l-4 border-purple-500 pl-3">Chi Tiết Nhân Khẩu Học</h2>
-        <div class="overflow-x-auto rounded-lg border mb-8">
-            <table class="w-full text-left">
-                <thead class="bg-purple-50 text-purple-700">
+        <!-- Tiêu đề -->
+        <div class="title-section">
+            <div class="title-main">BÁO CÁO THỐNG KÊ BỆNH NHÂN</div>
+            <div class="title-sub">${formattedDate}</div>
+        </div>
+
+        <!-- Tóm tắt -->
+        <div class="summary-box">
+            <div class="section-title">I. TỔNG QUAN</div>
+            <div class="summary-item">
+                <strong>Tổng số bệnh nhân:</strong> ${patientStats['totalPatients']} người
+            </div>
+            <div class="summary-item">
+                <strong>Bệnh nhân nam:</strong> ${patientStats['malePatients']} người
+            </div>
+            <div class="summary-item">
+                <strong>Bệnh nhân nữ:</strong> ${patientStats['femalePatients']} người
+            </div>
+            <c:if test="${patientStats['totalPatients'] > 0}">
+                <div class="summary-item">
+                    <strong>Tỷ lệ nam/nữ:</strong> 
+                    <c:set var="maleRate" value="${patientStats['malePatients'] * 100.0 / patientStats['totalPatients']}"/>
+                    <c:set var="femaleRate" value="${patientStats['femalePatients'] * 100.0 / patientStats['totalPatients']}"/>
+                    ${String.format("%.1f%%", maleRate)} / ${String.format("%.1f%%", femaleRate)}
+                </div>
+            </c:if>
+        </div>
+
+        <!-- Bảng chi tiết nhân khẩu học -->
+        <div class="content-section">
+            <div class="section-title">II. CHI TIẾT NHÂN KHẨU HỌC</div>
+            <table>
+                <thead>
                     <tr>
-                        <th class="px-6 py-3 font-semibold">Chỉ Số</th>
-                        <th class="px-6 py-3 font-semibold text-right">Giá Trị</th>
+                        <th style="width: 10%;">STT</th>
+                        <th style="width: 50%;">Chỉ Số</th>
+                        <th style="width: 20%;">Giá Trị</th>
+                        <th style="width: 20%;">Tỷ Lệ (%)</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y text-gray-700">
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-3 font-medium">Tổng số lượng bệnh nhân đã đăng ký</td>
-                        <td class="px-6 py-3 text-right font-bold text-purple-700">${patientStats['totalPatients']}</td>
+                <tbody>
+                    <tr>
+                        <td class="number">1</td>
+                        <td>Tổng số lượng bệnh nhân đã đăng ký</td>
+                        <td class="number">${patientStats['totalPatients']}</td>
+                        <td class="number">100.0%</td>
                     </tr>
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-3 font-medium">Tỷ lệ bệnh nhân nam</td>
-                        <td class="px-6 py-3 text-right">
-                            <c:if test="${patientStats['totalPatients'] > 0}">
-                                ${Math.round(patientStats['malePatients'] * 100.0 / patientStats['totalPatients'])}%
-                            </c:if>
-                            <c:if test="${patientStats['totalPatients'] == 0}">0%</c:if>
+                    <tr>
+                        <td class="number">2</td>
+                        <td>Bệnh nhân nam giới</td>
+                        <td class="number">${patientStats['malePatients']}</td>
+                        <td class="number">
+                            <c:choose>
+                                <c:when test="${patientStats['totalPatients'] > 0}">
+                                    <c:set var="maleRate" value="${patientStats['malePatients'] * 100.0 / patientStats['totalPatients']}"/>
+                                    ${String.format("%.1f%%", maleRate)}
+                                </c:when>
+                                <c:otherwise>0.0%</c:otherwise>
+                            </c:choose>
                         </td>
                     </tr>
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-3 font-medium">Tỷ lệ bệnh nhân nữ</td>
-                        <td class="px-6 py-3 text-right">
-                            <c:if test="${patientStats['totalPatients'] > 0}">
-                                ${Math.round(patientStats['femalePatients'] * 100.0 / patientStats['totalPatients'])}%
-                            </c:if>
-                            <c:if test="${patientStats['totalPatients'] == 0}">0%</c:if>
+                    <tr>
+                        <td class="number">3</td>
+                        <td>Bệnh nhân nữ giới</td>
+                        <td class="number">${patientStats['femalePatients']}</td>
+                        <td class="number">
+                            <c:choose>
+                                <c:when test="${patientStats['totalPatients'] > 0}">
+                                    <c:set var="femaleRate" value="${patientStats['femalePatients'] * 100.0 / patientStats['totalPatients']}"/>
+                                    ${String.format("%.1f%%", femaleRate)}
+                                </c:when>
+                                <c:otherwise>0.0%</c:otherwise>
+                            </c:choose>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        
-        <div class="mt-8 flex justify-center space-x-4">
-            <button onclick="window.print()" class="px-6 py-2 bg-gray-800 text-white font-medium rounded hover:bg-gray-700 transition">
-                <i class="fas fa-print mr-2"></i> In báo cáo này
-            </button>
+
+        <!-- Nhận xét -->
+        <div class="content-section">
+            <div class="section-title">III. NHẬN XÉT VÀ KIẾN NGHỊ</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nội Dung</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="height: 100px; vertical-align: top; padding: 10px;">
+                            <c:if test="${patientStats['totalPatients'] > 0}">
+                                - Tổng số bệnh nhân đã đăng ký: ${patientStats['totalPatients']} người<br>
+                                <c:set var="maleRate" value="${patientStats['malePatients'] * 100.0 / patientStats['totalPatients']}"/>
+                                <c:set var="femaleRate" value="${patientStats['femalePatients'] * 100.0 / patientStats['totalPatients']}"/>
+                                - Cơ cấu giới tính: Nam ${String.format("%.1f%%", maleRate)}, 
+                                Nữ ${String.format("%.1f%%", femaleRate)}<br>
+                                - Hệ thống quản lý bệnh nhân hoạt động ổn định
+                            </c:if>
+                            <c:if test="${patientStats['totalPatients'] == 0}">
+                                - Chưa có dữ liệu bệnh nhân trong hệ thống
+                            </c:if>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Chữ ký -->
+        <div class="signatures">
+            <div class="signature-box">
+                <div class="sign-title">NGƯỜI LẬP BIỂU</div>
+                <div class="sign-subtitle">(Ký, ghi rõ họ tên)</div>
+                <div class="sign-name">Admin JVCare</div>
+            </div>
+            <div class="signature-box">
+                <div class="sign-title">GIÁM ĐỐC</div>
+                <div class="sign-subtitle">(Ký, đóng dấu, ghi rõ họ tên)</div>
+                <div class="stamp">
+                    PHÒNG KHÁM<br>
+                    ĐA KHOA<br>
+                    JVCARE
+                </div>
+                <div class="sign-name">BS. Nguyễn Văn A</div>
+            </div>
         </div>
     </div>
 </body>
