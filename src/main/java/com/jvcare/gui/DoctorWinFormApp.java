@@ -797,7 +797,7 @@ public class DoctorWinFormApp extends JFrame {
         JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 5));
         JButton btnSave = new JButton("Lưu Bệnh Án");
         btnSave.setBackground(new Color(43, 108, 176));
-        btnSave.setForeground(Color.WHITE);
+        btnSave.setForeground(Color.BLACK);
         JButton btnClose = new JButton("Đóng");
         btnPanel.add(btnSave);
         btnPanel.add(btnClose);
@@ -931,7 +931,7 @@ public class DoctorWinFormApp extends JFrame {
         JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 5));
         JButton btnSave = new JButton("Cập Nhật");
         btnSave.setBackground(new Color(43, 108, 176));
-        btnSave.setForeground(Color.WHITE);
+        btnSave.setForeground(Color.BLACK);
         JButton btnClose = new JButton("Đóng");
         btnPanel.add(btnSave);
         btnPanel.add(btnClose);
@@ -1127,7 +1127,7 @@ public class DoctorWinFormApp extends JFrame {
         JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 5));
         JButton btnPrint = new JButton("In Ngay");
         btnPrint.setBackground(new Color(43, 108, 176));
-        btnPrint.setForeground(Color.WHITE);
+        btnPrint.setForeground(Color.BLACK);
         JButton btnClose = new JButton("Đóng");
         btnPanel.add(btnPrint);
         btnPanel.add(btnClose);
