@@ -1,10 +1,12 @@
 package com.jvcare.controller;
 
-import com.jvcare.dao.MedicalRecordDAO;
 import com.jvcare.dao.PatientDAO;
-import com.jvcare.model.MedicalRecord;
+import com.jvcare.dao.DoctorDAO;
 import com.jvcare.model.Patient;
 import com.jvcare.model.User;
+import com.jvcare.model.Doctor;
+import com.jvcare.service.StatisticsService;
+import com.jvcare.dto.StatisticsDTO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,13 +15,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.Date;
 import java.util.List;
 
 @WebServlet("/doctor/index")
 public class DoctorHomeServlet extends HttpServlet {
-    private PatientDAO patientDAO = new PatientDAO();
-    private MedicalRecordDAO recordDAO = new MedicalRecordDAO();
+    private PatientDAO patientDAO;
+    private DoctorDAO doctorDAO;
+    private StatisticsService statisticsService;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        this.patientDAO = new PatientDAO();
+        this.doctorDAO = new DoctorDAO();
+        this.statisticsService = new StatisticsService();
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -35,8 +45,24 @@ public class DoctorHomeServlet extends HttpServlet {
             return;
         }
 
-        List<Patient> patients = patientDAO.getAllPatients();
-        request.setAttribute("patients", patients);
+        try {
+            // Get doctor profile
+            Doctor doctor = doctorDAO.getDoctorByUserId(user.getUserId());
+            
+            if (doctor != null) {
+                // Get statistics
+                StatisticsDTO stats = statisticsService.getDoctorStatistics(doctor.getDoctorId());
+                request.setAttribute("stats", stats);
+            }
+            
+            // Get patients for list
+            List<Patient> patients = patientDAO.getAllPatients();
+            request.setAttribute("patients", patients);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("error", "Lỗi tải dữ liệu: " + e.getMessage());
+        }
 
         request.getRequestDispatcher("/WEB-INF/views/doctor/index.jsp").forward(request, response);
     }
