@@ -1030,7 +1030,7 @@ public class DoctorWinFormApp extends JFrame {
         JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 5));
         JButton btnSave = new JButton("Kê Thuốc");
         btnSave.setBackground(new Color(56, 161, 105));
-        btnSave.setForeground(Color.WHITE);
+        btnSave.setForeground(Color.BLACK);
         JButton btnClose = new JButton("Hủy");
         btnPanel.add(btnSave);
         btnPanel.add(btnClose);
