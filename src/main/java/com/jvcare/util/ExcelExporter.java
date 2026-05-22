@@ -75,19 +75,19 @@ public class ExcelExporter {
     }
     
     private static void exportDoctorsReport(StringBuilder sb, StatisticsDAO statisticsDAO) {
-        sb.append("BÁO CÁO HIỆU SUẤT BÁC SĨ - JVCARE\n");
-        sb.append("Ngày xuất:,").append(java.time.LocalDate.now()).append("\n\n");
+        sb.append("\"BÁO CÁO HIỆU SUẤT BÁC SĨ - JVCARE\"\n");
+        sb.append("\"Ngày xuất:\",\"").append(java.time.LocalDate.now()).append("\"\n\n");
         
         // Header
-        sb.append("STT,Họ tên,Chuyên khoa,Tổng lịch hẹn,Tổng bệnh án\n");
+        sb.append("\"STT\",\"Họ tên\",\"Chuyên khoa\",\"Tổng lịch hẹn\",\"Tổng bệnh án\"\n");
         
         // Data
         List<Map<String, Object>> doctors = statisticsDAO.getDoctorPerformance();
         int stt = 1;
         for (Map<String, Object> doctor : doctors) {
             sb.append(stt++).append(",");
-            sb.append(doctor.get("fullName")).append(",");
-            sb.append(doctor.get("specialization")).append(",");
+            sb.append("\"").append(doctor.get("fullName")).append("\",");
+            sb.append("\"").append(doctor.get("specialization")).append("\",");
             sb.append(doctor.get("totalAppointments")).append(",");
             sb.append(doctor.get("totalRecords")).append("\n");
         }

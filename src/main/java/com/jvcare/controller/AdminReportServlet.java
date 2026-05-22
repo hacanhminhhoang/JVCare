@@ -41,6 +41,8 @@ public class AdminReportServlet extends HttpServlet {
                 showAppointmentsReport(request, response);
             } else if ("doctors".equals(action)) {
                 showDoctorsReport(request, response);
+            } else if ("patients".equals(action)) {
+                showPatientsReport(request, response);
             } else if ("export".equals(action)) {
                 exportReport(request, response);
             } else {
@@ -72,6 +74,14 @@ public class AdminReportServlet extends HttpServlet {
         
         request.setAttribute("doctorPerformance", statisticsService.getDoctorPerformance());
         request.getRequestDispatcher("/WEB-INF/views/admin/report_doctors.jsp")
+               .forward(request, response);
+    }
+    
+    private void showPatientsReport(HttpServletRequest request, HttpServletResponse response) 
+            throws Exception {
+        
+        request.setAttribute("patientStats", statisticsService.getPatientStatistics());
+        request.getRequestDispatcher("/WEB-INF/views/admin/report_patients.jsp")
                .forward(request, response);
     }
     

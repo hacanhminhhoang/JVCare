@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -132,7 +133,7 @@
                 <h3 class="text-xl font-bold text-gray-800 mb-2">Thống Kê Bệnh Nhân</h3>
                 <p class="text-gray-500 text-sm mb-6 h-10">Thống kê tổng quan số lượng và nhân khẩu học của bệnh nhân.</p>
                 <div class="flex flex-col space-y-2">
-                    <button disabled class="w-full text-center py-2 bg-gray-100 text-gray-400 font-medium rounded-lg cursor-not-allowed">Chỉ xuất file</button>
+                    <a href="${pageContext.request.contextPath}/admin/reports?action=patients" class="w-full text-center py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium rounded-lg transition">Xem trước (HTML)</a>
                     <div class="flex space-x-2">
                         <a href="${pageContext.request.contextPath}/admin/reports?action=export&format=excel&type=patients" class="flex-1 text-center py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition"><i class="fas fa-file-csv mr-2"></i>CSV</a>
                         <a href="${pageContext.request.contextPath}/admin/reports?action=export&format=pdf&type=patients" target="_blank" class="flex-1 text-center py-2 bg-red-500 hover:bg-red-600 text-white font-medium rounded-lg transition"><i class="fas fa-file-pdf mr-2"></i>PDF</a>

@@ -32,24 +32,39 @@ public class PDFExporter {
         out.println("<meta charset='UTF-8'>");
         out.println("<title>Báo cáo - JVCare</title>");
         out.println("<style>");
-        out.println("@media print { body { margin: 0; } .no-print { display: none; } }");
-        out.println("body { font-family: 'Segoe UI', Arial, sans-serif; padding: 30px; color: #333; }");
-        out.println("h1 { color: #2563eb; border-bottom: 3px solid #2563eb; padding-bottom: 10px; }");
-        out.println("h2 { color: #1e40af; margin-top: 25px; }");
-        out.println("table { width: 100%; border-collapse: collapse; margin: 15px 0; }");
-        out.println("th { background-color: #2563eb; color: white; padding: 12px 15px; text-align: left; }");
-        out.println("td { padding: 10px 15px; border-bottom: 1px solid #e5e7eb; }");
-        out.println("tr:nth-child(even) { background-color: #f9fafb; }");
-        out.println(".summary-box { background: #eff6ff; border-left: 4px solid #2563eb; padding: 15px; margin: 15px 0; border-radius: 4px; }");
-        out.println(".footer { text-align: center; margin-top: 30px; font-size: 12px; color: #999; border-top: 1px solid #eee; padding-top: 10px; }");
-        out.println(".btn-print { background: #2563eb; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; }");
+        out.println("@media print { @page { size: A4; margin: 20mm; } body { margin: 0; background: white; } .no-print { display: none; } }");
+        out.println("body { font-family: 'Times New Roman', Times, serif; color: #000; background: #e5e7eb; margin: 0; padding: 20px; }");
+        out.println(".document { background: white; max-width: 800px; margin: 0 auto; padding: 40px 50px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }");
+        out.println(".header { display: flex; justify-content: space-between; text-align: center; margin-bottom: 30px; }");
+        out.println(".header-left { font-weight: bold; }");
+        out.println(".header-right { font-weight: bold; }");
+        out.println(".header-right .subtitle { font-weight: normal; font-style: italic; font-size: 0.9em; }");
+        out.println(".title-section { text-align: center; margin: 30px 0; }");
+        out.println("h1 { font-size: 20px; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; }");
+        out.println("h2 { font-size: 16px; margin-top: 25px; margin-bottom: 10px; font-weight: bold; text-decoration: underline; }");
+        out.println("table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 14px; }");
+        out.println("th, td { border: 1px solid #000; padding: 8px 12px; text-align: center; }");
+        out.println("th { font-weight: bold; }");
+        out.println(".summary-box { margin: 15px 0; font-size: 15px; line-height: 1.6; }");
+        out.println(".signatures { display: flex; justify-content: space-between; margin-top: 50px; text-align: center; page-break-inside: avoid; }");
+        out.println(".signature-box { width: 40%; }");
+        out.println(".sign-title { font-weight: bold; }");
+        out.println(".sign-italic { font-style: italic; font-size: 13px; margin-bottom: 80px; }");
+        out.println(".sign-name { font-weight: bold; }");
+        out.println(".btn-print { background: #2563eb; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; font-family: sans-serif; }");
         out.println("</style>");
         out.println("</head>");
         out.println("<body>");
         
         // Nút in
-        out.println("<div class='no-print' style='text-align: right; margin-bottom: 20px;'>");
+        out.println("<div class='no-print' style='text-align: center; margin-bottom: 20px;'>");
         out.println("<button class='btn-print' onclick='window.print()'>🖨️ In / Lưu PDF</button>");
+        out.println("</div>");
+        
+        out.println("<div class='document'>");
+        out.println("<div class='header'>");
+        out.println("<div class='header-left'>PHÒNG KHÁM JVCare<br>-------</div>");
+        out.println("<div class='header-right'>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM<br>Độc lập - Tự do - Hạnh phúc<br><span class='subtitle'>-----------------</span></div>");
         out.println("</div>");
         
         if ("appointments".equals(reportType)) {
@@ -60,10 +75,25 @@ public class PDFExporter {
             exportPatientsReport(out, statisticsDAO);
         }
         
-        out.println("<div class='footer'>");
-        out.println("<p>🏥 JVCare - Hệ thống Quản lý Bệnh án Bệnh nhân</p>");
-        out.println("<p>Xuất ngày: " + java.time.LocalDate.now() + " | © 2026 JVCare Team</p>");
+        // Chữ ký
+        java.time.LocalDate date = java.time.LocalDate.now();
+        out.println("<div class='signatures'>");
+        out.println("<div class='signature-box'>");
+        out.println("<div class='sign-title'>NGƯỜI LẬP BẢNG</div>");
+        out.println("<div class='sign-italic'>(Ký, ghi rõ họ tên)</div>");
+        out.println("<div class='sign-name'>Admin JVCare</div>");
         out.println("</div>");
+        
+        out.println("<div class='signature-box'>");
+        out.printf("<div style='font-style:italic; margin-bottom: 5px;'>Ngày %02d tháng %02d năm %d</div>", date.getDayOfMonth(), date.getMonthValue(), date.getYear());
+        out.println("<div class='sign-title'>GIÁM ĐỐC</div>");
+        out.println("<div class='sign-italic'>(Ký, đóng dấu, ghi rõ họ tên)</div>");
+        out.println("<div class='sign-name' style='color: red; border: 2px solid red; border-radius: 50%; padding: 10px; display: inline-block; font-size: 20px; font-family: serif; transform: rotate(-15deg); margin-top: -60px; margin-bottom: 20px;'>MỘC GIÁM ĐỐC<br>JVCare</div><br>");
+        out.println("<div class='sign-name'>BS. Nguyễn Văn A</div>");
+        out.println("</div>");
+        out.println("</div>"); // end signatures
+        
+        out.println("</div>"); // end document
         
         out.println("</body></html>");
         out.flush();
