@@ -124,7 +124,21 @@ public class PatientAppointmentsServlet extends HttpServlet {
             }
         } else if ("delete".equals(action)) {
             int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));
+            // Lấy thông tin lịch khám TRƯỚC KHI xóa để gửi email
+            Appointment appointmentToDelete = appointmentDAO.getAppointmentById(appointmentId);
             if (appointmentDAO.deleteAppointment(appointmentId)) {
+                // Tích hợp gửi Email Hủy Lịch
+                if (appointmentToDelete != null && patient.getEmail() != null) {
+                    // Chạy ngầm trong luồng mới (Thread) để không làm chậm trải nghiệm của User khi chờ gửi email
+                    new Thread(() -> {
+                        com.jvcare.util.EmailService.sendAppointmentCancellation(
+                            patient.getEmail(), 
+                            patient.getFullName(), 
+                            appointmentToDelete.getAppointmentDate().toString(), 
+                            appointmentToDelete.getAppointmentTime().toString()
+                        );
+                    }).start();
+                }
                 session.setAttribute("message", "Đã xóa lịch khám.");
             } else {
                 session.setAttribute("error", "Không thể xóa lịch khám (có thể lịch đã được xác nhận).");

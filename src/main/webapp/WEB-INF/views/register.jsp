@@ -1,10 +1,10 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %> <%@ taglib
-uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="vi">
   <head>
     <meta charset="UTF-8" />
-    <title>Đăng nhập — JVCare</title>
+    <title>Đăng ký tài khoản khách hàng — JVCare</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -33,22 +33,15 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
   </head>
   <body class="min-h-screen bg-background font-sans text-ink">
     <div class="flex min-h-screen">
-      <div
-        class="relative hidden w-1/2 flex-col bg-ink p-10 text-white lg:flex"
-      >
+      <!-- Left side image panel (Consistent with login) -->
+      <div class="relative hidden w-1/2 flex-col bg-ink p-10 text-white lg:flex">
         <div
           class="absolute inset-0 bg-cover bg-center"
-          style="
-            background-image: url(&quot;${pageContext.request.contextPath}/images/hero-doctor.jpg&quot;);
-          "
+          style="background-image: url('${pageContext.request.contextPath}/images/hero-doctor.jpg');"
         ></div>
-        <div
-          class="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/40 to-transparent"
-        ></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/40 to-transparent"></div>
 
-        <div
-          class="relative z-20 flex items-center font-display text-2xl font-bold text-white"
-        >
+        <div class="relative z-20 flex items-center font-display text-2xl font-bold text-white">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -59,9 +52,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
             stroke-linejoin="round"
             class="mr-2 h-6 w-6"
           >
-            <path
-              d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3"
-            ></path>
+            <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3"></path>
           </svg>
           JVCare
         </div>
@@ -69,23 +60,20 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
         <div class="relative z-20 mt-auto">
           <blockquote class="space-y-2">
             <p class="text-lg font-medium leading-relaxed">
-              "Hệ thống quản lý bệnh án tuyệt vời. Nhanh chóng, an toàn và dễ sử
-              dụng cho cả bác sĩ lẫn bệnh nhân."
+              "Bắt đầu ngay hôm nay để quản lý hồ sơ sức khỏe thông minh, nhận chỉ dẫn y tế chuẩn xác và kết nối nhanh chóng với đội ngũ bác sĩ hàng đầu."
             </p>
             <footer class="text-sm text-gray-300">
-              Đặng Thái Nguyên - CEO JVCare
+              Hệ thống chăm sóc sức khỏe chủ động JVCare
             </footer>
           </blockquote>
         </div>
       </div>
 
-      <div
-        class="flex w-full flex-col justify-center px-8 lg:w-1/2 sm:px-12 md:px-16 xl:px-24"
-      >
+      <!-- Right side Sign-up Form -->
+      <div class="flex w-full flex-col justify-center px-8 lg:w-1/2 sm:px-12 md:px-16 xl:px-24 py-12">
         <div class="mx-auto w-full max-w-sm">
-          <div
-            class="mb-8 flex items-center font-display text-2xl font-bold text-ink lg:hidden"
-          >
+          <!-- Logo for mobile -->
+          <div class="mb-8 flex items-center font-display text-2xl font-bold text-ink lg:hidden">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -96,28 +84,23 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
               stroke-linejoin="round"
               class="mr-2 h-6 w-6"
             >
-              <path
-                d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3"
-              ></path>
+              <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3"></path>
             </svg>
             JVCare
           </div>
 
           <div class="flex flex-col space-y-2 text-left mb-6">
-            <h1
-              class="font-display text-2xl font-semibold tracking-tight text-ink"
-            >
-              Đăng nhập
+            <h1 class="font-display text-2xl font-semibold tracking-tight text-ink">
+              Đăng ký tài khoản
             </h1>
             <p class="text-sm text-muted-foreground">
-              Vui lòng nhập thông tin đăng nhập của bạn để tiếp tục.
+              Tạo hồ sơ bệnh án điện tử cá nhân hoàn toàn miễn phí.
             </p>
           </div>
 
+          <!-- Error Message Container -->
           <c:if test="${not empty errorMessage}">
-            <div
-              class="mb-4 rounded-md bg-red-50 p-3 text-sm text-red-600 border border-red-100 flex items-center gap-2"
-            >
+            <div class="mb-4 rounded-md bg-red-50 p-3 text-sm text-red-600 border border-red-100 flex items-center gap-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -137,39 +120,50 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
             </div>
           </c:if>
 
-          <c:if test="${not empty successMessage}">
-            <div
-              class="mb-4 rounded-md bg-emerald-50 p-3 text-sm text-emerald-600 border border-emerald-100 flex items-center gap-2"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-              <c:out value="${successMessage}" />
-            </div>
-          </c:if>
-
-          <form
-            action="${pageContext.request.contextPath}/login"
-            method="POST"
-            class="space-y-4"
-          >
+          <form action="${pageContext.request.contextPath}/register" method="POST" class="space-y-4">
+            <!-- Full Name -->
             <div class="space-y-1.5">
-              <label
-                class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >Email</label
-              >
+              <label class="text-sm font-medium leading-none">Họ và tên</label>
+              <input
+                required
+                type="text"
+                name="fullName"
+                value="<c:out value='${param.fullName}'/>"
+                class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition"
+                placeholder="Nguyễn Văn A"
+              />
+            </div>
+
+            <!-- Email -->
+            <div class="space-y-1.5">
+              <label class="text-sm font-medium leading-none">Email</label>
               <input
                 required
                 type="email"
                 name="email"
+                value="<c:out value='${param.email}'/>"
                 class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition"
-                placeholder="mail@jvcare.vn"
+                placeholder="nguyenvana@gmail.com"
               />
             </div>
 
+            <!-- Phone Number -->
             <div class="space-y-1.5">
-              <label
-                class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >Mật khẩu</label
-              >
+              <label class="text-sm font-medium leading-none">Số điện thoại</label>
+              <input
+                required
+                type="tel"
+                name="phone"
+                pattern="[0-9]{10,11}"
+                value="<c:out value='${param.phone}'/>"
+                class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition"
+                placeholder="0987654321"
+              />
+            </div>
+
+            <!-- Password -->
+            <div class="space-y-1.5">
+              <label class="text-sm font-medium leading-none">Mật khẩu</label>
               <div class="relative">
                 <input
                   required
@@ -213,85 +207,56 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                     stroke-linejoin="round"
                   >
                     <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24" />
-                    <path
-                      d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"
-                    />
-                    <path
-                      d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"
-                    />
+                    <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68" />
+                    <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61" />
                     <line x1="2" x2="22" y1="2" y2="22" />
                   </svg>
                 </button>
               </div>
             </div>
 
-            <div class="flex items-center justify-between pt-1">
-              <div class="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  id="remember"
-                  name="remember"
-                  class="h-4 w-4 rounded border-input text-ink focus:ring-brand"
-                />
-                <label
-                  for="remember"
-                  class="text-sm font-medium leading-none text-muted-foreground cursor-pointer"
-                  >Ghi nhớ đăng nhập</label
-                >
-              </div>
-              <a href="#" class="text-sm font-medium text-ink hover:underline"
-                >Quên mật khẩu?</a
-              >
-            </div>
-
+            <!-- Submit button -->
             <button
               type="submit"
-              class="inline-flex h-10 mt-2 w-full items-center justify-center rounded-md bg-ink px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-ink/90 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
+              class="inline-flex h-10 mt-4 w-full items-center justify-center rounded-md bg-ink px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-ink/90 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
             >
-              Đăng nhập
+              Đăng ký tài khoản
             </button>
           </form>
 
-          <div class="mt-4 text-center text-sm">
-            <span class="text-muted-foreground">Chưa có tài khoản?</span>
-            <a href="${pageContext.request.contextPath}/register" class="font-semibold text-brand hover:underline ml-1">Đăng ký ngay</a>
+          <div class="mt-6 text-center text-sm">
+            <span class="text-muted-foreground">Đã có tài khoản?</span>
+            <a href="${pageContext.request.contextPath}/login" class="font-semibold text-brand hover:underline ml-1">Đăng nhập ngay</a>
           </div>
 
-          <p
-            class="px-8 text-center text-sm text-muted-foreground mt-8 leading-relaxed"
-          >
-            Bằng việc đăng nhập, bạn đồng ý với
-            <a href="#" class="underline underline-offset-4 hover:text-ink"
-              >Điều khoản dịch vụ</a
-            >
+          <p class="px-8 text-center text-xs text-muted-foreground mt-8 leading-relaxed">
+            Bằng việc đăng ký, bạn đồng ý với
+            <a href="#" class="underline underline-offset-4 hover:text-ink">Điều khoản dịch vụ</a>
             và
-            <a href="${pageContext.request.contextPath}/policy" class="underline underline-offset-4 hover:text-ink"
-              >Chính sách bảo mật</a
-            >
+            <a href="${pageContext.request.contextPath}/policy" class="underline underline-offset-4 hover:text-ink">Chính sách bảo mật</a>
             của chúng tôi.
           </p>
         </div>
       </div>
     </div>
 
+    <!-- Password visibility toggle script -->
     <script>
-      document
-        .getElementById("togglePassword")
-        .addEventListener("click", function (e) {
-          const passwordInput = document.getElementById("password");
-          const eyeOpen = document.getElementById("eyeOpen");
-          const eyeClosed = document.getElementById("eyeClosed");
+      document.getElementById("togglePassword").addEventListener("click", function (e) {
+        const passwordInput = document.getElementById("password");
+        const eyeOpen = document.getElementById("eyeOpen");
+        const eyeClosed = document.getElementById("eyeClosed");
 
-          if (passwordInput.type === "password") {
-            passwordInput.type = "text";
-            eyeOpen.classList.add("hidden");
-            eyeClosed.classList.remove("hidden");
-          } else {
-            passwordInput.type = "password";
-            eyeOpen.classList.remove("hidden");
-            eyeClosed.classList.add("hidden");
-          }
-        });
+        if (passwordInput.type === "password") {
+          passwordInput.type = "text";
+          eyeOpen.classList.add("hidden");
+          eyeClosed.classList.remove("hidden");
+        } else {
+          passwordInput.type = "password";
+          eyeOpen.classList.remove("hidden");
+          eyeClosed.classList.add("hidden");
+        }
+      });
     </script>
   </body>
 </html>

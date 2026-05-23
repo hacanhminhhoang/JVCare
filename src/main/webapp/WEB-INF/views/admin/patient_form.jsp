@@ -50,7 +50,7 @@
             </c:if>
 
             <div class="rounded-xl border border-border bg-card p-6">
-                <form method="post" action="${pageContext.request.contextPath}/admin/patients">
+                <form method="post" action="${pageContext.request.contextPath}/admin/patients" id="patientForm">
                     <input type="hidden" name="action" value="${empty patient ? 'create' : 'update'}">
                     <c:if test="${not empty patient}">
                         <input type="hidden" name="patientId" value="${patient.patientId}">
@@ -123,5 +123,16 @@
             </div>
         </div>
     </main>
+    <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                // Kích hoạt hàm kiểm tra form từ file validation.js
+                if (typeof addFormValidation === 'function') {
+                    addFormValidation('patientForm');
+                }
+            });
+        </script>
+    </main>
+</body>
+</html>
 </body>
 </html>

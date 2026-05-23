@@ -48,6 +48,30 @@ public class PatientDAO {
         return null;
     }
 
+    public List<Patient> getPatientsWithPagination(int offset, int limit) {
+        List<Patient> list = new ArrayList<>();
+        // Sử dụng OFFSET và FETCH NEXT của SQL Server
+        String sql = "SELECT p.*, u.full_name as u_name, u.phone as u_phone " +
+                     "FROM patients p LEFT JOIN users u ON p.user_id = u.user_id " +
+                     "ORDER BY p.patient_id DESC " +
+                     "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            
+            ps.setInt(1, offset);
+            ps.setInt(2, limit);
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                list.add(mapResultSetToPatient(rs));
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     public boolean createPatient(Patient p) {
         String sql = "INSERT INTO patients (patient_code, full_name, date_of_birth, gender, phone, email, address, allergies, chronic_diseases, avatar_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
@@ -63,6 +87,34 @@ public class PatientDAO {
             ps.setString(8, p.getAllergies());
             ps.setString(9, p.getChronicDiseases());
             ps.setString(10, p.getAvatarUrl());
+            
+            return ps.executeUpdate() > 0;
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean createPatientWithUser(Patient p) {
+        String sql = "INSERT INTO patients (patient_code, full_name, date_of_birth, gender, phone, email, address, allergies, chronic_diseases, avatar_url, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            
+            ps.setString(1, "BN-" + System.currentTimeMillis()); // Generate random code
+            ps.setString(2, p.getFullName());
+            ps.setDate(3, p.getDateOfBirth());
+            ps.setString(4, p.getGender() != null ? p.getGender() : "OTHER");
+            ps.setString(5, p.getPhone());
+            ps.setString(6, p.getEmail() != null ? p.getEmail() : (p.getPhone() + "@jvcare.vn"));
+            ps.setString(7, p.getAddress());
+            ps.setString(8, p.getAllergies());
+            ps.setString(9, p.getChronicDiseases());
+            ps.setString(10, p.getAvatarUrl());
+            if (p.getUserId() > 0) {
+                ps.setInt(11, p.getUserId());
+            } else {
+                ps.setNull(11, Types.INTEGER);
+            }
             
             return ps.executeUpdate() > 0;
         } catch (SQLException | ClassNotFoundException e) {

@@ -58,15 +58,13 @@
           <a href="#features" class="text-sm font-medium text-muted-foreground transition hover:text-ink">Tính năng</a>
           <a href="#workflow" class="text-sm font-medium text-muted-foreground transition hover:text-ink">Quy trình</a>
           <a href="#pricing" class="text-sm font-medium text-muted-foreground transition hover:text-ink">Bảng giá</a>
-          <a href="#testimonials" class="text-sm font-medium text-muted-foreground transition hover:text-ink">Đánh
-            giá</a>
         </nav>
         <div class="flex items-center gap-3">
           <a href="${pageContext.request.contextPath}/login"
             class="hidden text-sm font-medium text-muted-foreground hover:text-ink sm:block">Đăng nhập</a>
-          <a href="#cta"
+          <a href="${pageContext.request.contextPath}/login"
             class="inline-flex items-center gap-1.5 rounded-full bg-ink px-4 py-2 text-sm font-semibold text-background transition hover:opacity-90">
-            Dùng thử miễn phí
+            Bắt đầu ngay
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M5 12h14" />
@@ -104,18 +102,14 @@
               giúp bác sĩ tiết kiệm 70% thời gian giấy tờ và đảm bảo bảo mật chuẩn HIPAA.
             </p>
             <div class="mt-8 flex flex-wrap items-center gap-3">
-              <a href="#cta"
-                class="inline-flex items-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-semibold text-brand-foreground shadow-lg shadow-brand/25 transition hover:shadow-xl hover:shadow-brand/30">
-                Trải nghiệm miễn phí 30 ngày
+              <a href="${pageContext.request.contextPath}/login"
+                class="inline-flex items-center gap-2.5 rounded-full bg-gradient-to-r from-brand to-[oklch(0.45_0.15_210)] px-7 py-3.5 text-sm font-semibold text-brand-foreground shadow-lg shadow-brand/25 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-brand/30 hover:brightness-110">
+                Bắt đầu ngay
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M5 12h14" />
                   <path d="m12 5 7 7-7 7" />
                 </svg>
-              </a>
-              <a href="#workflow"
-                class="inline-flex items-center gap-2 rounded-full border border-border bg-background px-6 py-3 text-sm font-semibold text-ink transition hover:bg-muted">
-                Xem demo
               </a>
             </div>
             <div class="mt-10 flex items-center gap-6 text-sm text-muted-foreground">
@@ -341,120 +335,118 @@
             <h2 class="mt-3 font-display text-4xl font-bold tracking-tight text-ink lg:text-5xl">Linh hoạt theo quy mô
               của bạn.</h2>
           </div>
-          <div class="mt-16 grid gap-6 lg:grid-cols-3">
-            <div class="relative rounded-2xl border border-border bg-card text-ink p-8">
-              <h3 class="font-display text-2xl font-bold">Phòng khám</h3>
-              <p class="mt-1 text-sm text-muted-foreground">Phù hợp phòng khám tư nhân, dưới 5 bác sĩ.</p>
-              <div class="mt-6 flex items-baseline gap-1">
-                <span class="font-display text-4xl font-bold">1.490.000</span>
-                <span class="text-sm text-muted-foreground">đ/tháng</span>
+          <div class="mt-16 grid gap-8 lg:grid-cols-3 lg:items-stretch">
+            <!-- Card 1: Phòng khám -->
+            <div class="relative rounded-3xl border border-border/80 bg-gradient-to-b from-white to-slate-50 p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-brand/30 hover:shadow-lg hover:shadow-brand/5 flex flex-col justify-between">
+              <div>
+                <h3 class="font-display text-2xl font-bold text-ink">Phòng khám</h3>
+                <p class="mt-2 text-sm text-muted-foreground leading-relaxed">Phù hợp phòng khám tư nhân, dưới 5 bác sĩ.</p>
+                <div class="mt-6 flex items-baseline gap-1">
+                  <span class="font-display text-4xl font-bold tracking-tight text-ink">1.490.000</span>
+                  <span class="text-sm font-medium text-muted-foreground">đ / tháng</span>
+                </div>
+                <div class="my-6 border-t border-border/60"></div>
+                <ul class="space-y-4">
+                  <li class="flex items-start gap-3 text-sm text-ink/90">
+                    <div class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand/10 text-brand">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <span>Bệnh án điện tử</span>
+                  </li>
+                  <li class="flex items-start gap-3 text-sm text-ink/90">
+                    <div class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand/10 text-brand">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <span>5 tài khoản bác sĩ</span>
+                  </li>
+                  <li class="flex items-start gap-3 text-sm text-ink/90">
+                    <div class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand/10 text-brand">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <span>Cổng bệnh nhân</span>
+                  </li>
+                </ul>
               </div>
-              <ul class="mt-6 space-y-3">
-                <li class="flex items-start gap-2 text-sm"><svg class="mt-0.5 h-4 w-4 shrink-0 text-brand"
-                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg> Bệnh án điện tử</li>
-                <li class="flex items-start gap-2 text-sm"><svg class="mt-0.5 h-4 w-4 shrink-0 text-brand"
-                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg> 5 tài khoản bác sĩ</li>
-                <li class="flex items-start gap-2 text-sm"><svg class="mt-0.5 h-4 w-4 shrink-0 text-brand"
-                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg> Cổng bệnh nhân</li>
-              </ul>
-              <a href="#cta"
-                class="mt-8 inline-flex w-full items-center justify-center rounded-full px-5 py-3 text-sm font-semibold transition border border-border bg-background text-ink hover:bg-muted">Bắt
-                đầu ngay</a>
+              <a href="${pageContext.request.contextPath}/login"
+                class="mt-8 inline-flex w-full items-center justify-center rounded-full border border-border bg-white px-5 py-3 text-sm font-semibold text-ink transition-all duration-300 hover:bg-brand hover:text-brand-foreground hover:border-brand shadow-sm">
+                Bắt đầu ngay
+              </a>
             </div>
 
-            <div class="relative rounded-2xl border border-brand bg-ink text-background shadow-2xl shadow-brand/20 p-8">
-              <span
-                class="absolute -top-3 left-8 rounded-full bg-brand px-3 py-1 text-xs font-semibold text-brand-foreground">Phổ
-                biến nhất</span>
-              <h3 class="font-display text-2xl font-bold">Bệnh viện</h3>
-              <p class="mt-1 text-sm text-background/70">Cho cơ sở đa khoa, đa chuyên khoa.</p>
-              <div class="mt-6 flex items-baseline gap-1">
-                <span class="font-display text-4xl font-bold">4.990.000</span>
-                <span class="text-sm text-background/60">đ/tháng</span>
+            <!-- Card 2: Bệnh viện -->
+            <div class="relative rounded-3xl border border-brand bg-gradient-to-br from-ink to-slate-900 text-background shadow-xl shadow-brand/15 p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-brand/25 flex flex-col justify-between scale-105 z-10">
+              <span class="absolute -top-4 left-8 rounded-full bg-brand px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-brand-foreground shadow-md shadow-brand/20">
+                Phổ biến nhất
+              </span>
+              <div>
+                <h3 class="font-display text-2xl font-bold">Bệnh viện</h3>
+                <p class="mt-2 text-sm text-background/70 leading-relaxed">Cho cơ sở đa khoa, đa chuyên khoa.</p>
+                <div class="mt-6 flex items-baseline gap-1">
+                  <span class="font-display text-4xl font-bold tracking-tight">4.990.000</span>
+                  <span class="text-sm font-medium text-background/60">đ / tháng</span>
+                </div>
+                <div class="my-6 border-t border-white/10"></div>
+                <ul class="space-y-4">
+                  <li class="flex items-start gap-3 text-sm text-background/90">
+                    <div class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand/25 text-brand">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <span>Mọi tính năng Phòng khám</span>
+                  </li>
+                  <li class="flex items-start gap-3 text-sm text-background/90">
+                    <div class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand/25 text-brand">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <span>Tài khoản không giới hạn</span>
+                  </li>
+                  <li class="flex items-start gap-3 text-sm text-background/90">
+                    <div class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand/25 text-brand">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <span>AI chẩn đoán</span>
+                  </li>
+                </ul>
               </div>
-              <ul class="mt-6 space-y-3">
-                <li class="flex items-start gap-2 text-sm"><svg class="mt-0.5 h-4 w-4 shrink-0 text-brand"
-                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg> Mọi tính năng Phòng khám</li>
-                <li class="flex items-start gap-2 text-sm"><svg class="mt-0.5 h-4 w-4 shrink-0 text-brand"
-                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg> Tài khoản không giới hạn</li>
-                <li class="flex items-start gap-2 text-sm"><svg class="mt-0.5 h-4 w-4 shrink-0 text-brand"
-                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg> AI chẩn đoán</li>
-              </ul>
-              <a href="#cta"
-                class="mt-8 inline-flex w-full items-center justify-center rounded-full px-5 py-3 text-sm font-semibold transition bg-brand text-brand-foreground hover:opacity-90">Bắt
-                đầu ngay</a>
+              <a href="${pageContext.request.contextPath}/login"
+                class="mt-8 inline-flex w-full items-center justify-center rounded-full bg-gradient-to-r from-brand to-[oklch(0.5_0.15_200)] px-5 py-3 text-sm font-semibold text-brand-foreground shadow-md transition-all duration-300 hover:shadow-lg hover:brightness-110">
+                Bắt đầu ngay
+              </a>
             </div>
 
-            <div class="relative rounded-2xl border border-border bg-card text-ink p-8">
-              <h3 class="font-display text-2xl font-bold">Enterprise</h3>
-              <p class="mt-1 text-sm text-muted-foreground">Hệ thống chuỗi bệnh viện, tuỳ chỉnh cao.</p>
-              <div class="mt-6 flex items-baseline gap-1">
-                <span class="font-display text-4xl font-bold">Liên hệ</span>
+            <!-- Card 3: Enterprise -->
+            <div class="relative rounded-3xl border border-border/80 bg-gradient-to-b from-white to-slate-50 p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-brand/30 hover:shadow-lg hover:shadow-brand/5 flex flex-col justify-between">
+              <div>
+                <h3 class="font-display text-2xl font-bold text-ink">Enterprise</h3>
+                <p class="mt-2 text-sm text-muted-foreground leading-relaxed">Hệ thống chuỗi bệnh viện, tuỳ chỉnh cao.</p>
+                <div class="mt-6 flex items-baseline gap-1">
+                  <span class="font-display text-4xl font-bold tracking-tight text-ink">Liên hệ</span>
+                </div>
+                <div class="my-6 border-t border-border/60"></div>
+                <ul class="space-y-4">
+                  <li class="flex items-start gap-3 text-sm text-ink/90">
+                    <div class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand/10 text-brand">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <span>Triển khai on-premise</span>
+                  </li>
+                  <li class="flex items-start gap-3 text-sm text-ink/90">
+                    <div class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand/10 text-brand">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <span>Tích hợp HIS riêng</span>
+                  </li>
+                </ul>
               </div>
-              <ul class="mt-6 space-y-3">
-                <li class="flex items-start gap-2 text-sm"><svg class="mt-0.5 h-4 w-4 shrink-0 text-brand"
-                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg> Triển khai on-premise</li>
-                <li class="flex items-start gap-2 text-sm"><svg class="mt-0.5 h-4 w-4 shrink-0 text-brand"
-                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg> Tích hợp HIS riêng</li>
-              </ul>
-              <a href="#cta"
-                class="mt-8 inline-flex w-full items-center justify-center rounded-full px-5 py-3 text-sm font-semibold transition border border-border bg-background text-ink hover:bg-muted">Liên
-                hệ tư vấn</a>
+              <a href="${pageContext.request.contextPath}/login"
+                class="mt-8 inline-flex w-full items-center justify-center rounded-full border border-border bg-white px-5 py-3 text-sm font-semibold text-ink transition-all duration-300 hover:bg-brand hover:text-brand-foreground hover:border-brand shadow-sm">
+                Liên hệ tư vấn
+              </a>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- CTA -->
-      <section id="cta" class="mx-auto max-w-7xl px-6 py-24">
-        <div
-          class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand to-[oklch(0.42_0.14_215)] p-12 lg:p-16">
-          <div class="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-accent/30 blur-3xl"></div>
-          <div class="relative max-w-2xl">
-            <h2 class="font-display text-4xl font-bold tracking-tight text-brand-foreground lg:text-5xl">Sẵn sàng số hoá
-              bệnh án cùng JVCare?</h2>
-            <p class="mt-4 text-lg text-brand-foreground/80">Đăng ký tư vấn miễn phí — đội ngũ JVCare sẽ liên hệ trong
-              vòng 4 giờ làm việc.</p>
-            <form class="mt-8 flex flex-col gap-3 sm:flex-row">
-              <input type="email" required placeholder="email@coso-y-te.vn"
-                class="flex-1 rounded-full border border-white/20 bg-white/10 px-5 py-3 text-sm text-brand-foreground placeholder:text-brand-foreground/60 backdrop-blur focus:border-white/40 focus:outline-none" />
-              <button type="button"
-                class="inline-flex items-center justify-center gap-2 rounded-full bg-background px-6 py-3 text-sm font-semibold text-ink transition hover:bg-background/90">
-                Đăng ký tư vấn
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M5 12h14" />
-                  <path d="m12 5 7 7-7 7" />
-                </svg>
-              </button>
-            </form>
-          </div>
-        </div>
-      </section>
+
     </main>
 
     <!-- Footer -->

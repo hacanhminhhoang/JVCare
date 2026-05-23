@@ -179,6 +179,59 @@ public class AppointmentDAO {
         return false;
     }
     
+    // 1. Phân trang
+    public List<Appointment> getAppointmentsWithPagination(int offset, int limit) {
+        List<Appointment> list = new ArrayList<>();
+        String sql = "SELECT a.*, p.full_name as patient_name, u.full_name as doctor_name, d.specialization " +
+                     "FROM appointments a " +
+                     "JOIN patients p ON a.patient_id = p.patient_id " +
+                     "LEFT JOIN doctors d ON a.doctor_id = d.doctor_id " +
+                     "LEFT JOIN users u ON d.user_id = u.user_id " +
+                     "ORDER BY a.appointment_date DESC, a.appointment_time DESC " +
+                     "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, offset);
+            ps.setInt(2, limit);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(mapRowToAppointment(rs));
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    // 2. Tìm kiếm (Dành cho SearchServlet)
+    public List<Appointment> searchAppointments(String keyword) {
+        List<Appointment> list = new ArrayList<>();
+        String sql = "SELECT a.*, p.full_name as patient_name, u.full_name as doctor_name, d.specialization " +
+                     "FROM appointments a " +
+                     "JOIN patients p ON a.patient_id = p.patient_id " +
+                     "LEFT JOIN doctors d ON a.doctor_id = d.doctor_id " +
+                     "LEFT JOIN users u ON d.user_id = u.user_id " +
+                     "WHERE p.full_name LIKE ? OR a.reason LIKE ? OR a.status LIKE ? " +
+                     "ORDER BY a.appointment_date DESC";
+                     
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            String searchPattern = "%" + keyword + "%";
+            ps.setString(1, searchPattern);
+            ps.setString(2, searchPattern);
+            ps.setString(3, searchPattern);
+            
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(mapRowToAppointment(rs));
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     /**
      * Đếm tổng số appointments
      */
