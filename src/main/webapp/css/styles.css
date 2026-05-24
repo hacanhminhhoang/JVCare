@@ -1,35 +1,35 @@
 /* styles.css */
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap');
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(0.99 0.005 180);
-  --foreground: oklch(0.18 0.03 200);
-  --ink: oklch(0.14 0.03 210);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.18 0.03 200);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.18 0.03 200);
-  --primary: oklch(0.55 0.13 195);
-  --primary-foreground: oklch(0.99 0.005 180);
-  --brand: oklch(0.55 0.13 195);
-  --brand-foreground: oklch(0.99 0.005 180);
-  --brand-soft: oklch(0.95 0.04 190);
-  --secondary: oklch(0.96 0.015 195);
-  --secondary-foreground: oklch(0.25 0.05 210);
-  --muted: oklch(0.96 0.012 200);
-  --muted-foreground: oklch(0.5 0.025 215);
-  --border: oklch(0.92 0.015 200);
-  --input: oklch(0.92 0.015 200);
+  --background: #f8faff;
+  --foreground: #1a2035;
+  --ink: #1a2035;
+  --card: #ffffff;
+  --card-foreground: #1a2035;
+  --popover: #ffffff;
+  --popover-foreground: #1a2035;
+  --primary: #1a56db;
+  --primary-foreground: #ffffff;
+  --brand: #1a56db;
+  --brand-foreground: #ffffff;
+  --brand-soft: #e8f0fe;
+  --secondary: #e8f0fe;
+  --secondary-foreground: #1a2035;
+  --muted: #eef2fb;
+  --muted-foreground: #6b7a99;
+  --border: rgba(26, 86, 219, 0.12);
+  --input: #e2e8f0;
 }
 
 body {
-  font-family: 'Manrope', system-ui, sans-serif;
-  background-color: oklch(0.99 0.005 180);
-  color: oklch(0.18 0.03 200);
+  font-family: 'Be Vietnam Pro', system-ui, sans-serif;
+  background-color: #f8faff;
+  color: #1a2035;
 }
 .font-display {
-  font-family: 'Sora', system-ui, sans-serif;
+  font-family: 'Be Vietnam Pro', system-ui, sans-serif;
 }
 
 strong, b {

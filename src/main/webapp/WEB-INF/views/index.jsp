@@ -12,21 +12,21 @@
         theme: {
           extend: {
             colors: {
-              background: "oklch(0.99 0.005 180)",
-              ink: "oklch(0.14 0.03 210)",
-              brand: "oklch(0.55 0.13 195)",
-              "brand-foreground": "oklch(0.99 0.005 180)",
-              "brand-soft": "oklch(0.95 0.04 190)",
-              muted: "oklch(0.96 0.012 200)",
-              "muted-foreground": "oklch(0.5 0.025 215)",
-              border: "oklch(0.92 0.015 200)",
-              card: "oklch(1 0 0)",
-              accent: "oklch(0.65 0.15 45)",
-              "accent-foreground": "oklch(0.99 0.01 45)"
+              background: "#f8faff",
+              ink: "#1a2035",
+              brand: "#1a56db",
+              "brand-foreground": "#f8faff",
+              "brand-soft": "#e8f0fe",
+              muted: "#eef2fb",
+              "muted-foreground": "#6b7a99",
+              border: "rgba(26, 86, 219, 0.12)",
+              card: "#ffffff",
+              accent: "#dbeafe",
+              "accent-foreground": "#1a2035"
             },
             fontFamily: {
-              sans: ['Manrope', 'system-ui', 'sans-serif'],
-              display: ['Sora', 'system-ui', 'sans-serif'],
+              sans: ['Be Vietnam Pro', 'system-ui', 'sans-serif'],
+              display: ['Be Vietnam Pro', 'system-ui', 'sans-serif'],
             }
           }
         }
@@ -40,7 +40,7 @@
       <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         <a href="${pageContext.request.contextPath}/" class="flex items-center gap-2">
           <div
-            class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand to-[oklch(0.45_0.15_210)] text-brand-foreground shadow-lg shadow-brand/20">
+            class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand to-[#1e40af] text-brand-foreground shadow-lg shadow-brand/20">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
@@ -79,7 +79,7 @@
       <!-- Hero -->
       <section class="relative overflow-hidden">
         <div
-          class="absolute inset-0 -z-10 bg-[radial-gradient(60%_50%_at_50%_0%,oklch(0.95_0.04_190)_0%,transparent_70%)]">
+          class="absolute inset-0 -z-10 bg-[radial-gradient(60%_50%_at_50%_0%,rgba(26,86,219,0.05)_0%,transparent_70%)]">
         </div>
         <div class="mx-auto grid max-w-7xl gap-16 px-6 py-20 lg:grid-cols-[1.05fr_1fr] lg:items-center lg:py-28">
           <div>
@@ -94,7 +94,7 @@
             </div>
             <h1 class="mt-6 font-display text-5xl font-bold leading-[1.05] tracking-tight text-ink lg:text-6xl">
               Quản lý bệnh án <span
-                class="bg-gradient-to-r from-brand to-[oklch(0.45_0.15_210)] bg-clip-text text-transparent">thông minh,
+                class="bg-gradient-to-r from-brand to-[#1e40af] bg-clip-text text-transparent">thông minh,
                 an toàn</span> cho mọi cơ sở y tế.
             </h1>
             <p class="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
@@ -103,7 +103,7 @@
             </p>
             <div class="mt-8 flex flex-wrap items-center gap-3">
               <a href="${pageContext.request.contextPath}/login"
-                class="inline-flex items-center gap-2.5 rounded-full bg-gradient-to-r from-brand to-[oklch(0.45_0.15_210)] px-7 py-3.5 text-sm font-semibold text-brand-foreground shadow-lg shadow-brand/25 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-brand/30 hover:brightness-110">
+                class="inline-flex items-center gap-2.5 rounded-full bg-gradient-to-r from-brand to-[#1e40af] px-7 py-3.5 text-sm font-semibold text-brand-foreground shadow-lg shadow-brand/25 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-brand/30 hover:brightness-110">
                 Bắt đầu ngay
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -408,7 +408,7 @@
                 </ul>
               </div>
               <a href="${pageContext.request.contextPath}/login"
-                class="mt-8 inline-flex w-full items-center justify-center rounded-full bg-gradient-to-r from-brand to-[oklch(0.5_0.15_200)] px-5 py-3 text-sm font-semibold text-brand-foreground shadow-md transition-all duration-300 hover:shadow-lg hover:brightness-110">
+                class="mt-8 inline-flex w-full items-center justify-center rounded-full bg-gradient-to-r from-brand to-[#1e3a8a] px-5 py-3 text-sm font-semibold text-brand-foreground shadow-md transition-all duration-300 hover:shadow-lg hover:brightness-110">
                 Bắt đầu ngay
               </a>
             </div>

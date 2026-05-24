@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %> <%@ taglib
+﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %> <%@ taglib
 prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="vi">
@@ -20,20 +20,20 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         theme: {
           extend: {
             colors: {
-              background: "oklch(0.99 0.005 180)",
-              foreground: "oklch(0.18 0.03 200)",
-              ink: "oklch(0.14 0.03 210)",
-              brand: "oklch(0.55 0.13 195)",
-              "brand-foreground": "oklch(0.99 0.005 180)",
-              "brand-soft": "oklch(0.95 0.04 190)",
-              muted: "oklch(0.96 0.012 200)",
-              "muted-foreground": "oklch(0.5 0.025 215)",
-              border: "oklch(0.92 0.015 200)",
-              card: "oklch(1 0 0)",
+              background: "#f8faff",
+              foreground: "#1a2035",
+              ink: "#1a2035",
+              brand: "#1a56db",
+              "brand-foreground": "#f8faff",
+              "brand-soft": "#e8f0fe",
+              muted: "#eef2fb",
+              "muted-foreground": "#6b7a99",
+              border: "rgba(26, 86, 219, 0.12)",
+              card: "#ffffff",
             },
             fontFamily: {
-              sans: ["Manrope", "system-ui", "sans-serif"],
-              display: ["Sora", "system-ui", "sans-serif"],
+              sans: ["'Be Vietnam Pro'", "system-ui", "sans-serif"],
+              display: ["'Be Vietnam Pro'", "system-ui", "sans-serif"],
             },
           },
         },

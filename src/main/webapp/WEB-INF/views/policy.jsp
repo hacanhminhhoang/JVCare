@@ -11,21 +11,21 @@
             theme: {
                 extend: {
                     colors: {
-                        background: "oklch(0.99 0.005 180)",
-                        ink: "oklch(0.14 0.03 210)",
-                        brand: "oklch(0.55 0.13 195)",
-                        "brand-foreground": "oklch(0.99 0.005 180)",
-                        "brand-soft": "oklch(0.95 0.04 190)",
-                        muted: "oklch(0.96 0.012 200)",
-                        "muted-foreground": "oklch(0.5 0.025 215)",
-                        border: "oklch(0.92 0.015 200)",
-                        card: "oklch(1 0 0)",
-                        accent: "oklch(0.65 0.15 45)",
-                        "accent-soft": "oklch(0.97 0.02 45)"
+                        background: "#f8faff",
+                        ink: "#1a2035",
+                        brand: "#1a56db",
+                        "brand-foreground": "#f8faff",
+                        "brand-soft": "#e8f0fe",
+                        muted: "#eef2fb",
+                        "muted-foreground": "#6b7a99",
+                        border: "rgba(26, 86, 219, 0.12)",
+                        card: "#ffffff",
+                        accent: "#dbeafe",
+                        "accent-soft": "#fffbeb"
                     },
                     fontFamily: {
-                        sans: ['Manrope', 'system-ui', 'sans-serif'],
-                        display: ['Sora', 'system-ui', 'sans-serif'],
+                        sans: ['Be Vietnam Pro', 'system-ui', 'sans-serif'],
+                        display: ['Be Vietnam Pro', 'system-ui', 'sans-serif'],
                     }
                 }
             }
@@ -37,7 +37,7 @@
     <header class="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-xl">
       <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         <a href="${pageContext.request.contextPath}/" class="flex items-center gap-2">
-          <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand to-[oklch(0.45_0.15_210)] text-brand-foreground shadow-lg shadow-brand/20">
+          <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand to-[#1e40af] text-brand-foreground shadow-lg shadow-brand/20">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
               <polyline points="14 2 14 8 20 8"/>
@@ -61,8 +61,8 @@
     <!-- Main Content -->
     <main class="relative py-16 overflow-hidden">
         <!-- Background decorative gradients -->
-        <div class="absolute inset-0 -z-10 bg-[radial-gradient(45%_35%_at_70%_10%,oklch(0.95_0.04_190)_0%,transparent_100%)]"></div>
-        <div class="absolute inset-0 -z-10 bg-[radial-gradient(35%_30%_at_15%_80%,oklch(0.97_0.02_45)_0%,transparent_100%)]"></div>
+        <div class="absolute inset-0 -z-10 bg-[radial-gradient(45%_35%_at_70%_10%,rgba(26,86,219,0.04)_0%,transparent_100%)]"></div>
+        <div class="absolute inset-0 -z-10 bg-[radial-gradient(35%_30%_at_15%_80%,rgba(245,158,11,0.03)_0%,transparent_100%)]"></div>
 
         <div class="mx-auto max-w-7xl px-6">
             <!-- Header section -->

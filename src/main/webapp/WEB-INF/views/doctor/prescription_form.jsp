@@ -10,21 +10,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: oklch(0.55 0.22 260);
-            --primary-dark: oklch(0.42 0.22 260);
-            --accent: oklch(0.65 0.20 195);
-            --surface: oklch(0.10 0.02 260);
-            --surface-card: oklch(0.13 0.02 260);
-            --border: oklch(0.20 0.02 260);
-            --text: oklch(0.95 0.01 260);
-            --text-muted: oklch(0.65 0.02 260);
-            --success: oklch(0.65 0.18 145);
-            --danger: oklch(0.60 0.22 25);
-            --warning: oklch(0.75 0.18 85);
+            --primary: #1a56db;
+            --primary-dark: #1e40af;
+            --accent: #dbeafe;
+            --surface: #f8faff;
+            --surface-card: #ffffff;
+            --border: rgba(26, 86, 219, 0.12);
+            --text: #1a2035;
+            --text-muted: #6b7a99;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Manrope', sans-serif;
+            font-family: 'Be Vietnam Pro', sans-serif;
             background: var(--surface);
             color: var(--text);
             min-height: 100vh;
@@ -40,7 +40,7 @@
             padding: 2.5rem;
             width: 100%;
             max-width: 560px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            box-shadow: 0 10px 30px rgba(26, 86, 219, 0.08);
         }
         .card-header {
             display: flex;
@@ -50,15 +50,16 @@
         }
         .card-header .icon {
             width: 48px; height: 48px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
+            background: linear-gradient(135deg, var(--primary), #3b82f6);
             border-radius: 12px;
             display: flex; align-items: center; justify-content: center;
             font-size: 1.4rem;
         }
         h2 {
-            font-family: 'Sora', sans-serif;
+            font-family: 'Be Vietnam Pro', sans-serif;
             font-size: 1.4rem;
             font-weight: 700;
+            color: var(--text);
         }
         .subtitle { color: var(--text-muted); font-size: 0.85rem; margin-top: 2px; }
         .form-group { margin-bottom: 1.25rem; }
@@ -78,25 +79,25 @@
             border: 1.5px solid var(--border);
             border-radius: 10px;
             color: var(--text);
-            font-family: 'Manrope', sans-serif;
+            font-family: 'Be Vietnam Pro', sans-serif;
             font-size: 0.95rem;
             transition: border-color 0.2s, box-shadow 0.2s;
             outline: none;
         }
         input:focus, textarea:focus, select:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px oklch(0.55 0.22 260 / 0.15);
+            box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.15);
         }
         textarea { resize: vertical; min-height: 90px; }
         .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
         .required::after { content: ' *'; color: var(--danger); }
         .error-banner {
-            background: oklch(0.60 0.22 25 / 0.15);
+            background: rgba(239, 68, 68, 0.08);
             border: 1px solid var(--danger);
             border-radius: 10px;
             padding: 0.85rem 1rem;
             margin-bottom: 1.5rem;
-            color: oklch(0.80 0.15 25);
+            color: var(--danger);
             font-size: 0.9rem;
         }
         .btn-group { display: flex; gap: 1rem; margin-top: 2rem; }
@@ -105,7 +106,7 @@
             padding: 0.85rem 1.5rem;
             border: none;
             border-radius: 10px;
-            font-family: 'Manrope', sans-serif;
+            font-family: 'Be Vietnam Pro', sans-serif;
             font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
@@ -118,7 +119,7 @@
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
         }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px oklch(0.55 0.22 260 / 0.4); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(26, 86, 219, 0.2); }
         .btn-secondary {
             background: var(--surface);
             color: var(--text-muted);

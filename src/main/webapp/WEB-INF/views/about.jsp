@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -11,19 +11,19 @@
             theme: {
                 extend: {
                     colors: {
-                        background: "oklch(0.99 0.005 180)",
-                        ink: "oklch(0.14 0.03 210)",
-                        brand: "oklch(0.55 0.13 195)",
-                        "brand-foreground": "oklch(0.99 0.005 180)",
-                        "brand-soft": "oklch(0.95 0.04 190)",
-                        muted: "oklch(0.96 0.012 200)",
-                        "muted-foreground": "oklch(0.5 0.025 215)",
-                        border: "oklch(0.92 0.015 200)",
-                        card: "oklch(1 0 0)"
+                        background: "#f8faff",
+                        ink: "#1a2035",
+                        brand: "#1a56db",
+                        "brand-foreground": "#f8faff",
+                        "brand-soft": "#e8f0fe",
+                        muted: "#eef2fb",
+                        "muted-foreground": "#6b7a99",
+                        border: "rgba(26, 86, 219, 0.12)",
+                        card: "#ffffff"
                     },
                     fontFamily: {
-                        sans: ['Manrope', 'system-ui', 'sans-serif'],
-                        display: ['Sora', 'system-ui', 'sans-serif'],
+                        sans: ['Be Vietnam Pro', 'system-ui', 'sans-serif'],
+                        display: ['Be Vietnam Pro', 'system-ui', 'sans-serif'],
                     }
                 }
             }
@@ -34,7 +34,7 @@
     <header class="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-xl">
       <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         <a href="${pageContext.request.contextPath}/" class="flex items-center gap-2">
-          <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand to-[oklch(0.45_0.15_210)] text-brand-foreground shadow-lg shadow-brand/20">
+          <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand to-[#1e40af] text-brand-foreground shadow-lg shadow-brand/20">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M10 10.5c3.8 0 6.8 2.5 6.8 5.6 0 3.1-3 5.6-6.8 5.6S3.2 19.2 3.2 16.1c0-3.1 3-5.6 6.8-5.6Z"/><path d="m10 13-1.4 1.6c-.6.7-1.7 1.9-1.7 3.2 0 1.6 1.4 2.9 3.1 2.9 1.7 0 3.1-1.3 3.1-2.9 0-1.3-1.1-2.5-1.7-3.2L10 13Z"/></svg>
           </div>
           <span class="font-display text-xl font-bold tracking-tight text-ink">
@@ -94,7 +94,7 @@
               <p class="mt-1.5 text-sm text-muted-foreground">Cầu nối hiệu quả giữa bác sĩ, bệnh nhân và cơ sở y tế.</p>
             </div>
         </div>
-        <section class="mt-16 rounded-3xl bg-gradient-to-br from-brand to-[oklch(0.45_0.15_210)] p-10 text-brand-foreground">
+        <section class="mt-16 rounded-3xl bg-gradient-to-br from-brand to-[#1e40af] p-10 text-brand-foreground">
           <h2 class="font-display text-2xl font-bold">Câu chuyện của chúng tôi</h2>
           <p class="mt-4 leading-relaxed opacity-90">
             Được thành lập bởi đội ngũ kỹ sư phần mềm và bác sĩ giàu kinh nghiệm,
