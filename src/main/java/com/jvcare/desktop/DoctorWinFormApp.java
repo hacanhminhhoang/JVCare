@@ -1,22 +1,19 @@
-package com.jvcare.gui;
+package com.jvcare.desktop;
 
 import com.jvcare.dao.UserDAO;
 import com.jvcare.dto.MedicalRecordDTO;
 import com.jvcare.dto.PrescriptionDTO;
 import com.jvcare.exception.BusinessException;
-import com.jvcare.exception.ValidationException;
 import com.jvcare.model.Appointment;
 import com.jvcare.model.User;
 import com.jvcare.service.MedicalRecordService;
 import com.jvcare.service.PrescriptionService;
 import com.jvcare.util.DBConnection;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;

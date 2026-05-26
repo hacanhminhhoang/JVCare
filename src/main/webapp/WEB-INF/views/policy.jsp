@@ -94,7 +94,7 @@
                     </div>
                 </div>
                 <div class="rounded-2xl border border-border bg-white p-6 shadow-sm flex items-start gap-4">
-                    <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent-soft text-accent">
+                    <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-soft text-brand">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                     </div>
                     <div>
@@ -112,7 +112,7 @@
                     </div>
                 </div>
                 <div class="rounded-2xl border border-border bg-white p-6 shadow-sm flex items-start gap-4">
-                    <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent-soft text-accent">
+                    <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-soft text-brand">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
                     </div>
                     <div>
@@ -202,9 +202,9 @@
                                         Họ và tên khai sinh, ngày tháng năm sinh, giới tính, số điện thoại liên lạc, địa chỉ email, địa chỉ thường trú/tạm trú, số Căn cước công dân (CCCD), và mã số Bảo hiểm y tế (BHYT).
                                     </p>
                                 </div>
-                                <div class="rounded-xl bg-accent-soft/30 p-4 border border-accent/10">
-                                    <h4 class="font-bold text-accent text-sm flex items-center gap-2 mb-2">
-                                        <span class="h-2 w-2 rounded-full bg-accent"></span>
+                                <div class="rounded-xl bg-slate-50 p-4 border border-border/60">
+                                    <h4 class="font-bold text-ink text-sm flex items-center gap-2 mb-2">
+                                        <span class="h-2 w-2 rounded-full bg-brand"></span>
                                         Dữ liệu cá nhân nhạy cảm
                                     </h4>
                                     <p class="text-xs text-muted-foreground">
@@ -231,7 +231,7 @@
                                 <li><strong class="text-ink">Trợ lý hỗ trợ chẩn đoán y tế AI</strong>: Sử dụng thông tin sức khỏe để phân tích các chỉ số hỗ trợ bác sĩ ra quyết định.</li>
                                 <li><strong class="text-ink">Thông báo y tế</strong>: Nhắc lịch tái khám, lịch uống thuốc và cảnh báo sức khỏe khẩn cấp qua Email/SMS.</li>
                             </ul>
-                            <p class="text-xs text-accent font-semibold mt-4 bg-accent-soft/40 p-3 rounded-lg border border-accent/20">
+                            <p class="text-xs text-black font-semibold mt-4 bg-accent-soft/40 p-3 rounded-lg border border-accent">
                                 ⚠️ Cam kết nghiêm ngặt: JVCare tuyệt đối KHÔNG bán, cho thuê, trao đổi hay chuyển giao trái phép bất cứ phần thông tin cá nhân/y tế nào của người bệnh cho bên thứ ba vì mục đích thương mại hoặc quảng cáo.
                             </p>
                         </div>

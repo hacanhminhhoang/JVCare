@@ -4,245 +4,93 @@
 <html lang="vi">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Đăng ký tài khoản khách hàng — JVCare</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              background: "#f8faff",
-              ink: "#1a2035",
-              brand: "#1a56db",
-              "brand-foreground": "#f8faff",
-              "brand-soft": "#e8f0fe",
-              muted: "#eef2fb",
-              "muted-foreground": "#6b7a99",
-              border: "rgba(26, 86, 219, 0.12)",
-              card: "#ffffff",
-              input: "#e2e8f0",
-            },
-            fontFamily: {
-              sans: ["'Be Vietnam Pro'", "system-ui", "sans-serif"],
-              display: ["'Be Vietnam Pro'", "system-ui", "sans-serif"],
-            },
-          },
-        },
-      };
-    </script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/login.css" />
   </head>
-  <body class="min-h-screen bg-background font-sans text-ink">
-    <div class="flex min-h-screen">
-      <!-- Left side image panel (Consistent with login) -->
-      <div class="relative hidden w-1/2 flex-col bg-ink p-10 text-white lg:flex">
-        <div
-          class="absolute inset-0 bg-cover bg-center"
-          style="background-image: url('${pageContext.request.contextPath}/images/hero-doctor.jpg');"
-        ></div>
-        <div class="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/40 to-transparent"></div>
+  <body class="register-page" style="--bg-url: url('${pageContext.request.contextPath}/images/hero-doctor.jpg');">
 
-        <div class="relative z-20 flex items-center font-display text-2xl font-bold text-white">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="mr-2 h-6 w-6"
-          >
-            <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3"></path>
-          </svg>
-          JVCare
-        </div>
-
-        <div class="relative z-20 mt-auto">
-          <blockquote class="space-y-2">
-            <p class="text-lg font-medium leading-relaxed">
-              "Bắt đầu ngay hôm nay để quản lý hồ sơ sức khỏe thông minh, nhận chỉ dẫn y tế chuẩn xác và kết nối nhanh chóng với đội ngũ bác sĩ hàng đầu."
-            </p>
-            <footer class="text-sm text-gray-300">
-              Hệ thống chăm sóc sức khỏe chủ động JVCare
-            </footer>
-          </blockquote>
-        </div>
+    <div class="glass-container">
+      
+      <div class="brand-section">
+        <h1 class="brand-title">Đăng ký</h1>
+        <p class="brand-subtitle">Tạo hồ sơ bệnh án điện tử cá nhân hoàn toàn miễn phí</p>
       </div>
 
-      <!-- Right side Sign-up Form -->
-      <div class="flex w-full flex-col justify-center px-8 lg:w-1/2 sm:px-12 md:px-16 xl:px-24 py-12">
-        <div class="mx-auto w-full max-w-sm">
-          <!-- Logo for mobile -->
-          <div class="mb-8 flex items-center font-display text-2xl font-bold text-ink lg:hidden">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="mr-2 h-6 w-6"
-            >
-              <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3"></path>
-            </svg>
-            JVCare
-          </div>
-
-          <div class="flex flex-col space-y-2 text-left mb-6">
-            <h1 class="font-display text-2xl font-semibold tracking-tight text-ink">
-              Đăng ký tài khoản
-            </h1>
-            <p class="text-sm text-muted-foreground">
-              Tạo hồ sơ bệnh án điện tử cá nhân hoàn toàn miễn phí.
-            </p>
-          </div>
-
-          <!-- Error Message Container -->
-          <c:if test="${not empty errorMessage}">
-            <div class="mb-4 rounded-md bg-red-50 p-3 text-sm text-red-600 border border-red-100 flex items-center gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <circle cx="12" cy="12" r="10" />
-                <line x1="12" x2="12" y1="8" y2="12" />
-                <line x1="12" x2="12.01" y1="16" y2="16" />
-              </svg>
-              <c:out value="${errorMessage}" />
-            </div>
-          </c:if>
-
-          <form action="${pageContext.request.contextPath}/register" method="POST" class="space-y-4">
-            <!-- Full Name -->
-            <div class="space-y-1.5">
-              <label class="text-sm font-medium leading-none">Họ và tên</label>
-              <input
-                required
-                type="text"
-                name="fullName"
-                value="<c:out value='${param.fullName}'/>"
-                class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition"
-                placeholder="Nguyễn Văn A"
-              />
-            </div>
-
-            <!-- Email -->
-            <div class="space-y-1.5">
-              <label class="text-sm font-medium leading-none">Email</label>
-              <input
-                required
-                type="email"
-                name="email"
-                value="<c:out value='${param.email}'/>"
-                class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition"
-                placeholder="nguyenvana@gmail.com"
-              />
-            </div>
-
-            <!-- Phone Number -->
-            <div class="space-y-1.5">
-              <label class="text-sm font-medium leading-none">Số điện thoại</label>
-              <input
-                required
-                type="tel"
-                name="phone"
-                pattern="[0-9]{10,11}"
-                value="<c:out value='${param.phone}'/>"
-                class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition"
-                placeholder="0987654321"
-              />
-            </div>
-
-            <!-- Password -->
-            <div class="space-y-1.5">
-              <label class="text-sm font-medium leading-none">Mật khẩu</label>
-              <div class="relative">
-                <input
-                  required
-                  type="password"
-                  name="password"
-                  id="password"
-                  class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition pr-10"
-                  placeholder="••••••••"
-                />
-                <button
-                  type="button"
-                  id="togglePassword"
-                  class="absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground hover:text-ink"
-                >
-                  <svg
-                    id="eyeOpen"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
-                    <circle cx="12" cy="12" r="3" />
-                  </svg>
-                  <svg
-                    id="eyeClosed"
-                    class="hidden"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24" />
-                    <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68" />
-                    <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61" />
-                    <line x1="2" x2="22" y1="2" y2="22" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-
-            <!-- Submit button -->
-            <button
-              type="submit"
-              class="inline-flex h-10 mt-4 w-full items-center justify-center rounded-md bg-ink px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-ink/90 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
-            >
-              Đăng ký tài khoản
-            </button>
-          </form>
-
-          <div class="mt-6 text-center text-sm">
-            <span class="text-muted-foreground">Đã có tài khoản?</span>
-            <a href="${pageContext.request.contextPath}/login" class="font-semibold text-brand hover:underline ml-1">Đăng nhập ngay</a>
-          </div>
-
-          <p class="px-8 text-center text-xs text-muted-foreground mt-8 leading-relaxed">
-            Bằng việc đăng ký, bạn đồng ý với
-            <a href="#" class="underline underline-offset-4 hover:text-ink">Điều khoản dịch vụ</a>
-            và
-            <a href="${pageContext.request.contextPath}/policy" class="underline underline-offset-4 hover:text-ink">Chính sách bảo mật</a>
-            của chúng tôi.
-          </p>
+      <%-- Hiển thị lỗi đăng ký từ Controller --%>
+      <c:if test="${not empty errorMessage}">
+        <div class="alert alert-error">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" /><line x1="12" x2="12" y1="8" fill="none" y2="12" /><line x1="12" x2="12.01" y1="16" y2="16" />
+          </svg>
+          <c:out value="${errorMessage}" />
         </div>
+      </c:if>
+
+      <form action="${pageContext.request.contextPath}/register" method="POST">
+        
+        <div class="input-group">
+          <input type="text" name="fullName" required placeholder=" " autocomplete="off" value="<c:out value='${param.fullName}'/>" />
+          <div class="icon-left">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </div>
+          <label>Họ và tên</label>
+        </div>
+
+        <div class="input-group">
+          <input type="email" name="email" required placeholder=" " autocomplete="off" value="<c:out value='${param.email}'/>" />
+          <div class="icon-left">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+          </div>
+          <label>Địa chỉ Email</label>
+        </div>
+
+        <div class="input-group">
+          <input type="tel" name="phone" pattern="[0-9]{10,11}" required placeholder=" " autocomplete="off" value="<c:out value='${param.phone}'/>" />
+          <div class="icon-left">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+            </svg>
+          </div>
+          <label>Số điện thoại liên hệ</label>
+        </div>
+
+        <div class="input-group">
+          <input type="password" name="password" id="password" required placeholder=" " />
+          <div class="icon-left">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+          </div>
+          <label>Mật khẩu mật mã</label>
+          
+          <button type="button" id="togglePassword" class="toggle-password">
+            <svg id="eyeOpen" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" /><circle cx="12" cy="12" r="3" />
+            </svg>
+            <svg id="eyeClosed" class="hidden" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24" />
+              <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68" />
+              <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61" /><line x1="2" x2="22" y1="2" y2="22" />
+            </svg>
+          </button>
+        </div>
+
+        <button type="submit" class="btn-submit">Đăng ký tài khoản</button>
+      </form>
+
+      <div class="form-footer">
+        <span>Đã có tài khoản?</span>
+        <a href="${pageContext.request.contextPath}/login">Đăng nhập ngay</a>
       </div>
     </div>
 
-    <!-- Password visibility toggle script -->
     <script>
-      document.getElementById("togglePassword").addEventListener("click", function (e) {
+      document.getElementById("togglePassword").addEventListener("click", function () {
         const passwordInput = document.getElementById("password");
         const eyeOpen = document.getElementById("eyeOpen");
         const eyeClosed = document.getElementById("eyeClosed");
