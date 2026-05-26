@@ -228,33 +228,47 @@ public class MedicalRecordDAO {
         return -1;
     }
     
-    private MedicalRecord mapResultSetToRecord(ResultSet rs) throws SQLException {
-        MedicalRecord record = new MedicalRecord();
-        record.setRecordId(rs.getInt("record_id"));
-        record.setPatientId(rs.getInt("patient_id"));
-        record.setDoctorId(rs.getInt("doctor_id"));
-        
-        try {
-            record.setAppointmentId(rs.getInt("appointment_id"));
-        } catch (Exception e) {}
-        
-        record.setVisitDate(rs.getTimestamp("visit_date"));
-        record.setDiagnosis(rs.getString("diagnosis"));
-        record.setTreatmentPlan(rs.getString("treatment_plan"));
-        record.setNotes(rs.getString("notes"));
-        record.setBloodPressure(rs.getString("blood_pressure"));
-        record.setHeartRate(rs.getInt("heart_rate"));
-        record.setTemperature(rs.getDouble("temperature"));
-        record.setWeight(rs.getDouble("weight"));
-        record.setHeight(rs.getDouble("height"));
-        
-        // Extra fields from JOIN
-        try {
-            record.setPatientName(rs.getString("patient_name"));
-            record.setPatientCode(rs.getString("patient_code"));
-            record.setDoctorName(rs.getString("doctor_name"));
-        } catch (Exception e) {}
-        
-        return record;
-    }
+private MedicalRecord mapResultSetToRecord(ResultSet rs) throws SQLException {
+    MedicalRecord record = new MedicalRecord();
+
+    record.setRecordId(rs.getInt("record_id"));
+    record.setRecordCode(rs.getString("record_code"));
+
+    record.setPatientId(rs.getInt("patient_id"));
+    record.setDoctorId(rs.getInt("doctor_id"));
+
+    try {
+        record.setAppointmentId(rs.getInt("appointment_id"));
+    } catch (Exception e) {}
+
+    record.setVisitDate(rs.getTimestamp("visit_date"));
+
+    record.setChiefComplaint(rs.getString("chief_complaint"));
+    record.setPresentIllness(rs.getString("present_illness"));
+    record.setMedicalHistory(rs.getString("medical_history"));
+
+    record.setDiagnosis(rs.getString("diagnosis"));
+    record.setTreatmentPlan(rs.getString("treatment_plan"));
+
+    record.setStatus(rs.getString("status"));
+
+    record.setVitalSigns(rs.getString("vital_signs"));
+
+    record.setNotes(rs.getString("notes"));
+
+    record.setBloodPressure(rs.getString("blood_pressure"));
+    record.setHeartRate(rs.getInt("heart_rate"));
+    record.setTemperature(rs.getDouble("temperature"));
+    record.setWeight(rs.getDouble("weight"));
+    record.setHeight(rs.getDouble("height"));
+
+    // JOIN fields
+    try {
+        record.setPatientName(rs.getString("patient_name"));
+        record.setPatientCode(rs.getString("patient_code"));
+        record.setDoctorName(rs.getString("doctor_name"));
+    } catch (Exception e) {}
+
+    return record;
 }
+  }

@@ -18,12 +18,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import com.jvcare.dao.MedicalRecordDAO;
+import com.jvcare.model.MedicalRecord;
 
 @WebServlet("/doctor/appointment-detail")
 public class DoctorAppointmentDetailServlet extends HttpServlet {
     private AppointmentDAO appointmentDAO = new AppointmentDAO();
     private PatientDAO patientDAO = new PatientDAO();
-
+    private MedicalRecordDAO medicalRecordDAO = new MedicalRecordDAO();
     private int getDoctorId(HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
         if (user == null || !"DOCTOR".equals(user.getRole())) return -1;
@@ -107,11 +109,40 @@ public class DoctorAppointmentDetailServlet extends HttpServlet {
             String diagnosis = request.getParameter("diagnosis");
             String condition = request.getParameter("patientCondition");
             String advice = request.getParameter("advice");
-            if (appointmentDAO.completeAppointment(appointmentId, doctorId, diagnosis, condition, advice)) {
-                session.setAttribute("message", "Đã cập nhật hồ sơ khám thành công.");
-            } else {
-                session.setAttribute("error", "Lỗi: Không thể hoàn thành lịch khám (có thể bạn không phải là bác sĩ phụ trách).");
-            }
+if (appointmentDAO.completeAppointment(appointmentId, doctorId, diagnosis, condition, advice)) {
+
+    // Lấy appointment để lấy patientId
+    Appointment app = appointmentDAO.getAppointmentById(appointmentId);
+
+    if (app != null) {
+
+        MedicalRecord record = new MedicalRecord();
+
+        record.setPatientId(app.getPatientId());
+
+        record.setDiagnosis(diagnosis);
+
+        // treatment plan = lời dặn
+        record.setTreatmentPlan(advice);
+
+        // notes = tình trạng bệnh
+        record.setNotes(condition);
+
+        // tạo medical record
+        medicalRecordDAO.createRecordFromAppointment(
+                appointmentId,
+                doctorId,
+                record
+        );
+    }
+
+    session.setAttribute("message", "Đã cập nhật hồ sơ khám thành công.");
+
+} else {
+
+    session.setAttribute("error",
+            "Lỗi: Không thể hoàn thành lịch khám (có thể bạn không phải là bác sĩ phụ trách).");
+}
             response.sendRedirect(request.getContextPath() + "/doctor/appointment-detail?id=" + appointmentId);
         } else {
             response.sendRedirect(request.getContextPath() + "/doctor/appointments");

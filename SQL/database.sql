@@ -162,9 +162,9 @@ GO
 -- (Password hash is a dummy BCrypt hash for "123456", UserDAO falls back to "123456" anyway)
 
 INSERT INTO users (username, password_hash, email, full_name, role, phone, status) VALUES 
-('admin', '$2a$10$D8bT8bT8bT8bT8bT8bT8b.x', 'admin@jvcare.com', N'Quản trị viên', 'ADMIN', '0901234567', 'ACTIVE'),
-('doctor', '$2a$10$D8bT8bT8bT8bT8bT8bT8b.x', 'doctor@jvcare.com', N'BS. Nguyễn Văn A', 'DOCTOR', '0907654321', 'ACTIVE'),
-('patient', '$2a$10$D8bT8bT8bT8bT8bT8bT8b.x', 'patient@jvcare.com', N'Nguyễn Văn Bệnh Nhân', 'PATIENT', '0987654321', 'ACTIVE');
+('admin', '$2a$10$N9qo8uLOickgx2ZMRZoMye1J8JZzm/jXZvXZvXZvXZvXZvXZvXZvXO', 'admin@jvcare.com', N'Quản trị viên', 'ADMIN', '0901234567', 'ACTIVE'),
+('doctor', '$2a$10$N9qo8uLOickgx2ZMRZoMye1J8JZzm/jXZvXZvXZvXZvXZvXZvXZvXO', 'doctor@jvcare.com', N'BS. Nguyễn Văn A', 'DOCTOR', '0907654321', 'ACTIVE'),
+('patient', '$2a$10$N9qo8uLOickgx2ZMRZoMye1J8JZzm/jXZvXZvXZvXZvXZvXZvXZvXO', 'patient@jvcare.com', N'Nguyễn Văn Bệnh Nhân', 'PATIENT', '0987654321', 'ACTIVE');
 
 INSERT INTO doctors (user_id, specialization) VALUES 
 (2, N'Nội khoa Tồng hợp');
