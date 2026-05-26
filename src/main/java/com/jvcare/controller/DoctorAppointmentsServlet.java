@@ -66,41 +66,86 @@ public class DoctorAppointmentsServlet extends HttpServlet {
         request.getRequestDispatcher("/WEB-INF/views/doctor/appointments.jsp").forward(request, response);
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("user") == null) {
-            response.sendRedirect(request.getContextPath() + "/login");
-            return;
-        }
+   @Override
+protected void doPost(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
 
-        int doctorId = getDoctorId(request);
-        if (doctorId == -1) {
-            response.sendError(HttpServletResponse.SC_FORBIDDEN);
-            return;
-        }
+    request.setCharacterEncoding("UTF-8");
 
-        String action = request.getParameter("action");
-        if ("assign".equals(action)) {
-            int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));
-            if (appointmentDAO.assignDoctor(appointmentId, doctorId)) {
-                session.setAttribute("message", "Đã nhận lịch hẹn khám.");
-            } else {
-                session.setAttribute("error", "Lỗi: Không thể nhận lịch (có thể đã có bác sĩ khác nhận).");
-            }
-        } else if ("complete".equals(action)) {
-            int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));
-            String diagnosis = request.getParameter("diagnosis");
-            String condition = request.getParameter("patientCondition");
-            String advice = request.getParameter("advice");
-            if (appointmentDAO.completeAppointment(appointmentId, doctorId, diagnosis, condition, advice)) {
-                session.setAttribute("message", "Đã cập nhật hồ sơ khám thành công.");
-            } else {
-                session.setAttribute("error", "Lỗi: Không thể hoàn thành lịch khám (có thể bạn không phải là bác sĩ phụ trách).");
-            }
-        }
+    HttpSession session = request.getSession(false);
 
-        response.sendRedirect(request.getContextPath() + "/doctor/appointments");
+    if (session == null || session.getAttribute("user") == null) {
+        response.sendRedirect(request.getContextPath() + "/login");
+        return;
     }
+
+    int doctorId = getDoctorId(request);
+
+    if (doctorId == -1) {
+        response.sendError(HttpServletResponse.SC_FORBIDDEN);
+        return;
+    }
+
+    String action = request.getParameter("action");
+
+    // Doctor nhận lịch khám
+    if ("assign".equals(action)) {
+
+        int appointmentId =
+                Integer.parseInt(request.getParameter("appointmentId"));
+
+        if (appointmentDAO.assignDoctor(appointmentId, doctorId)) {
+
+            session.setAttribute(
+                    "message",
+                    "Đã nhận lịch hẹn khám."
+            );
+
+        } else {
+
+            session.setAttribute(
+                    "error",
+                    "Không thể nhận lịch khám."
+            );
+        }
+    }
+
+
+if ("complete".equals(action)) {
+
+    int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));
+
+    String diagnosis = request.getParameter("diagnosis");
+    String condition = request.getParameter("patientCondition");
+    String advice = request.getParameter("advice");
+
+    if (appointmentDAO.completeAppointment(
+            appointmentId,
+            doctorId,
+            diagnosis,
+            condition,
+            advice)) {
+
+        session.setAttribute("message",
+                "Đã cập nhật hồ sơ khám thành công.");
+
+    } else {
+
+        session.setAttribute("error",
+                "Không thể hoàn thành hồ sơ.");
+
+    }
+
+    response.sendRedirect(
+            request.getContextPath()
+            + "/doctor/appointment-detail?id="
+            + appointmentId);
+
+    return;
+}
+    response.sendRedirect(
+            request.getContextPath()
+            + "/doctor/appointments"
+    );
+}
 }

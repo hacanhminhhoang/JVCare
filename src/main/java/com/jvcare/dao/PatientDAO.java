@@ -153,6 +153,55 @@ public class PatientDAO {
         return 0;
     }
 
+    public Patient getPatientByUserId(int userId) {
+        String sql = "SELECT p.*, u.full_name as u_name, u.phone as u_phone " +
+                     "FROM patients p " +
+                     "LEFT JOIN users u ON p.user_id = u.user_id " +
+                     "WHERE p.user_id = ?";
+        
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                return mapResultSetToPatient(rs);
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public boolean updatePatientProfile(Patient patient) {
+        String sql = "UPDATE patients SET " +
+                     "full_name=?, date_of_birth=?, gender=?, " +
+                     "phone=?, address=?, allergies=?, " +
+                     "chronic_diseases=?, avatar_url=? " +
+                     "WHERE patient_id=?";
+        
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            
+            ps.setString(1, patient.getFullName());
+            ps.setDate(2, patient.getDateOfBirth());
+            ps.setString(3, patient.getGender());
+            ps.setString(4, patient.getPhone());
+            ps.setString(5, patient.getAddress());
+            ps.setString(6, patient.getAllergies());
+            ps.setString(7, patient.getChronicDiseases());
+            ps.setString(8, patient.getAvatarUrl());
+            ps.setInt(9, patient.getPatientId());
+            
+            return ps.executeUpdate() > 0;
+            
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     private Patient mapResultSetToPatient(ResultSet rs) throws SQLException {
         Patient p = new Patient();
         p.setPatientId(rs.getInt("patient_id"));

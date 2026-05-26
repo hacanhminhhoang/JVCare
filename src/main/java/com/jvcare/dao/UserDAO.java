@@ -22,12 +22,14 @@ public class UserDAO {
             if (rs.next()) {
                 String hash = rs.getString("password_hash");
                 
-                boolean isPasswordValid = false;
-                try {
-                    isPasswordValid = BCrypt.checkpw(password, hash);
-                } catch (Exception e) {
-                    System.err.println("Lỗi kiểm tra BCrypt: " + e.getMessage());
-                }
+boolean isPasswordValid = false;
+
+
+try {
+    isPasswordValid = BCrypt.checkpw(password, hash);
+} catch (Exception e) {
+    System.err.println("Lỗi kiểm tra BCrypt: " + e.getMessage());
+}
 
                 // Fallback cho dữ liệu mẫu: Trong database.sql tất cả user dùng chung 1 mã hash.
                 // Cho phép đăng nhập bằng các mật khẩu mẫu hoặc nếu password khớp với "123456".

@@ -24,16 +24,16 @@ public class PatientAppointmentsServlet extends HttpServlet {
     private AppointmentDAO appointmentDAO = new AppointmentDAO();
     private PatientDAO patientDAO = new PatientDAO();
 
-    private Patient getPatient(HttpServletRequest request) {
-        User user = (User) request.getSession().getAttribute("user");
-        if (user == null || !"PATIENT".equals(user.getRole())) return null;
-        int userId = user.getUserId();
-        List<Patient> all = patientDAO.getAllPatients();
-        for (Patient p : all) {
-            if (p.getUserId() == userId) return p;
-        }
+private Patient getPatient(HttpServletRequest request) {
+
+    User user = (User) request.getSession().getAttribute("user");
+
+    if (user == null || !"PATIENT".equals(user.getRole())) {
         return null;
     }
+
+    return patientDAO.getPatientByUserId(user.getUserId());
+}
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -56,6 +56,7 @@ public class PatientAppointmentsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("user") == null) {
             response.sendRedirect(request.getContextPath() + "/login");

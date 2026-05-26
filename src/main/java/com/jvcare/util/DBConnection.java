@@ -62,9 +62,9 @@ public class DBConnection {
         
         // Get connection info from .env
         String dbUrl = getEnv("DB_URL", 
-            "jdbc:sqlserver://localhost:1433;databaseName=jvcare_db;encrypt=true;trustServerCertificate=true;");
+            "jdbc:sqlserver://localhost:1433;databaseName=JVCare_MVC;encrypt=true;trustServerCertificate=true;");
         String dbUser = getEnv("DB_USER", "sa");
-        String dbPass = getEnv("DB_PASS", "");
+        String dbPass = getEnv("DB_PASSWORD", "");
         
         System.out.println("Connecting to: " + dbUrl);
         
