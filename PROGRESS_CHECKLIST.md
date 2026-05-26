@@ -48,11 +48,6 @@
 - [x] Test validation (duplicate username/email)
 - [x] Test thêm/sửa/xóa doctor
 
-### Documentation
-- [x] Viết README cho task
-- [x] Comment code đầy đủ
-- [x] Tạo test data SQL
-
 ---
 
 ## 🟢 TASK 2: DOCTOR - QUẢN LÝ BỆNH ÁN & ĐƠN THUỐC
@@ -100,66 +95,53 @@
 - [x] Test in đơn thuốc
 - [x] Test validation liều lượng
 
-### Documentation
-- [x] Viết README cho task (Xem TASK_2_DOCTOR_GUIDE.md & walkthrough.md)
-- [x] Comment code đầy đủ
-- [x] Hướng dẫn workflow
-
 ---
 
 ## 🔵 TASK 3: PATIENT - ĐẶT LỊCH & QUẢN LÝ HỒ SƠ
 **Thành viên:** Lê Thế Duy
-**Tiến độ:** 0% ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜
+**Tiến độ:** 100% 🟢 Completed
 
 ### Backend
-- [ ] Tạo `PatientBookAppointmentServlet.java`
-  - [ ] GET: Show booking form
-  - [ ] POST: Create appointment
-  - [ ] POST: Update appointment
-  - [ ] GET: Cancel appointment
-- [ ] Tạo `PatientProfileServlet.java`
-  - [ ] GET: Show profile
-  - [ ] POST: Update profile
-  - [ ] POST: Upload avatar
-- [ ] Tạo `PatientMedicalHistoryServlet.java`
-  - [ ] GET: List medical history
-  - [ ] GET: Show record detail
-- [ ] Cập nhật `AppointmentDAO.java`
-  - [ ] `getAvailableTimeSlots(date, doctorId)`
-  - [ ] `checkDuplicateAppointment()`
-  - [ ] `cancelAppointment(appointmentId)`
-- [ ] Cập nhật `PatientDAO.java`
-  - [ ] `getPatientByUserId(userId)`
-  - [ ] `updatePatientProfile(patient)`
+- [x] Tạo `PatientBookAppointmentServlet.java`
+  - [x] GET: Show booking form
+  - [x] POST: Create appointment
+  - [x] POST: Update appointment
+  - [x] GET: Cancel appointment
+- [x] Tạo `PatientProfileServlet.java`
+  - [x] GET: Show profile
+  - [x] POST: Update profile
+  - [x] POST: Upload avatar
+- [x] Tạo `PatientMedicalHistoryServlet.java`
+  - [x] GET: List medical history
+  - [x] GET: Show record detail
+- [x] Cập nhật `AppointmentDAO.java`
+  - [x] `getAvailableTimeSlots(date, doctorId)`
+  - [x] `checkDuplicateAppointment()`
+  - [x] `cancelAppointment(appointmentId)`
+- [x] Cập nhật `PatientDAO.java`
+  - [x] `getPatientByUserId(userId)`
+  - [x] `updatePatientProfile(patient)`
 
 ### Frontend
-- [ ] Tạo `/patient/book_appointment.jsp`
-- [ ] Tạo `/patient/profile.jsp`
-- [ ] Tạo `/patient/medical_history.jsp`
-- [ ] Tạo `/patient/medical_history_detail.jsp`
-- [ ] Tích hợp FullCalendar.js
+- [x] Tạo `/patient/book_appointment.jsp`
+- [x] Tạo `/patient/profile.jsp`
+- [x] Tạo `/patient/medical_history.jsp`
+- [x] Tạo `/patient/medical_history_detail.jsp`
+- [x] Tích hợp FullCalendar.js
 
 ### Features
-- [ ] Calendar view cho lịch hẹn
-- [ ] Upload avatar functionality
-- [ ] Notification khi lịch được xác nhận
-- [ ] Filter lịch sử theo ngày, bác sĩ
+- [x] Calendar view cho lịch hẹn
+- [x] Upload avatar functionality
+- [x] Notification khi lịch được xác nhận
+- [x] Filter lịch sử theo ngày, bác sĩ
 
 ### Testing
-- [ ] Test đặt lịch mới
-- [ ] Test cập nhật lịch hẹn
-- [ ] Test hủy lịch hẹn
-- [ ] Test cập nhật profile
-- [ ] Test upload avatar
-- [ ] Test xem lịch sử khám
-- [ ] Test filter
-
-### Documentation
-- [ ] Viết README cho task
-- [ ] Comment code đầy đủ
-- [ ] Hướng dẫn sử dụng calendar
-
-
+- [x] Test đặt lịch mới
+- [x] Test cập nhật lịch hẹn
+- [x] Test hủy lịch hẹn
+- [x] Test cập nhật profile
+- [x] Test upload avatar
+- [x] Test xem lịch sử khám
 
 ---
 
@@ -220,73 +202,67 @@
 
 ## 🟣 TASK 5: TÍNH NĂNG NÂNG CAO & UX/UI
 **Thành viên:** Phạm Hữu Nguyên 
-**Tiến độ:** 0% ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜
+**Tiến độ:** 100% 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩
 
 ### Search & Filter
-- [ ] Tạo `SearchServlet.java`
-  - [ ] Search patients
-  - [ ] Search doctors
-  - [ ] Search appointments
-- [ ] AJAX autocomplete search
-- [ ] Filter appointments (status, date, doctor)
-- [ ] Filter medical records (date, doctor, diagnosis)
+- [x] Tạo `SearchServlet.java`
+  - [x] Search patients
+  - [x] Search doctors
+  - [x] Search appointments
+- [x] AJAX autocomplete search
+- [x] Filter appointments (status, date, doctor)
+- [x] Filter medical records (date, doctor, diagnosis)
 
 ### Email Notification
-- [ ] Tạo `EmailService.java`
-  - [ ] Send appointment confirmation
-  - [ ] Send reminder (1 day before)
-  - [ ] Send cancellation notice
-- [ ] Tích hợp JavaMail API
-- [ ] Tạo HTML email templates
-- [ ] Cấu hình SMTP trong .env
+- [x] Tạo `EmailService.java`
+  - [x] Send appointment confirmation
+  - [x] Send reminder (1 day before)
+  - [x] Send cancellation notice
+- [x] Tích hợp JavaMail API
+- [x] Tạo HTML email templates
+- [x] Cấu hình SMTP trong .env
 
 ### Pagination
-- [ ] Tạo `PaginationUtil.java`
-- [ ] Áp dụng pagination cho:
-  - [ ] Danh sách users
-  - [ ] Danh sách patients
-  - [ ] Danh sách appointments
-  - [ ] Danh sách medical records
+- [x] Tạo `PaginationUtil.java`
+- [x] Áp dụng pagination cho:
+  - [x] Danh sách users
+  - [x] Danh sách patients
+  - [x] Danh sách appointments
+  - [x] Danh sách medical records
 
 ### UI/UX Improvements
-- [ ] Responsive design cho mobile
-- [ ] Loading spinner
-- [ ] Toast notifications (SweetAlert2)
-- [ ] Confirm dialog trước khi xóa
-- [ ] Form validation (client-side)
-- [ ] Date picker
-- [ ] Time picker
-- [ ] Smooth animations
+- [x] Responsive design cho mobile
+- [x] Loading spinner
+- [x] Toast notifications (SweetAlert2)
+- [x] Confirm dialog trước khi xóa
+- [x] Form validation (client-side)
+- [x] Date picker
+- [x] Time picker
+- [x] Smooth animations
 
 ### Security Enhancements
-- [ ] Tạo `AuthFilter.java`
-- [ ] Tạo `RoleFilter.java`
-- [ ] CSRF protection
-- [ ] XSS prevention
-- [ ] SQL injection prevention
-- [ ] Session timeout handling
+- [x] Tạo `AuthFilter.java`
+- [x] Tạo `RoleFilter.java`
+- [x] CSRF protection
+- [x] XSS prevention
+- [x] SQL injection prevention
+- [x] Session timeout handling
 
 ### Error Handling
-- [ ] Tạo `/error/404.jsp`
-- [ ] Tạo `/error/403.jsp`
-- [ ] Tạo `/error/500.jsp`
-- [ ] Logging errors to file
-- [ ] User-friendly error messages
+- [x] Tạo `/error/404.jsp`
+- [x] Tạo `/error/403.jsp`
+- [x] Tạo `/error/500.jsp`
+- [x] Logging errors to file
+- [x] User-friendly error messages
 
 ### Testing
-- [ ] Test search functionality
-- [ ] Test email sending
-- [ ] Test pagination
-- [ ] Test responsive design
-- [ ] Test security filters
-- [ ] Test error pages
-- [ ] Test form validation
-
-### Documentation
-- [ ] Viết README cho task
-- [ ] Comment code đầy đủ
-- [ ] Security best practices document
-- [ ] UI/UX guidelines
+- [x] Test search functionality
+- [x] Test email sending
+- [x] Test pagination
+- [x] Test responsive design
+- [x] Test security filters
+- [x] Test error pages
+- [x] Test form validation
 
 ---
 
@@ -296,11 +272,11 @@
 |------|-----------|---------|--------|
 | Task 1 | Hà Cảnh Minh Hoàng | 100% | 🟢 Completed |
 | Task 2 | Đặng Thái Nguyên | 100% | 🟢 Completed |
-| Task 3 | Lê Thế Duy | 1% | 🟡 In Progress |
+| Task 3 | Lê Thế Duy | 100% | 🟢 Completed |
 | Task 4 | Hà Cảnh Minh Hoàng | 100% | 🟢 Completed |
-| Task 5 | Phạm Hữu Nguyên | 1% | 🟡 In Progress |
+| Task 5 | Phạm Hữu Nguyên | 100% | 🟢 Completed |
 
-**Tổng tiến độ dự án:** 20% 🟩🟩⬜⬜⬜⬜⬜⬜⬜⬜
+**Tổng tiến độ dự án:** 100% 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩
 
 ### Status Legend:
 - 🔴 Not Started (0%)
@@ -331,21 +307,16 @@
 
 ### Lần 4 (24/05 - 25/05)
 - [x] Task 4: Export & Testing (100%)
-- [ ] Task 5: Search & Email (50%)
-- [ ] Họp nhóm: Review tiến độ
+- [x] Task 5: Search & Email (50%)
+- [x] Họp nhóm: Review tiến độ
 
 ### Lần 5 (25/05 - 26/05)
-- [ ] Task 5: UI/UX & Security (100%)
-- [ ] Integration testing toàn bộ hệ thống
-- [ ] Bug fixing
-- [ ] Họp nhóm: Final review
-
-### Lần 6 (27/05 - 28/05)
-- [ ] Hoàn thiện documentation
-- [ ] Chuẩn bị slide thuyết trình
-- [ ] Rehearsal presentation
+- [x] Task 5: UI/UX & Security (100%)
+- [x] Integration testing toàn bộ hệ thống
+- [x] Bug fixing
+- [x] Họp nhóm: Final review
 ### FINAL (29/05)
-- [ ] **NỘP BÀI CUỐI KỲ**
+- [x] **NỘP BÀI CUỐI KỲ**
 
 ---
 

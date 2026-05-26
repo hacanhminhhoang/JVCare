@@ -20,6 +20,8 @@ public class MedicalRecord {
     // New fields
     private int appointmentId;
     private String notes;
+    private String patientCondition;
+private String advice;
     private String bloodPressure;
     private int heartRate;
     private double temperature;
@@ -99,4 +101,19 @@ public class MedicalRecord {
 
     public String getDoctorName() { return doctorName; }
     public void setDoctorName(String doctorName) { this.doctorName = doctorName; }
+public String getPatientCondition() {
+    return patientCondition;
+}
+
+public void setPatientCondition(String patientCondition) {
+    this.patientCondition = patientCondition;
+}
+
+public String getAdvice() {
+    return advice;
+}
+
+public void setAdvice(String advice) {
+    this.advice = advice;
+}
 }
