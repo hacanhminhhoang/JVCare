@@ -111,32 +111,7 @@ public class DoctorAppointmentDetailServlet extends HttpServlet {
             String advice = request.getParameter("advice");
 if (appointmentDAO.completeAppointment(appointmentId, doctorId, diagnosis, condition, advice)) {
 
-    // Lấy appointment để lấy patientId
-    Appointment app = appointmentDAO.getAppointmentById(appointmentId);
-
-    if (app != null) {
-
-        MedicalRecord record = new MedicalRecord();
-
-        record.setPatientId(app.getPatientId());
-
-        record.setDiagnosis(diagnosis);
-
-        // treatment plan = lời dặn
-        record.setTreatmentPlan(advice);
-
-        // notes = tình trạng bệnh
-        record.setNotes(condition);
-
-        // tạo medical record
-        medicalRecordDAO.createRecordFromAppointment(
-                appointmentId,
-                doctorId,
-                record
-        );
-    }
-
-    session.setAttribute("message", "Đã cập nhật hồ sơ khám thành công.");
+    session.setAttribute("message", "Đã cập nhật trạng thái khám thành công. Vui lòng mở WinForm để nhập chỉ số sinh hiệu và tạo bệnh án chi tiết!");
 
 } else {
 
