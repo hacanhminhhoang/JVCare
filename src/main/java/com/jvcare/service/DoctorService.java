@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class DoctorService {
     
     private DoctorDAO doctorDAO = new DoctorDAO();
+    private com.jvcare.dao.UserDAO userDAO = new com.jvcare.dao.UserDAO();
     
     /**
      * Lấy tất cả doctors
@@ -95,6 +96,106 @@ public class DoctorService {
             return doctorDAO.updateDoctor(doctor);
         } catch (Exception e) {
             throw new BusinessException("Lỗi khi cập nhật chuyên khoa", e);
+        }
+    }
+
+    /**
+     * Thêm mới Bác sĩ (Tạo User -> Tạo Doctor)
+     */
+    public boolean addDoctor(Doctor doctor, String password) throws BusinessException {
+        try {
+            if (doctor.getEmail() == null || doctor.getEmail().isEmpty()) {
+                throw new BusinessException("Email không được để trống!");
+            }
+            if (userDAO.existsByEmail(doctor.getEmail())) {
+                throw new BusinessException("Email đã tồn tại trong hệ thống!");
+            }
+            if (password == null || password.isEmpty()) {
+                throw new BusinessException("Mật khẩu không được để trống!");
+            }
+
+            com.jvcare.model.User user = new com.jvcare.model.User();
+            user.setUsername(doctor.getEmail());
+            user.setPasswordHash(password);
+            user.setFullName(doctor.getFullName());
+            user.setEmail(doctor.getEmail());
+            user.setPhone(doctor.getPhone());
+            user.setRole("DOCTOR");
+            user.setStatus(doctor.getStatus() != null ? doctor.getStatus() : "ACTIVE");
+
+            boolean userCreated = userDAO.createUser(user);
+            if (!userCreated) {
+                throw new BusinessException("Không thể tạo tài khoản người dùng cho Bác sĩ!");
+            }
+
+            doctor.setUserId(user.getUserId());
+            boolean doctorCreated = doctorDAO.createDoctor(doctor);
+            
+            if (!doctorCreated) {
+                userDAO.deleteUser(user.getUserId());
+                throw new BusinessException("Không thể tạo hồ sơ Bác sĩ!");
+            }
+            
+            return true;
+        } catch (BusinessException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new BusinessException("Lỗi khi thêm mới bác sĩ", e);
+        }
+    }
+
+    /**
+     * Cập nhật thông tin Bác sĩ
+     */
+    public boolean updateDoctor(Doctor doctor, String newPassword) throws BusinessException {
+        try {
+            com.jvcare.model.User user = userDAO.getUserById(doctor.getUserId());
+            if (user == null) {
+                throw new BusinessException("Không tìm thấy tài khoản người dùng của Bác sĩ!");
+            }
+
+            user.setFullName(doctor.getFullName());
+            user.setEmail(doctor.getEmail());
+            user.setPhone(doctor.getPhone());
+            user.setStatus(doctor.getStatus());
+            
+            if (newPassword != null && !newPassword.trim().isEmpty()) {
+                user.setPasswordHash(newPassword.trim());
+            }
+
+            boolean userUpdated = userDAO.updateUser(user);
+            if (!userUpdated) {
+                throw new BusinessException("Lỗi khi cập nhật thông tin tài khoản!");
+            }
+
+            boolean doctorUpdated = doctorDAO.updateDoctor(doctor);
+            if (!doctorUpdated) {
+                throw new BusinessException("Lỗi khi cập nhật chuyên khoa Bác sĩ!");
+            }
+            
+            return true;
+        } catch (BusinessException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new BusinessException("Lỗi khi cập nhật bác sĩ", e);
+        }
+    }
+
+    /**
+     * Xóa Bác sĩ
+     */
+    public boolean deleteDoctor(int doctorId, int userId) throws BusinessException {
+        try {
+            boolean doctorDeleted = doctorDAO.deleteDoctor(doctorId);
+            if (!doctorDeleted) {
+                throw new BusinessException("Không thể xóa hồ sơ Bác sĩ!");
+            }
+            
+            userDAO.deleteUser(userId);
+            
+            return true;
+        } catch (Exception e) {
+            throw new BusinessException("Lỗi khi xóa bác sĩ", e);
         }
     }
     

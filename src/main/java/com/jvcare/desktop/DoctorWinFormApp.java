@@ -67,7 +67,10 @@ public class DoctorWinFormApp extends JFrame {
     private JButton btnDeletePrescription;
     private JButton btnPrintPrescription;
 
-    public DoctorWinFormApp() {
+    public DoctorWinFormApp(User currentDoctorUser, int currentDoctorId) {
+        this.currentDoctorUser = currentDoctorUser;
+        this.currentDoctorId = currentDoctorId;
+        
         // Thiết lập Look & Feel hệ thống
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -75,139 +78,8 @@ public class DoctorWinFormApp extends JFrame {
             e.printStackTrace();
         }
 
-        // Hiện hộp thoại đăng nhập trước khi vào app chính
-        if (!showLoginDialog()) {
-            System.exit(0);
-        }
-
         initializeUI();
         loadMedicalRecords();
-    }
-
-    /**
-     * Hộp thoại Đăng nhập (Login Dialog)
-     */
-    private boolean showLoginDialog() {
-        JDialog loginDialog = new JDialog((Frame) null, "JVCare Desktop - Đăng nhập", true);
-        loginDialog.setSize(380, 260);
-        loginDialog.setLocationRelativeTo(null);
-        loginDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        loginDialog.setLayout(new BorderLayout());
-
-        JPanel headerPanel = new JPanel();
-        headerPanel.setBackground(new Color(43, 108, 176));
-        headerPanel.setPreferredSize(new Dimension(380, 60));
-        headerPanel.setLayout(new GridBagLayout());
-        JLabel lblTitle = new JLabel("JVCARE PORTAL - BÁC SĨ");
-        lblTitle.setFont(new Font("Sora", Font.BOLD, 16));
-        lblTitle.setForeground(Color.WHITE);
-        headerPanel.add(lblTitle);
-
-        JPanel centerPanel = new JPanel(new GridBagLayout());
-        centerPanel.setBorder(new EmptyBorder(15, 20, 15, 20));
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(8, 8, 8, 8);
-
-        // Email
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 0.3;
-        centerPanel.add(new JLabel("Email đăng nhập:"), gbc);
-        gbc.gridx = 1;
-        gbc.weightx = 0.7;
-        JTextField txtEmail = new JTextField("doctor@jvcare.com", 20);
-        centerPanel.add(txtEmail, gbc);
-
-        // Password
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.weightx = 0.3;
-        centerPanel.add(new JLabel("Mật khẩu:"), gbc);
-        gbc.gridx = 1;
-        gbc.weightx = 0.7;
-        JPasswordField txtPassword = new JPasswordField("123456", 20);
-        centerPanel.add(txtPassword, gbc);
-
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 5));
-        JButton btnLogin = new JButton("Đăng nhập");
-        btnLogin.setPreferredSize(new Dimension(100, 30));
-        JButton btnCancel = new JButton("Thoát");
-        btnCancel.setPreferredSize(new Dimension(80, 30));
-        buttonPanel.add(btnLogin);
-        buttonPanel.add(btnCancel);
-
-        loginDialog.add(headerPanel, BorderLayout.NORTH);
-        loginDialog.add(centerPanel, BorderLayout.CENTER);
-        loginDialog.add(buttonPanel, BorderLayout.SOUTH);
-
-        final boolean[] loginSuccess = { false };
-
-        btnLogin.addActionListener(e -> {
-            String email = txtEmail.getText().trim();
-            String password = new String(txtPassword.getPassword());
-
-            if (email.isEmpty() || password.isEmpty()) {
-                JOptionPane.showMessageDialog(loginDialog, "Vui lòng nhập đầy đủ email và mật khẩu", "Cảnh báo",
-                        JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            // Gọi UserDAO xác thực
-            User user = userDAO.authenticate(email, password);
-            if (user == null) {
-                JOptionPane.showMessageDialog(loginDialog, "Tài khoản hoặc mật khẩu không chính xác!", "Lỗi",
-                        JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            if (!"DOCTOR".equalsIgnoreCase(user.getRole())) {
-                JOptionPane.showMessageDialog(loginDialog, "Chỉ tài khoản Bác sĩ mới được đăng nhập vào ứng dụng này!",
-                        "Lỗi quyền truy cập", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // Truy vấn lấy doctorId
-            int docId = queryDoctorId(user.getUserId());
-            if (docId == -1) {
-                JOptionPane.showMessageDialog(loginDialog,
-                        "Không tìm thấy thông tin Bác sĩ ứng với tài khoản này trong hệ thống!", "Lỗi",
-                        JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            currentDoctorUser = user;
-            currentDoctorId = docId;
-            loginSuccess[0] = true;
-            loginDialog.dispose();
-        });
-
-        btnCancel.addActionListener(e -> loginDialog.dispose());
-
-        // Cho phép nhấn Enter để đăng nhập
-        loginDialog.getRootPane().setDefaultButton(btnLogin);
-
-        loginDialog.setVisible(true);
-        return loginSuccess[0];
-    }
-
-    /**
-     * Lấy doctor_id từ database
-     */
-    private int queryDoctorId(int userId) {
-        String sql = "SELECT doctor_id FROM doctors WHERE user_id = ?";
-        try (Connection conn = DBConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, userId);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getInt("doctor_id");
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return -1;
     }
 
     /**
@@ -285,8 +157,7 @@ public class DoctorWinFormApp extends JFrame {
         btnLogout.setHorizontalAlignment(SwingConstants.LEFT);
         btnLogout.addActionListener(e -> {
             dispose();
-            DoctorWinFormApp app = new DoctorWinFormApp();
-            app.setVisible(true);
+            MainDesktopApp.main(null);
         });
         menuPanel.add(btnLogout);
 
@@ -1251,10 +1122,4 @@ public class DoctorWinFormApp extends JFrame {
         printDialog.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            DoctorWinFormApp app = new DoctorWinFormApp();
-            app.setVisible(true);
-        });
-    }
 }
