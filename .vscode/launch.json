@@ -1,0 +1,13 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Run DoctorWinFormApp",
+            "request": "launch",
+            "mainClass": "com.jvcare.gui.DoctorWinFormApp",
+            "projectName": "JVCare_MVC",
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}

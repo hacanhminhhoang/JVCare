@@ -25,7 +25,8 @@ import java.util.List;
 
 /**
  * Ứng dụng Desktop Bác sĩ (WinForm Style) chạy trên kiến trúc 3 lớp của JVCare.
- * Kết nối trực tiếp đến Service Layer (MedicalRecordService & PrescriptionService) để
+ * Kết nối trực tiếp đến Service Layer (MedicalRecordService &
+ * PrescriptionService) để
  * xử lý nghiệp vụ, kiểm tra ràng buộc (Validation) và quản lý cơ sở dữ liệu.
  */
 public class DoctorWinFormApp extends JFrame {
@@ -109,16 +110,22 @@ public class DoctorWinFormApp extends JFrame {
         gbc.insets = new Insets(8, 8, 8, 8);
 
         // Email
-        gbc.gridx = 0; gbc.gridy = 0; gbc.weightx = 0.3;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 0.3;
         centerPanel.add(new JLabel("Email đăng nhập:"), gbc);
-        gbc.gridx = 1; gbc.weightx = 0.7;
+        gbc.gridx = 1;
+        gbc.weightx = 0.7;
         JTextField txtEmail = new JTextField("doctor@jvcare.com", 20);
         centerPanel.add(txtEmail, gbc);
 
         // Password
-        gbc.gridx = 0; gbc.gridy = 1; gbc.weightx = 0.3;
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weightx = 0.3;
         centerPanel.add(new JLabel("Mật khẩu:"), gbc);
-        gbc.gridx = 1; gbc.weightx = 0.7;
+        gbc.gridx = 1;
+        gbc.weightx = 0.7;
         JPasswordField txtPassword = new JPasswordField("123456", 20);
         centerPanel.add(txtPassword, gbc);
 
@@ -134,33 +141,38 @@ public class DoctorWinFormApp extends JFrame {
         loginDialog.add(centerPanel, BorderLayout.CENTER);
         loginDialog.add(buttonPanel, BorderLayout.SOUTH);
 
-        final boolean[] loginSuccess = {false};
+        final boolean[] loginSuccess = { false };
 
         btnLogin.addActionListener(e -> {
             String email = txtEmail.getText().trim();
             String password = new String(txtPassword.getPassword());
 
             if (email.isEmpty() || password.isEmpty()) {
-                JOptionPane.showMessageDialog(loginDialog, "Vui lòng nhập đầy đủ email và mật khẩu", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(loginDialog, "Vui lòng nhập đầy đủ email và mật khẩu", "Cảnh báo",
+                        JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
             // Gọi UserDAO xác thực
             User user = userDAO.authenticate(email, password);
             if (user == null) {
-                JOptionPane.showMessageDialog(loginDialog, "Tài khoản hoặc mật khẩu không chính xác!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(loginDialog, "Tài khoản hoặc mật khẩu không chính xác!", "Lỗi",
+                        JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
             if (!"DOCTOR".equalsIgnoreCase(user.getRole())) {
-                JOptionPane.showMessageDialog(loginDialog, "Chỉ tài khoản Bác sĩ mới được đăng nhập vào ứng dụng này!", "Lỗi quyền truy cập", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(loginDialog, "Chỉ tài khoản Bác sĩ mới được đăng nhập vào ứng dụng này!",
+                        "Lỗi quyền truy cập", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
             // Truy vấn lấy doctorId
             int docId = queryDoctorId(user.getUserId());
             if (docId == -1) {
-                JOptionPane.showMessageDialog(loginDialog, "Không tìm thấy thông tin Bác sĩ ứng với tài khoản này trong hệ thống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(loginDialog,
+                        "Không tìm thấy thông tin Bác sĩ ứng với tài khoản này trong hệ thống!", "Lỗi",
+                        JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -185,7 +197,7 @@ public class DoctorWinFormApp extends JFrame {
     private int queryDoctorId(int userId) {
         String sql = "SELECT doctor_id FROM doctors WHERE user_id = ?";
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, userId);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -231,8 +243,10 @@ public class DoctorWinFormApp extends JFrame {
         doctorInfoPanel.setBorder(new EmptyBorder(10, 15, 10, 15));
         GridBagConstraints gbcInfo = new GridBagConstraints();
         gbcInfo.fill = GridBagConstraints.HORIZONTAL;
-        gbcInfo.gridx = 0; gbcInfo.gridy = 0; gbcInfo.weightx = 1.0;
-        
+        gbcInfo.gridx = 0;
+        gbcInfo.gridy = 0;
+        gbcInfo.weightx = 1.0;
+
         JLabel lblDocName = new JLabel(currentDoctorUser.getFullName());
         lblDocName.setFont(new Font("Segoe UI", Font.BOLD, 13));
         lblDocName.setForeground(Color.WHITE);
@@ -255,6 +269,11 @@ public class DoctorWinFormApp extends JFrame {
         btnMenuRecords.setBorderPainted(false);
         btnMenuRecords.setFocusPainted(false);
         btnMenuRecords.setHorizontalAlignment(SwingConstants.LEFT);
+        btnMenuRecords.addActionListener(e -> {
+            loadMedicalRecords();
+            JOptionPane.showMessageDialog(this, "Đã làm mới dữ liệu từ máy chủ!", "Thành công",
+                    JOptionPane.INFORMATION_MESSAGE);
+        });
         menuPanel.add(btnMenuRecords);
 
         JButton btnLogout = new JButton(" Đăng xuất");
@@ -309,7 +328,7 @@ public class DoctorWinFormApp extends JFrame {
         listPanel.add(searchPanel, BorderLayout.NORTH);
 
         // Bảng dữ liệu
-        String[] columns = {"Mã BA", "Mã BN", "Tên bệnh nhân", "Ngày khám", "Chẩn đoán"};
+        String[] columns = { "Mã BA", "Mã BN", "Tên bệnh nhân", "Ngày khám", "Chẩn đoán" };
         recordTableModel = new DefaultTableModel(columns, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -326,9 +345,17 @@ public class DoctorWinFormApp extends JFrame {
         rowSorter = new TableRowSorter<>(recordTableModel);
         recordTable.setRowSorter(rowSorter);
         txtSearch.getDocument().addDocumentListener(new DocumentListener() {
-            public void insertUpdate(DocumentEvent e) { filterTable(); }
-            public void removeUpdate(DocumentEvent e) { filterTable(); }
-            public void changedUpdate(DocumentEvent e) { filterTable(); }
+            public void insertUpdate(DocumentEvent e) {
+                filterTable();
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                filterTable();
+            }
+
+            public void changedUpdate(DocumentEvent e) {
+                filterTable();
+            }
         });
 
         JScrollPane scrollTable = new JScrollPane(recordTable);
@@ -340,12 +367,21 @@ public class DoctorWinFormApp extends JFrame {
         btnAddRecord.setBackground(primaryColor);
         btnAddRecord.setForeground(Color.BLACK);
         btnAddRecord.setFont(new Font("Segoe UI", Font.BOLD, 11));
-        
+
         JButton btnEditRecord = new JButton("Sửa Bệnh Án");
         btnEditRecord.setFont(new Font("Segoe UI", Font.BOLD, 11));
 
+        JButton btnRefresh = new JButton("Làm Mới Dữ Liệu");
+        btnRefresh.setFont(new Font("Segoe UI", Font.BOLD, 11));
+        btnRefresh.addActionListener(e -> {
+            loadMedicalRecords();
+            JOptionPane.showMessageDialog(this, "Đã làm mới danh sách từ máy chủ!", "Thành công",
+                    JOptionPane.INFORMATION_MESSAGE);
+        });
+
         listControlPanel.add(btnAddRecord);
         listControlPanel.add(btnEditRecord);
+        listControlPanel.add(btnRefresh);
         listPanel.add(listControlPanel, BorderLayout.SOUTH);
 
         // ----------------- PANEL PHẢI: CHI TIẾT BỆNH ÁN & ĐƠN THUỐC -----------------
@@ -378,7 +414,7 @@ public class DoctorWinFormApp extends JFrame {
         // 2. Khung sinh hiệu
         JPanel vitalsCard = new JPanel(new GridLayout(2, 3, 10, 5));
         vitalsCard.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createTitledBorder("Chỉ số Sinh hiệu"),
+                BorderFactory.createTitledBorder("Chỉ số sự sống"),
                 new EmptyBorder(5, 8, 5, 8)));
         lblBP = new JLabel("Huyết áp: --");
         lblHeartRate = new JLabel("Nhịp tim: --");
@@ -401,7 +437,8 @@ public class DoctorWinFormApp extends JFrame {
         gbcText.insets = new Insets(4, 4, 4, 4);
         gbcText.weightx = 1.0;
 
-        gbcText.gridx = 0; gbcText.gridy = 0;
+        gbcText.gridx = 0;
+        gbcText.gridy = 0;
         textFieldsCard.add(new JLabel("Chẩn đoán lâm sàng:"), gbcText);
         gbcText.gridy = 1;
         txtDiagnosis = new JTextArea(3, 20);
@@ -435,15 +472,17 @@ public class DoctorWinFormApp extends JFrame {
                 new EmptyBorder(5, 5, 5, 5)));
         prescriptionCard.setPreferredSize(new Dimension(300, 160));
 
-        String[] presCols = {"ID", "Tên thuốc", "Liều lượng", "Tần suất", "Ngày dùng", "Cách dùng"};
+        String[] presCols = { "ID", "Tên thuốc", "Liều lượng", "Tần suất", "Ngày dùng", "Cách dùng" };
         prescriptionTableModel = new DefaultTableModel(presCols, 0) {
             @Override
-            public boolean isCellEditable(int row, int column) { return false; }
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
         };
         prescriptionTable = new JTable(prescriptionTableModel);
         prescriptionTable.setRowHeight(24);
         prescriptionTable.setFont(new Font("Segoe UI", Font.PLAIN, 11));
-        
+
         prescriptionCard.add(new JScrollPane(prescriptionTable), BorderLayout.CENTER);
 
         JPanel presBtnBar = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 2));
@@ -485,7 +524,7 @@ public class DoctorWinFormApp extends JFrame {
         add(mainContentPanel, BorderLayout.CENTER);
 
         // ==================== CÁC SỰ KIỆN XỬ LÝ GIAO DIỆN ====================
-        
+
         // Sự kiện click chọn dòng trên Table bệnh án
         recordTable.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
@@ -506,7 +545,8 @@ public class DoctorWinFormApp extends JFrame {
         // Click Sửa bệnh án
         btnEditRecord.addActionListener(e -> {
             if (selectedRecord == null) {
-                JOptionPane.showMessageDialog(this, "Vui lòng chọn một bệnh án để sửa!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn một bệnh án để sửa!", "Thông báo",
+                        JOptionPane.WARNING_MESSAGE);
                 return;
             }
             showEditRecordDialog();
@@ -519,11 +559,13 @@ public class DoctorWinFormApp extends JFrame {
         btnDeletePrescription.addActionListener(e -> {
             int selectedRow = prescriptionTable.getSelectedRow();
             if (selectedRow == -1) {
-                JOptionPane.showMessageDialog(this, "Vui lòng chọn thuốc cần xóa trong đơn!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn thuốc cần xóa trong đơn!", "Thông báo",
+                        JOptionPane.WARNING_MESSAGE);
                 return;
             }
             int presId = (int) prescriptionTableModel.getValueAt(selectedRow, 0);
-            int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa loại thuốc này khỏi đơn?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+            int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa loại thuốc này khỏi đơn?",
+                    "Xác nhận", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
                 try {
                     // Gọi Service Layer xóa
@@ -550,7 +592,7 @@ public class DoctorWinFormApp extends JFrame {
             allRecords = recordService.getRecordsByDoctor(currentDoctorId);
             recordTableModel.setRowCount(0);
             for (MedicalRecordDTO r : allRecords) {
-                recordTableModel.addRow(new Object[]{
+                recordTableModel.addRow(new Object[] {
                         r.getRecordId(),
                         r.getPatientCode(),
                         r.getPatientName(),
@@ -560,7 +602,8 @@ public class DoctorWinFormApp extends JFrame {
             }
             clearRecordDetails();
         } catch (BusinessException e) {
-            JOptionPane.showMessageDialog(this, "Lỗi khi lấy danh sách bệnh án: " + e.getMessage(), "Lỗi hệ thống", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Lỗi khi lấy danh sách bệnh án: " + e.getMessage(), "Lỗi hệ thống",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -572,7 +615,8 @@ public class DoctorWinFormApp extends JFrame {
         if (keyword.isEmpty()) {
             rowSorter.setRowFilter(null);
         } else {
-            rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + keyword, 2, 1)); // Lọc theo Tên bệnh nhân hoặc Mã bệnh nhân
+            rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + keyword, 2, 1)); // Lọc theo Tên bệnh nhân hoặc Mã
+                                                                                   // bệnh nhân
         }
     }
 
@@ -586,8 +630,9 @@ public class DoctorWinFormApp extends JFrame {
 
             lblPatientName.setText("Họ tên: " + selectedRecord.getPatientName());
             lblPatientCode.setText("Mã BN: " + selectedRecord.getPatientCode());
-            lblVisitDate.setText("Ngày khám: " + (selectedRecord.getVisitDate() != null ? selectedRecord.getVisitDate().toString() : ""));
-            
+            lblVisitDate.setText("Ngày khám: "
+                    + (selectedRecord.getVisitDate() != null ? selectedRecord.getVisitDate().toString() : ""));
+
             // Tính toán hiển thị BMI
             if (selectedRecord.getBmi() > 0) {
                 String bmiClass = "Bình thường";
@@ -602,16 +647,23 @@ public class DoctorWinFormApp extends JFrame {
                     bmiClass = "Béo phì";
                     bmiColor = new Color(229, 62, 62);
                 }
-                lblBMI.setText("<html>Chỉ số BMI: <font color='rgb(" + bmiColor.getRed() + "," + bmiColor.getGreen() + "," + bmiColor.getBlue() + ")'>" + selectedRecord.getBmi() + " (" + bmiClass + ")</font></html>");
+                lblBMI.setText("<html>Chỉ số BMI: <font color='rgb(" + bmiColor.getRed() + "," + bmiColor.getGreen()
+                        + "," + bmiColor.getBlue() + ")'>" + selectedRecord.getBmi() + " (" + bmiClass
+                        + ")</font></html>");
             } else {
                 lblBMI.setText("Chỉ số BMI: --");
             }
 
-            lblBP.setText("Huyết áp: " + (selectedRecord.getBloodPressure() != null ? selectedRecord.getBloodPressure() + " mmHg" : "--"));
-            lblHeartRate.setText("Nhịp tim: " + (selectedRecord.getHeartRate() > 0 ? selectedRecord.getHeartRate() + " bpm" : "--"));
-            lblTemp.setText("Nhiệt độ: " + (selectedRecord.getTemperature() > 0 ? selectedRecord.getTemperature() + " °C" : "--"));
-            lblWeight.setText("Cân nặng: " + (selectedRecord.getWeight() > 0 ? selectedRecord.getWeight() + " kg" : "--"));
-            lblHeight.setText("Chiều cao: " + (selectedRecord.getHeight() > 0 ? selectedRecord.getHeight() + " cm" : "--"));
+            lblBP.setText("Huyết áp: "
+                    + (selectedRecord.getBloodPressure() != null ? selectedRecord.getBloodPressure() + " mmHg" : "--"));
+            lblHeartRate.setText(
+                    "Nhịp tim: " + (selectedRecord.getHeartRate() > 0 ? selectedRecord.getHeartRate() + " bpm" : "--"));
+            lblTemp.setText("Nhiệt độ: "
+                    + (selectedRecord.getTemperature() > 0 ? selectedRecord.getTemperature() + " °C" : "--"));
+            lblWeight.setText(
+                    "Cân nặng: " + (selectedRecord.getWeight() > 0 ? selectedRecord.getWeight() + " kg" : "--"));
+            lblHeight.setText(
+                    "Chiều cao: " + (selectedRecord.getHeight() > 0 ? selectedRecord.getHeight() + " cm" : "--"));
 
             txtDiagnosis.setText(selectedRecord.getDiagnosis());
             txtTreatmentPlan.setText(selectedRecord.getTreatmentPlan());
@@ -622,7 +674,7 @@ public class DoctorWinFormApp extends JFrame {
             List<PrescriptionDTO> prescriptions = selectedRecord.getPrescriptions();
             if (prescriptions != null) {
                 for (PrescriptionDTO p : prescriptions) {
-                    prescriptionTableModel.addRow(new Object[]{
+                    prescriptionTableModel.addRow(new Object[] {
                             p.getPrescriptionId(),
                             p.getMedicationName(),
                             p.getDosage(),
@@ -639,7 +691,8 @@ public class DoctorWinFormApp extends JFrame {
             btnPrintPrescription.setEnabled(true);
 
         } catch (BusinessException e) {
-            JOptionPane.showMessageDialog(this, "Không thể lấy chi tiết bệnh án: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Không thể lấy chi tiết bệnh án: " + e.getMessage(), "Lỗi",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -675,14 +728,15 @@ public class DoctorWinFormApp extends JFrame {
      */
     private List<Appointment> fetchPendingAppointments() {
         List<Appointment> list = new ArrayList<>();
-        String sql = "SELECT a.appointment_id, a.patient_id, a.appointment_date, a.reason, p.full_name, p.patient_code " +
-                     "FROM appointments a " +
-                     "JOIN patients p ON a.patient_id = p.patient_id " +
-                     "WHERE a.doctor_id = ? AND a.status = 'COMPLETED' " +
-                     "AND a.appointment_id NOT IN (SELECT appointment_id FROM medical_records) " +
-                     "ORDER BY a.appointment_date DESC";
+        String sql = "SELECT a.appointment_id, a.patient_id, a.appointment_date, a.reason, p.full_name, p.patient_code "
+                +
+                "FROM appointments a " +
+                "JOIN patients p ON a.patient_id = p.patient_id " +
+                "WHERE a.doctor_id = ? AND a.status = 'COMPLETED' " +
+                "AND a.appointment_id NOT IN (SELECT appointment_id FROM medical_records) " +
+                "ORDER BY a.appointment_date DESC";
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, currentDoctorId);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -690,11 +744,11 @@ public class DoctorWinFormApp extends JFrame {
                     a.setAppointmentId(rs.getInt("appointment_id"));
                     a.setPatientId(rs.getInt("patient_id"));
                     a.setReason(rs.getString("reason"));
-                    
+
                     // Gán ảo để hiển thị
-                    a.setPatientCondition(rs.getString("full_name")); 
+                    a.setPatientCondition(rs.getString("full_name"));
                     a.setNotes(rs.getString("patient_code"));
-                    
+
                     list.add(a);
                 }
             }
@@ -710,7 +764,9 @@ public class DoctorWinFormApp extends JFrame {
     private void showAddRecordDialog() {
         List<Appointment> appointments = fetchPendingAppointments();
         if (appointments.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Không có lịch hẹn đã hoàn thành (COMPLETED) nào chưa được tạo bệnh án!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Không có lịch hẹn đã hoàn thành (COMPLETED) nào chưa được tạo bệnh án!", "Thông báo",
+                    JOptionPane.INFORMATION_MESSAGE);
             return;
         }
 
@@ -726,9 +782,12 @@ public class DoctorWinFormApp extends JFrame {
         g.insets = new Insets(6, 6, 6, 6);
 
         // Combobox Chọn lịch hẹn
-        g.gridx = 0; g.gridy = 0; g.weightx = 0.3;
+        g.gridx = 0;
+        g.gridy = 0;
+        g.weightx = 0.3;
         formPanel.add(new JLabel("Lịch hẹn chờ lập BA:"), g);
-        g.gridx = 1; g.weightx = 0.7;
+        g.gridx = 1;
+        g.weightx = 0.7;
         JComboBox<String> cbApp = new JComboBox<>();
         for (Appointment a : appointments) {
             cbApp.addItem("#" + a.getAppointmentId() + " - " + a.getPatientCondition() + " (" + a.getNotes() + ")");
@@ -736,38 +795,45 @@ public class DoctorWinFormApp extends JFrame {
         formPanel.add(cbApp, g);
 
         // Sinh hiệu
-        g.gridx = 0; g.gridy = 1;
+        g.gridx = 0;
+        g.gridy = 1;
         formPanel.add(new JLabel("Huyết áp (VD: 120/80):"), g);
         g.gridx = 1;
         JTextField txtBP = new JTextField();
         formPanel.add(txtBP, g);
 
-        g.gridx = 0; g.gridy = 2;
+        g.gridx = 0;
+        g.gridy = 2;
         formPanel.add(new JLabel("Nhịp tim (bpm):"), g);
         g.gridx = 1;
         JSpinner spnHeartRate = new JSpinner(new SpinnerNumberModel(0, 0, 220, 1));
         formPanel.add(spnHeartRate, g);
 
-        g.gridx = 0; g.gridy = 3;
+        g.gridx = 0;
+        g.gridy = 3;
         formPanel.add(new JLabel("Nhiệt độ (°C):"), g);
         g.gridx = 1;
         JSpinner spnTemp = new JSpinner(new SpinnerNumberModel(0.0, 0.0, 45.0, 0.1));
         formPanel.add(spnTemp, g);
 
-        g.gridx = 0; g.gridy = 4;
+        g.gridx = 0;
+        g.gridy = 4;
         formPanel.add(new JLabel("Cân nặng (kg):"), g);
         g.gridx = 1;
         JSpinner spnWeight = new JSpinner(new SpinnerNumberModel(0.0, 0.0, 300.0, 0.5));
         formPanel.add(spnWeight, g);
 
-        g.gridx = 0; g.gridy = 5;
+        g.gridx = 0;
+        g.gridy = 5;
         formPanel.add(new JLabel("Chiều cao (cm):"), g);
         g.gridx = 1;
         JSpinner spnHeight = new JSpinner(new SpinnerNumberModel(0, 0, 250, 1));
         formPanel.add(spnHeight, g);
 
         // Nội dung bệnh án
-        g.gridx = 0; g.gridy = 6; g.fill = GridBagConstraints.BOTH;
+        g.gridx = 0;
+        g.gridy = 6;
+        g.fill = GridBagConstraints.BOTH;
         formPanel.add(new JLabel("Chẩn đoán (*):"), g);
         g.gridx = 1;
         JTextArea areaDiagnosis = new JTextArea(3, 20);
@@ -775,7 +841,8 @@ public class DoctorWinFormApp extends JFrame {
         areaDiagnosis.setWrapStyleWord(true);
         formPanel.add(new JScrollPane(areaDiagnosis), g);
 
-        g.gridx = 0; g.gridy = 7;
+        g.gridx = 0;
+        g.gridy = 7;
         formPanel.add(new JLabel("Phương án ĐT (*):"), g);
         g.gridx = 1;
         JTextArea areaTreatment = new JTextArea(4, 20);
@@ -783,7 +850,8 @@ public class DoctorWinFormApp extends JFrame {
         areaTreatment.setWrapStyleWord(true);
         formPanel.add(new JScrollPane(areaTreatment), g);
 
-        g.gridx = 0; g.gridy = 8;
+        g.gridx = 0;
+        g.gridy = 8;
         formPanel.add(new JLabel("Ghi chú bổ sung:"), g);
         g.gridx = 1;
         JTextArea areaNotes = new JTextArea(2, 20);
@@ -805,7 +873,8 @@ public class DoctorWinFormApp extends JFrame {
         btnSave.addActionListener(ev -> {
             try {
                 int selectedIndex = cbApp.getSelectedIndex();
-                if (selectedIndex == -1) return;
+                if (selectedIndex == -1)
+                    return;
                 Appointment selectedApp = appointments.get(selectedIndex);
 
                 // Gom thông số DTO
@@ -826,13 +895,15 @@ public class DoctorWinFormApp extends JFrame {
                         selectedApp.getAppointmentId(), currentDoctorId, recordDTO);
 
                 if (recordId > 0) {
-                    JOptionPane.showMessageDialog(addDialog, "Tạo bệnh án thành công!", "Thành công", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(addDialog, "Tạo bệnh án thành công!", "Thành công",
+                            JOptionPane.INFORMATION_MESSAGE);
                     addDialog.dispose();
                     loadMedicalRecords(); // reload
                 }
             } catch (BusinessException ex) {
                 // Hiển thị trực tiếp lỗi được bắt từ Business Logic Layer
-                JOptionPane.showMessageDialog(addDialog, ex.getMessage(), "Lỗi xác thực dữ liệu", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(addDialog, ex.getMessage(), "Lỗi xác thực dữ liệu",
+                        JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -845,7 +916,8 @@ public class DoctorWinFormApp extends JFrame {
      * Hộp thoại Chỉnh sửa bệnh án (Edit Record JDialog)
      */
     private void showEditRecordDialog() {
-        if (selectedRecord == null) return;
+        if (selectedRecord == null)
+            return;
 
         JDialog editDialog = new JDialog(this, "Sửa Bệnh Án - " + selectedRecord.getPatientName(), true);
         editDialog.setSize(520, 600);
@@ -859,46 +931,56 @@ public class DoctorWinFormApp extends JFrame {
         g.insets = new Insets(6, 6, 6, 6);
 
         // Hiển thị thông tin hành chính
-        g.gridx = 0; g.gridy = 0; g.weightx = 0.3;
+        g.gridx = 0;
+        g.gridy = 0;
+        g.weightx = 0.3;
         formPanel.add(new JLabel("Tên bệnh nhân:"), g);
-        g.gridx = 1; g.weightx = 0.7;
+        g.gridx = 1;
+        g.weightx = 0.7;
         JLabel lblName = new JLabel(selectedRecord.getPatientName() + " (" + selectedRecord.getPatientCode() + ")");
         lblName.setFont(new Font("Segoe UI", Font.BOLD, 12));
         formPanel.add(lblName, g);
 
         // Sinh hiệu
-        g.gridx = 0; g.gridy = 1;
+        g.gridx = 0;
+        g.gridy = 1;
         formPanel.add(new JLabel("Huyết áp (VD: 120/80):"), g);
         g.gridx = 1;
         JTextField txtBP = new JTextField(selectedRecord.getBloodPressure());
         formPanel.add(txtBP, g);
 
-        g.gridx = 0; g.gridy = 2;
+        g.gridx = 0;
+        g.gridy = 2;
         formPanel.add(new JLabel("Nhịp tim (bpm):"), g);
         g.gridx = 1;
         JSpinner spnHeartRate = new JSpinner(new SpinnerNumberModel(selectedRecord.getHeartRate(), 0, 220, 1));
         formPanel.add(spnHeartRate, g);
 
-        g.gridx = 0; g.gridy = 3;
+        g.gridx = 0;
+        g.gridy = 3;
         formPanel.add(new JLabel("Nhiệt độ (°C):"), g);
         g.gridx = 1;
         JSpinner spnTemp = new JSpinner(new SpinnerNumberModel(selectedRecord.getTemperature(), 0.0, 45.0, 0.1));
         formPanel.add(spnTemp, g);
 
-        g.gridx = 0; g.gridy = 4;
+        g.gridx = 0;
+        g.gridy = 4;
         formPanel.add(new JLabel("Cân nặng (kg):"), g);
         g.gridx = 1;
         JSpinner spnWeight = new JSpinner(new SpinnerNumberModel(selectedRecord.getWeight(), 0.0, 300.0, 0.5));
         formPanel.add(spnWeight, g);
 
-        g.gridx = 0; g.gridy = 5;
+        g.gridx = 0;
+        g.gridy = 5;
         formPanel.add(new JLabel("Chiều cao (cm):"), g);
         g.gridx = 1;
         JSpinner spnHeight = new JSpinner(new SpinnerNumberModel(selectedRecord.getHeight(), 0, 250, 1));
         formPanel.add(spnHeight, g);
 
         // Nội dung bệnh án
-        g.gridx = 0; g.gridy = 6; g.fill = GridBagConstraints.BOTH;
+        g.gridx = 0;
+        g.gridy = 6;
+        g.fill = GridBagConstraints.BOTH;
         formPanel.add(new JLabel("Chẩn đoán (*):"), g);
         g.gridx = 1;
         JTextArea areaDiagnosis = new JTextArea(3, 20);
@@ -907,7 +989,8 @@ public class DoctorWinFormApp extends JFrame {
         areaDiagnosis.setText(selectedRecord.getDiagnosis());
         formPanel.add(new JScrollPane(areaDiagnosis), g);
 
-        g.gridx = 0; g.gridy = 7;
+        g.gridx = 0;
+        g.gridy = 7;
         formPanel.add(new JLabel("Phương án ĐT (*):"), g);
         g.gridx = 1;
         JTextArea areaTreatment = new JTextArea(4, 20);
@@ -916,7 +999,8 @@ public class DoctorWinFormApp extends JFrame {
         areaTreatment.setText(selectedRecord.getTreatmentPlan());
         formPanel.add(new JScrollPane(areaTreatment), g);
 
-        g.gridx = 0; g.gridy = 8;
+        g.gridx = 0;
+        g.gridy = 8;
         formPanel.add(new JLabel("Ghi chú bổ sung:"), g);
         g.gridx = 1;
         JTextArea areaNotes = new JTextArea(2, 20);
@@ -955,7 +1039,8 @@ public class DoctorWinFormApp extends JFrame {
                 boolean success = recordService.updateRecord(recordDTO, currentDoctorId);
 
                 if (success) {
-                    JOptionPane.showMessageDialog(editDialog, "Cập nhật bệnh án thành công!", "Thành công", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(editDialog, "Cập nhật bệnh án thành công!", "Thành công",
+                            JOptionPane.INFORMATION_MESSAGE);
                     editDialog.dispose();
                     loadMedicalRecords(); // reload list
                 }
@@ -974,7 +1059,8 @@ public class DoctorWinFormApp extends JFrame {
      * Hộp thoại kê đơn thuốc mới (Add Prescription JDialog)
      */
     private void showAddPrescriptionDialog() {
-        if (selectedRecord == null) return;
+        if (selectedRecord == null)
+            return;
 
         JDialog presDialog = new JDialog(this, "Kê đơn thuốc mới", true);
         presDialog.setSize(420, 360);
@@ -988,35 +1074,54 @@ public class DoctorWinFormApp extends JFrame {
         g.insets = new Insets(6, 6, 6, 6);
 
         // Tên thuốc
-        g.gridx = 0; g.gridy = 0; g.weightx = 0.3;
+        g.gridx = 0;
+        g.gridy = 0;
+        g.weightx = 0.3;
         formPanel.add(new JLabel("Tên thuốc (*):"), g);
-        g.gridx = 1; g.weightx = 0.7;
-        JTextField txtMedName = new JTextField();
-        formPanel.add(txtMedName, g);
+        g.gridx = 1;
+        g.weightx = 0.7;
+        JComboBox<String> cbMedName = new JComboBox<>();
+        cbMedName.setEditable(true);
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement("SELECT DISTINCT medication_name FROM prescriptions ORDER BY medication_name");
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                cbMedName.addItem(rs.getString("medication_name"));
+            }
+            cbMedName.setSelectedItem(null); // Để trống ban đầu
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        formPanel.add(cbMedName, g);
 
         // Liều lượng
-        g.gridx = 0; g.gridy = 1;
+        g.gridx = 0;
+        g.gridy = 1;
         formPanel.add(new JLabel("Liều dùng (dosage):"), g);
         g.gridx = 1;
         JTextField txtDosage = new JTextField("Ngày 2 viên, sáng 1 chiều 1");
         formPanel.add(txtDosage, g);
 
         // Tần suất
-        g.gridx = 0; g.gridy = 2;
+        g.gridx = 0;
+        g.gridy = 2;
         formPanel.add(new JLabel("Tần suất (frequency):"), g);
         g.gridx = 1;
         JTextField txtFrequency = new JTextField("Sau khi ăn");
         formPanel.add(txtFrequency, g);
 
         // Số ngày dùng
-        g.gridx = 0; g.gridy = 3;
+        g.gridx = 0;
+        g.gridy = 3;
         formPanel.add(new JLabel("Số ngày kê đơn:"), g);
         g.gridx = 1;
         JSpinner spnDays = new JSpinner(new SpinnerNumberModel(7, 1, 365, 1));
         formPanel.add(spnDays, g);
 
         // Chỉ dẫn sử dụng
-        g.gridx = 0; g.gridy = 4; g.fill = GridBagConstraints.BOTH;
+        g.gridx = 0;
+        g.gridy = 4;
+        g.fill = GridBagConstraints.BOTH;
         formPanel.add(new JLabel("Hướng dẫn chi tiết:"), g);
         g.gridx = 1;
         JTextArea areaInstructions = new JTextArea(3, 20);
@@ -1039,7 +1144,7 @@ public class DoctorWinFormApp extends JFrame {
             try {
                 PrescriptionDTO dto = new PrescriptionDTO();
                 dto.setRecordId(selectedRecord.getRecordId());
-                dto.setMedicationName(txtMedName.getText().trim());
+                dto.setMedicationName(cbMedName.getSelectedItem() != null ? cbMedName.getSelectedItem().toString().trim() : "");
                 dto.setDosage(txtDosage.getText().trim());
                 dto.setFrequency(txtFrequency.getText().trim());
                 dto.setDurationDays((int) spnDays.getValue());
@@ -1067,7 +1172,8 @@ public class DoctorWinFormApp extends JFrame {
      * Hộp thoại hiển thị bản in đơn thuốc (Print JDialog) cực đẹp
      */
     private void showPrintPrescriptionDialog() {
-        if (selectedRecord == null) return;
+        if (selectedRecord == null)
+            return;
 
         JDialog printDialog = new JDialog(this, "In Đơn Thuốc", true);
         printDialog.setSize(550, 650);
@@ -1089,7 +1195,9 @@ public class DoctorWinFormApp extends JFrame {
         sb.append("----------------------------------------------------\n");
         sb.append("Họ tên bệnh nhân: ").append(selectedRecord.getPatientName()).append("\n");
         sb.append("Mã số bệnh nhân:  ").append(selectedRecord.getPatientCode()).append("\n");
-        sb.append("Ngày kê đơn:      ").append(selectedRecord.getVisitDate() != null ? selectedRecord.getVisitDate().toString() : "Hôm nay").append("\n");
+        sb.append("Ngày kê đơn:      ")
+                .append(selectedRecord.getVisitDate() != null ? selectedRecord.getVisitDate().toString() : "Hôm nay")
+                .append("\n");
         sb.append("Chẩn đoán:        ").append(selectedRecord.getDiagnosis()).append("\n");
         sb.append("----------------------------------------------------\n");
         sb.append("DANH SÁCH THUỐC KÊ ĐƠN:\n\n");
@@ -1101,7 +1209,7 @@ public class DoctorWinFormApp extends JFrame {
             int count = 1;
             for (PrescriptionDTO p : list) {
                 sb.append(count).append(". ").append(p.getMedicationName().toUpperCase())
-                  .append("  - Ngày uống: ").append(p.getDurationDays()).append(" ngày\n");
+                        .append("  - Ngày uống: ").append(p.getDurationDays()).append(" ngày\n");
                 sb.append("   * Liều dùng:   ").append(p.getDosage()).append("\n");
                 sb.append("   * Tần suất:    ").append(p.getFrequency()).append("\n");
                 if (p.getInstructions() != null && !p.getInstructions().trim().isEmpty()) {
@@ -1134,7 +1242,8 @@ public class DoctorWinFormApp extends JFrame {
             try {
                 paper.print();
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(printDialog, "Lỗi in ấn: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(printDialog, "Lỗi in ấn: " + ex.getMessage(), "Lỗi",
+                        JOptionPane.ERROR_MESSAGE);
             }
         });
 
