@@ -46,8 +46,30 @@ public class PatientPrescriptionsServlet extends HttpServlet {
         }
 
         if (patientId != -1) {
-            List<Prescription> list = prescriptionDAO.getPrescriptionsByPatientId(patientId);
-            request.setAttribute("prescriptions", list);
+            List<Prescription> allList = prescriptionDAO.getPrescriptionsByPatientId(patientId);
+            
+            // Pagination: 12 items per page
+            int pageSize = 12;
+            int totalItems = allList.size();
+            int totalPages = (int) Math.ceil((double) totalItems / pageSize);
+            if (totalPages < 1) totalPages = 1;
+            
+            int page = 1;
+            String pageParam = request.getParameter("page");
+            if (pageParam != null) {
+                try { page = Integer.parseInt(pageParam); } catch (NumberFormatException e) { page = 1; }
+            }
+            if (page < 1) page = 1;
+            if (page > totalPages) page = totalPages;
+            
+            int start = (page - 1) * pageSize;
+            int end = Math.min(start + pageSize, totalItems);
+            List<Prescription> pageList = (start < totalItems) ? allList.subList(start, end) : new java.util.ArrayList<>();
+            
+            request.setAttribute("prescriptions", pageList);
+            request.setAttribute("currentPage", page);
+            request.setAttribute("totalPages", totalPages);
+            request.setAttribute("totalItems", totalItems);
         }
 
         request.getRequestDispatcher("/WEB-INF/views/patient/prescriptions.jsp").forward(request, response);

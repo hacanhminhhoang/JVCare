@@ -162,10 +162,12 @@ public class PatientService {
     private MedicalRecordDTO convertRecordToDTO(MedicalRecord record) {
         MedicalRecordDTO dto = new MedicalRecordDTO();
         dto.setRecordId(record.getRecordId());
+        dto.setRecordCode(record.getRecordCode());
         dto.setPatientId(record.getPatientId());
         dto.setDoctorId(record.getDoctorId());
         dto.setAppointmentId(record.getAppointmentId());
         dto.setVisitDate(record.getVisitDate());
+        dto.setChiefComplaint(record.getChiefComplaint());
         dto.setDiagnosis(record.getDiagnosis());
         dto.setTreatmentPlan(record.getTreatmentPlan());
         dto.setNotes(record.getNotes());
@@ -174,6 +176,9 @@ public class PatientService {
         dto.setTemperature(record.getTemperature());
         dto.setWeight(record.getWeight());
         dto.setHeight(record.getHeight());
+        dto.setPatientName(record.getPatientName());
+        dto.setPatientCode(record.getPatientCode());
+        dto.setDoctorName(record.getDoctorName());
         return dto;
     }
 }

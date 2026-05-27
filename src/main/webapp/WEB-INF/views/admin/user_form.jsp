@@ -1,4 +1,4 @@
-﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="vi">
@@ -148,18 +148,24 @@
                                             <c:choose>
                                                 <c:when test="${defaultRole == 'DOCTOR'}">
                                                     <option value="DOCTOR" selected>Bác sĩ (Doctor)</option>
-                                                    <option value="RECEPTIONIST">Lễ tân (Receptionist)</option>
+                                                    <c:forEach var="r" items="${employeeRoles}">
+                                                        <option value="STAFF_${r.roleId}">${r.roleName} (${r.roleCode})</option>
+                                                    </c:forEach>
                                                     <option value="ADMIN">Quản trị viên (Admin)</option>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <option value="RECEPTIONIST">Lễ tân (Receptionist)</option>
+                                                    <c:forEach var="r" items="${employeeRoles}">
+                                                        <option value="STAFF_${r.roleId}">${r.roleName} (${r.roleCode})</option>
+                                                    </c:forEach>
                                                     <option value="ADMIN">Quản trị viên (Admin)</option>
                                                     <option value="DOCTOR">Bác sĩ (Doctor)</option>
                                                 </c:otherwise>
                                             </c:choose>
                                         </c:when>
                                         <c:otherwise>
-                                            <option value="RECEPTIONIST" ${editUser.role == 'RECEPTIONIST' ? 'selected' : ''}>Lễ tân (Receptionist)</option>
+                                            <c:forEach var="r" items="${employeeRoles}">
+                                                <option value="STAFF_${r.roleId}" ${editUser.role == 'STAFF' && editUser.employeeRoleId == r.roleId ? 'selected' : ''}>${r.roleName} (${r.roleCode})</option>
+                                            </c:forEach>
                                             <option value="ADMIN" ${editUser.role == 'ADMIN' ? 'selected' : ''}>Quản trị viên (Admin)</option>
                                             <option value="DOCTOR" ${editUser.role == 'DOCTOR' ? 'selected' : ''}>Bác sĩ (Doctor)</option>
                                         </c:otherwise>

@@ -1,52 +1,6 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
-
-<html>
-<head>
-    <title>Đặt lịch khám</title>
-</head>
-<body>
-
-<h2>Đặt lịch khám</h2>
-
-<%
-    String error = (String) request.getAttribute("error");
-    String success = (String) request.getAttribute("success");
-%>
-
-<% if (error != null) { %>
-    <p style="color:red;"><%= error %></p>
-<% } %>
-
-<% if (success != null) { %>
-    <p style="color:green;"><%= success %></p>
-<% } %>
-
-<form method="post">
-
-    <label>Ngày khám:</label>
-    <input type="date"
-           name="appointmentDate"
-           required>
-
-    <br><br>
-
-    <label>Giờ khám:</label>
-    <input type="time"
-           name="appointmentTime"
-           required>
-
-    <br><br>
-
-    <label>Lý do khám:</label>
-    <textarea name="reason"></textarea>
-
-    <br><br>
-
-    <button type="submit">
-        Đặt lịch
-    </button>
-
-</form>
-
-</body>
-</html>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:set var="contentPage" value="patient/book_appointment_content.jsp" scope="request" />
+<jsp:include page="/WEB-INF/views/layout.jsp">
+    <jsp:param name="title" value="Đặt lịch khám — JVCare" />
+</jsp:include>

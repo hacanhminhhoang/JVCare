@@ -56,12 +56,34 @@ public class DoctorAppointmentsServlet extends HttpServlet {
 
         String tab = request.getParameter("tab");
         if (tab == null) tab = "all";
-
-        List<Appointment> allAppointments = appointmentDAO.getAllAppointmentsForDoctor(doctorId);
         
-        request.setAttribute("appointments", allAppointments);
+        String statusFilter = null;
+        if ("pending".equals(tab)) statusFilter = "PENDING";
+        else if ("confirmed".equals(tab)) statusFilter = "CONFIRMED";
+        else if ("completed".equals(tab)) statusFilter = "COMPLETED";
+
+        int page = 1;
+        int itemsPerPage = 12;
+        String pageParam = request.getParameter("page");
+        if (pageParam != null && !pageParam.isEmpty()) {
+            try { page = Integer.parseInt(pageParam); } catch (NumberFormatException e) { page = 1; }
+        }
+
+        int totalAppointments = appointmentDAO.getTotalAppointments(doctorId, statusFilter);
+        int totalPages = (int) Math.ceil((double) totalAppointments / itemsPerPage);
+
+        if (page > totalPages && totalPages > 0) page = totalPages;
+        if (page < 1) page = 1;
+
+        int offset = (page - 1) * itemsPerPage;
+
+        List<Appointment> appointments = appointmentDAO.getAppointmentsWithPagination(doctorId, statusFilter, offset, itemsPerPage);
+
+        request.setAttribute("appointments", appointments);
         request.setAttribute("currentTab", tab);
         request.setAttribute("currentDoctorId", doctorId);
+        request.setAttribute("currentPage", page);
+        request.setAttribute("totalPages", totalPages);
         
         request.getRequestDispatcher("/WEB-INF/views/doctor/appointments.jsp").forward(request, response);
     }

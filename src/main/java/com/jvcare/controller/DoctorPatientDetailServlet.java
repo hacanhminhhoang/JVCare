@@ -82,80 +82,137 @@ public class DoctorPatientDetailServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        String patientIdStr = request.getParameter("patientId");
-        
-        Patient p = new Patient();
-        p.setFullName(request.getParameter("fullName"));
-        p.setPhone(request.getParameter("phone"));
-        
-        String dobStr = request.getParameter("dateOfBirth");
-        if (dobStr != null && !dobStr.isEmpty()) {
-            p.setDateOfBirth(Date.valueOf(dobStr));
-        }
-        
-        p.setGender(request.getParameter("gender"));
-        p.setAddress(request.getParameter("address"));
-        p.setAllergies(request.getParameter("allergies"));
-        p.setChronicDiseases(request.getParameter("chronicDiseases"));
-        
-        // Handle Avatar Upload
-        String avatarUrl = request.getParameter("currentAvatar");
         try {
-            Part avatarPart = request.getPart("avatar");
-            if (avatarPart != null && avatarPart.getSize() > 0) {
-                String fileName = Paths.get(avatarPart.getSubmittedFileName()).getFileName().toString();
-                String uploadDir = getServletContext().getRealPath("/") + "uploads/avatars";
-                File uploadDirFile = new File(uploadDir);
-                if (!uploadDirFile.exists()) {
-                    uploadDirFile.mkdirs();
+            request.setCharacterEncoding("UTF-8");
+            String patientIdStr = request.getParameter("patientId");
+            
+            Patient p = new Patient();
+            p.setFullName(request.getParameter("fullName"));
+            p.setPhone(request.getParameter("phone"));
+            
+            String dobStr = request.getParameter("dateOfBirth");
+            if (dobStr != null && !dobStr.isEmpty()) {
+                try {
+                    p.setDateOfBirth(Date.valueOf(dobStr));
+                } catch (IllegalArgumentException e) {
+                    System.err.println("Invalid date format: " + dobStr);
                 }
-                String uniqueFileName = System.currentTimeMillis() + "_" + fileName;
-                File saveFile = new File(uploadDirFile, uniqueFileName);
-                Files.copy(avatarPart.getInputStream(), saveFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                avatarUrl = request.getContextPath() + "/uploads/avatars/" + uniqueFileName;
             }
+            
+            p.setGender(request.getParameter("gender"));
+            p.setAddress(request.getParameter("address"));
+            p.setAllergies(request.getParameter("allergies"));
+            p.setChronicDiseases(request.getParameter("chronicDiseases"));
+            
+            // Handle Avatar Upload
+            String avatarUrl = request.getParameter("currentAvatar");
+            try {
+                Part avatarPart = request.getPart("avatar");
+                if (avatarPart != null && avatarPart.getSize() > 0) {
+                    String fileName = Paths.get(avatarPart.getSubmittedFileName()).getFileName().toString();
+                    String uploadDir = getServletContext().getRealPath("/") + "uploads/avatars";
+                    File uploadDirFile = new File(uploadDir);
+                    if (!uploadDirFile.exists()) {
+                        uploadDirFile.mkdirs();
+                    }
+                    String uniqueFileName = System.currentTimeMillis() + "_" + fileName;
+                    File saveFile = new File(uploadDirFile, uniqueFileName);
+                    Files.copy(avatarPart.getInputStream(), saveFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    avatarUrl = request.getContextPath() + "/uploads/avatars/" + uniqueFileName;
+                }
+            } catch (Exception e) {
+                System.err.println("Avatar upload error: " + e.getMessage());
+            }
+            p.setAvatarUrl(avatarUrl);
+            
+            // Determine if this is an update or create
+            // patientIdStr can be "", "0", or null for new patients
+            int parsedPatientId = 0;
+            try {
+                if (patientIdStr != null && !patientIdStr.isEmpty()) {
+                    parsedPatientId = Integer.parseInt(patientIdStr);
+                }
+            } catch (NumberFormatException e) {
+                parsedPatientId = 0;
+            }
+            
+            boolean isUpdate = (parsedPatientId > 0);
+            if (isUpdate) {
+                p.setPatientId(parsedPatientId);
+                boolean updated = patientDAO.updatePatient(p);
+                if (updated) {
+                    request.getSession().setAttribute("message", "Đã cập nhật thông tin bệnh nhân.");
+                } else {
+                    request.getSession().setAttribute("error", "Không thể cập nhật bệnh nhân. Vui lòng kiểm tra dữ liệu.");
+                }
+            } else {
+                boolean created = patientDAO.createPatient(p);
+                if (created) {
+                    request.getSession().setAttribute("message", "Đã tạo hồ sơ bệnh nhân mới.");
+                } else {
+                    request.getSession().setAttribute("error", "Không thể tạo hồ sơ bệnh nhân. Vui lòng kiểm tra dữ liệu nhập.");
+                    response.sendRedirect(request.getContextPath() + "/doctor/index");
+                    return;
+                }
+            }
+            
+            // Create initial medical record if it's a new patient OR if vitals are provided
+            if (p.getPatientId() > 0) {
+                String weight = request.getParameter("weight");
+                String height = request.getParameter("height");
+                String heartRate = request.getParameter("heartRate");
+                
+                boolean hasVitals = (weight != null && !weight.trim().isEmpty()) 
+                                 || (height != null && !height.trim().isEmpty()) 
+                                 || (heartRate != null && !heartRate.trim().isEmpty());
+                
+                if (!isUpdate || hasVitals) {
+                    User user = (User) request.getSession().getAttribute("user");
+                    if (user != null) {
+                        com.jvcare.dao.DoctorDAO doctorDAO = new com.jvcare.dao.DoctorDAO();
+                        com.jvcare.model.Doctor doctor = doctorDAO.getDoctorByUserId(user.getUserId());
+                        
+                        if (doctor != null) {
+                            MedicalRecord r = new MedicalRecord();
+                            r.setPatientId(p.getPatientId());
+                            r.setDoctorId(doctor.getDoctorId());
+                            r.setVisitDate(new java.sql.Timestamp(System.currentTimeMillis()));
+                            
+                            r.setDiagnosis(!isUpdate ? "Khám ban đầu" : "Cập nhật sinh hiệu");
+                            r.setTreatmentPlan("");
+                            r.setNotes(!isUpdate ? "Tạo hồ sơ bệnh nhân mới" : "Cập nhật sinh hiệu");
+                            
+                            if (weight != null && !weight.trim().isEmpty()) {
+                                try { r.setWeight(Double.parseDouble(weight.trim())); } catch(NumberFormatException ignored) {}
+                            }
+                            if (height != null && !height.trim().isEmpty()) {
+                                try { r.setHeight(Double.parseDouble(height.trim())); } catch(NumberFormatException ignored) {}
+                            }
+                            if (heartRate != null && !heartRate.trim().isEmpty()) {
+                                try { r.setHeartRate(Integer.parseInt(heartRate.trim())); } catch(NumberFormatException ignored) {}
+                            }
+                            
+                            try {
+                                recordDAO.createRecord(r);
+                            } catch (Exception vitalsEx) {
+                                System.err.println("Warning: Could not save vitals: " + vitalsEx.getMessage());
+                            }
+                        }
+                    }
+                }
+            }
+            
+            response.sendRedirect(request.getContextPath() + "/doctor/index");
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        p.setAvatarUrl(avatarUrl);
-        
-        boolean isUpdate = (patientIdStr != null && !patientIdStr.isEmpty());
-        if (isUpdate) {
-            p.setPatientId(Integer.parseInt(patientIdStr));
-            patientDAO.updatePatient(p);
-            request.getSession().setAttribute("message", "Đã cập nhật thông tin bệnh nhân.");
-        } else {
-            patientDAO.createPatient(p);
-            request.getSession().setAttribute("message", "Đã tạo hồ sơ bệnh nhân mới.");
-        }
-        
-        // Save vitals if provided (for simplicity we just create a new record if we have vitals)
-        String weight = request.getParameter("weight");
-        String height = request.getParameter("height");
-        String heartRate = request.getParameter("heartRate");
-        
-        if ((weight != null && !weight.isEmpty()) || (height != null && !height.isEmpty()) || (heartRate != null && !heartRate.isEmpty())) {
-            JsonObject vitals = new JsonObject();
-            vitals.addProperty("weight", weight);
-            vitals.addProperty("height", height);
-            vitals.addProperty("heartRate", heartRate);
-            
-            // In a real app we'd get the actual created patient ID if it's a new patient. 
-            // For simplicity, let's just do it for update
-            if (isUpdate) {
-                MedicalRecord r = new MedicalRecord();
-                r.setPatientId(p.getPatientId());
-                r.setDoctorId(1); // demo doctor
-                r.setVisitDate(new java.sql.Timestamp(System.currentTimeMillis()));
-                r.setChiefComplaint("Cập nhật sinh hiệu");
-                r.setDiagnosis("Khám tổng quát");
-                r.setTreatmentPlan("Theo dõi thêm");
-                r.setVitalSigns(vitals.toString());
-                recordDAO.createRecord(r);
+            try {
+                request.getSession().setAttribute("error", "Lỗi server: " + e.getMessage());
+                if (!response.isCommitted()) {
+                    response.sendRedirect(request.getContextPath() + "/doctor/index");
+                }
+            } catch (Exception ex) {
+                System.err.println("Failed to redirect after error: " + ex.getMessage());
             }
         }
-        
-        response.sendRedirect(request.getContextPath() + "/doctor/index");
     }
 }

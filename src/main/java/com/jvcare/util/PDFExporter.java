@@ -299,7 +299,7 @@ public class PDFExporter {
         monthlyTable.addCell(countHeaderCell);
         
         // Data
-        Map<Integer, Integer> monthlyStats = statisticsDAO.getAppointmentsByMonth(LocalDate.now().getYear());
+        Map<Integer, Integer> monthlyStats = statisticsDAO.getAppointmentsByMonth();
         for (int i = 1; i <= 12; i++) {
             BaseColor bgColor = i % 2 == 0 ? BaseColor.WHITE : TABLE_ALT_ROW;
             

@@ -2,6 +2,7 @@ package com.jvcare.controller;
 
 import com.jvcare.dao.MedicalRecordDAO;
 import com.jvcare.model.MedicalRecord;
+import com.jvcare.model.User;
 import com.jvcare.util.GroqAIClient;
 
 import javax.servlet.ServletException;
@@ -27,9 +28,15 @@ public class AIServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         String question = request.getParameter("question");
         
-        // In a real app, we would get patientId from the session
-        // For testing, we use patientId = 1 (Nguyễn Văn An from sample data)
-        int patientId = 1; 
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null || !"PATIENT".equals(user.getRole())) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
+        
+        com.jvcare.dao.PatientDAO patientDAO = new com.jvcare.dao.PatientDAO();
+        com.jvcare.model.Patient patient = patientDAO.getPatientByUserId(user.getUserId());
+        int patientId = patient != null ? patient.getPatientId() : -1;
 
         List<MedicalRecord> records = recordDAO.getRecordsByPatientId(patientId);
         
@@ -38,16 +45,16 @@ public class AIServlet extends HttpServlet {
         contextBuilder.append("Hồ sơ bệnh án của bệnh nhân:\n");
         for (MedicalRecord r : records) {
             contextBuilder.append("- Ngày khám: ").append(r.getVisitDate())
-                          .append(", Chẩn đoán: ").append(r.getDiagnosis())
-                          .append(", Hướng điều trị: ").append(r.getTreatmentPlan())
-                          .append(", Bệnh sử: ").append(r.getMedicalHistory())
-                          .append(", Lý do khám: ").append(r.getChiefComplaint())
+                          .append(", Chẩn đoán: ").append(r.getDiagnosis() != null ? r.getDiagnosis() : "Không rõ")
+                          .append(", Hướng điều trị: ").append(r.getTreatmentPlan() != null ? r.getTreatmentPlan() : "Không rõ")
+                          .append(", Ghi chú: ").append(r.getNotes() != null ? r.getNotes() : "Không có")
                           .append("\n");
         }
 
         String systemPrompt = "Bạn là trợ lý AI y tế chuyên nghiệp của hệ thống JVCare. " +
-                "Bạn sẽ dựa vào hồ sơ bệnh án dưới đây để trả lời câu hỏi của bệnh nhân một cách dễ hiểu, ân cần. " +
-                "Luôn có disclaimer rằng đây chỉ là thông tin tham khảo, không thay thế bác sĩ.\n\n" +
+                "LƯU Ý QUAN TRỌNG: Người đang chat với bạn là BỆNH NHÂN (không phải bác sĩ). Hãy xưng hô là 'tôi' và gọi người dùng là 'bạn'. Tuyệt đối không gọi người dùng là bác sĩ.\n" +
+                "Nhiệm vụ của bạn: Dựa vào hồ sơ bệnh án dưới đây để trả lời câu hỏi của bệnh nhân một cách thân thiện, dễ hiểu và ân cần.\n" +
+                "Luôn có disclaimer ở cuối rằng đây chỉ là thông tin tham khảo, không thay thế chẩn đoán của bác sĩ.\n\n" +
                 contextBuilder.toString();
 
         String aiReply = "";

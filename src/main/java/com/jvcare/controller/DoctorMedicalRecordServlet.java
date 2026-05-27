@@ -5,6 +5,7 @@ import com.jvcare.dto.MedicalRecordDTO;
 import com.jvcare.exception.BusinessException;
 import com.jvcare.exception.ValidationException;
 import com.jvcare.model.Appointment;
+import com.jvcare.model.MedicalRecord;
 import com.jvcare.model.User;
 import com.jvcare.service.MedicalRecordService;
 import com.jvcare.util.DBConnection;
@@ -89,16 +90,49 @@ public class DoctorMedicalRecordServlet extends HttpServlet {
     /**
      * Hiển thị danh sách bệnh án của bác sĩ đang đăng nhập.
      */
+    /**
+     * Hiển thị danh sách bệnh án của bác sĩ đang đăng nhập (Đã tích hợp Phân trang & Tìm kiếm)
+     */
     private void listRecords(HttpServletRequest request, HttpServletResponse response, User user)
             throws ServletException, IOException {
         try {
             int doctorId = getDoctorIdFromUser(user);
-            List<MedicalRecordDTO> records = recordService.getRecordsByDoctor(doctorId);
+            
+            // 1. Nhận tham số Tìm kiếm và Phân trang
+            String keyword = request.getParameter("keyword");
+            
+            int page = 1;
+            int itemsPerPage = 12;
+            String pageParam = request.getParameter("page");
+            if (pageParam != null && !pageParam.isEmpty()) {
+                try { page = Integer.parseInt(pageParam); } catch (NumberFormatException e) { page = 1; }
+            }
+
+            // 2. Tính toán phân trang qua Service
+            int totalRecords = recordService.getTotalRecordsCount(keyword);
+            int totalPages = (int) Math.ceil((double) totalRecords / itemsPerPage);
+            if (page > totalPages && totalPages > 0) page = totalPages;
+            if (page < 1) page = 1;
+
+            int offset = (page - 1) * itemsPerPage;
+
+            // 3. Lấy dữ liệu
+            // Lưu ý: Đổi kiểu List thành MedicalRecord gốc cho tác vụ List để đồng bộ với hàm DAO vừa viết
+            List<MedicalRecord> records = recordService.getRecordsWithPagination(keyword, offset, itemsPerPage);
+
+            // 4. Truyền dữ liệu sang JSP
             request.setAttribute("records", records);
+            request.setAttribute("currentDoctorId", doctorId);
+            request.setAttribute("currentPage", page);
+            request.setAttribute("totalPages", totalPages);
+            request.setAttribute("keyword", keyword); // Giữ lại từ khóa trên ô tìm kiếm
+            
             request.getRequestDispatcher("/WEB-INF/views/doctor/medical_records.jsp")
                    .forward(request, response);
-        } catch (BusinessException e) {
-            request.setAttribute("errorMessage", e.getMessage());
+                   
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("errorMessage", "Đã xảy ra lỗi khi tải danh sách bệnh án.");
             request.getRequestDispatcher("/WEB-INF/views/doctor/medical_records.jsp")
                    .forward(request, response);
         }

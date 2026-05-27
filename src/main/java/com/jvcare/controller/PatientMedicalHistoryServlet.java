@@ -63,9 +63,30 @@ public class PatientMedicalHistoryServlet extends HttpServlet {
                 request.getRequestDispatcher("/WEB-INF/views/patient/medical_history_detail.jsp").forward(request, response);
             } else {
                 // View history list
-                List<MedicalRecordDTO> history = patientService.getMedicalHistory(patient.getPatientId());
+                List<MedicalRecordDTO> allHistory = patientService.getMedicalHistory(patient.getPatientId());
+                
+                int pageSize = 12;
+                int totalItems = allHistory.size();
+                int totalPages = (int) Math.ceil((double) totalItems / pageSize);
+                if (totalPages < 1) totalPages = 1;
+                
+                int page = 1;
+                String pageParam = request.getParameter("page");
+                if (pageParam != null) {
+                    try { page = Integer.parseInt(pageParam); } catch (NumberFormatException e) { page = 1; }
+                }
+                if (page < 1) page = 1;
+                if (page > totalPages) page = totalPages;
+                
+                int start = (page - 1) * pageSize;
+                int end = Math.min(start + pageSize, totalItems);
+                List<MedicalRecordDTO> history = (start < totalItems) ? allHistory.subList(start, end) : new java.util.ArrayList<>();
+                
                 request.setAttribute("patient", patient);
                 request.setAttribute("history", history);
+                request.setAttribute("currentPage", page);
+                request.setAttribute("totalPages", totalPages);
+                request.setAttribute("totalItems", totalItems);
                 request.getRequestDispatcher("/WEB-INF/views/patient/medical_history.jsp").forward(request, response);
             }
         } catch (Exception e) {

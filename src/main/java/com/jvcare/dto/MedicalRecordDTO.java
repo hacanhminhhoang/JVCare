@@ -11,6 +11,7 @@ import java.util.List;
 public class MedicalRecordDTO {
 
     private int recordId;
+    private String recordCode;
     private int patientId;
     private String patientName;
     private String patientCode;
@@ -20,6 +21,7 @@ public class MedicalRecordDTO {
     private Timestamp visitDate;
 
     // Chẩn đoán & Điều trị
+    private String chiefComplaint;
     private String diagnosis;
     private String treatmentPlan;
     private String notes;
@@ -46,6 +48,9 @@ public class MedicalRecordDTO {
     public int getRecordId() { return recordId; }
     public void setRecordId(int recordId) { this.recordId = recordId; }
 
+    public String getRecordCode() { return recordCode; }
+    public void setRecordCode(String recordCode) { this.recordCode = recordCode; }
+
     public int getPatientId() { return patientId; }
     public void setPatientId(int patientId) { this.patientId = patientId; }
 
@@ -66,6 +71,9 @@ public class MedicalRecordDTO {
 
     public Timestamp getVisitDate() { return visitDate; }
     public void setVisitDate(Timestamp visitDate) { this.visitDate = visitDate; }
+
+    public String getChiefComplaint() { return chiefComplaint; }
+    public void setChiefComplaint(String chiefComplaint) { this.chiefComplaint = chiefComplaint; }
 
     public String getDiagnosis() { return diagnosis; }
     public void setDiagnosis(String diagnosis) { this.diagnosis = diagnosis; }

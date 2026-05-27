@@ -7,8 +7,11 @@ import org.mindrot.jbcrypt.BCrypt;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
+import javax.servlet.http.*;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet("/admin/users")
 public class AdminUserServlet extends HttpServlet {
@@ -65,7 +68,7 @@ public class AdminUserServlet extends HttpServlet {
         
         // Lấy tham số phân trang
         int page = 1;
-        int pageSize = 10;
+        int pageSize = 12;
         
         String pageParam = request.getParameter("page");
         if (pageParam != null) {
@@ -80,6 +83,23 @@ public class AdminUserServlet extends HttpServlet {
         List<User> users = userDAO.getAllUsers(page, pageSize);
         int totalUsers = userDAO.getTotalUsers();
         int totalPages = (int) Math.ceil((double) totalUsers / pageSize);
+
+        // Map employeeRoleName
+        try {
+            com.jvcare.dao.EmployeeRoleDAO employeeRoleDAO = new com.jvcare.dao.EmployeeRoleDAO();
+            List<com.jvcare.model.EmployeeRole> roles = employeeRoleDAO.getAllActiveRoles();
+            Map<Integer, String> roleMap = new HashMap<>();
+            for (com.jvcare.model.EmployeeRole r : roles) {
+                roleMap.put(r.getRoleId(), r.getRoleName());
+            }
+            for (User u : users) {
+                if (u.getEmployeeRoleId() != null && roleMap.containsKey(u.getEmployeeRoleId())) {
+                    u.setEmployeeRoleName(roleMap.get(u.getEmployeeRoleId()));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         
         // Lấy thông báo success nếu có
         String success = request.getParameter("success");
@@ -139,6 +159,14 @@ public class AdminUserServlet extends HttpServlet {
             System.err.println("AdminUserServlet.showCreateForm: Error loading departments: " + e.getMessage());
             e.printStackTrace();
         }
+
+        // Load employee roles
+        try {
+            com.jvcare.dao.EmployeeRoleDAO employeeRoleDAO = new com.jvcare.dao.EmployeeRoleDAO();
+            request.setAttribute("employeeRoles", employeeRoleDAO.getAllActiveRoles());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         
         // Không set attribute "user" để form biết đây là tạo mới
         request.getRequestDispatcher("/WEB-INF/views/admin/user_form.jsp").forward(request, response);
@@ -195,10 +223,21 @@ public class AdminUserServlet extends HttpServlet {
             String password = request.getParameter("password");
             String email = request.getParameter("email");
             String fullName = request.getParameter("fullName");
-            String role = request.getParameter("role");
+            String rawRole = request.getParameter("role");
             String phone = request.getParameter("phone");
             String specialization = request.getParameter("specialization");
             String departmentIdStr = request.getParameter("departmentId");
+
+            String dbRole = rawRole;
+            Integer employeeRoleId = null;
+            if (rawRole != null && rawRole.startsWith("STAFF_")) {
+                dbRole = "STAFF";
+                try {
+                    employeeRoleId = Integer.parseInt(rawRole.substring(6));
+                } catch (NumberFormatException e) {
+                    employeeRoleId = null;
+                }
+            }
             
             // Validate
             if (username == null || username.trim().isEmpty()) {
@@ -236,7 +275,8 @@ public class AdminUserServlet extends HttpServlet {
             user.setPasswordHash(hashedPassword);
             user.setEmail(email);
             user.setFullName(fullName);
-            user.setRole(role);
+            user.setRole(dbRole);
+            user.setEmployeeRoleId(employeeRoleId);
             user.setPhone(phone);
             user.setStatus("ACTIVE");
             
@@ -245,7 +285,7 @@ public class AdminUserServlet extends HttpServlet {
             
             if (success) {
                 // Nếu là DOCTOR, tạo thêm record trong bảng doctors
-                if ("DOCTOR".equals(role)) {
+                if ("DOCTOR".equals(dbRole)) {
                     com.jvcare.dao.DoctorDAO doctorDAO = new com.jvcare.dao.DoctorDAO();
                     com.jvcare.model.Doctor doctor = new com.jvcare.model.Doctor();
                     doctor.setUserId(user.getUserId());
@@ -286,6 +326,7 @@ public class AdminUserServlet extends HttpServlet {
             String phone = request.getParameter("phone");
             String status = request.getParameter("status");
             String specialization = request.getParameter("specialization");
+            String rawRole = request.getParameter("role");
             String departmentIdStr = request.getParameter("departmentId");
             
             // Kiểm tra user tồn tại
@@ -302,6 +343,18 @@ public class AdminUserServlet extends HttpServlet {
                 request.setAttribute("editUser", existingUser);
                 showEditForm(request, response);
                 return;
+            }
+            
+            if (rawRole != null && rawRole.startsWith("STAFF_")) {
+                existingUser.setRole("STAFF");
+                try {
+                    existingUser.setEmployeeRoleId(Integer.parseInt(rawRole.substring(6)));
+                } catch (NumberFormatException e) {
+                    existingUser.setEmployeeRoleId(null);
+                }
+            } else if (rawRole != null) {
+                existingUser.setRole(rawRole);
+                existingUser.setEmployeeRoleId(null);
             }
             
             // Cập nhật User
@@ -404,6 +457,23 @@ public class AdminUserServlet extends HttpServlet {
         
         List<User> users = userDAO.searchUsers(keyword);
         
+        // Map employeeRoleName
+        try {
+            com.jvcare.dao.EmployeeRoleDAO employeeRoleDAO = new com.jvcare.dao.EmployeeRoleDAO();
+            List<com.jvcare.model.EmployeeRole> roles = employeeRoleDAO.getAllActiveRoles();
+            Map<Integer, String> roleMap = new HashMap<>();
+            for (com.jvcare.model.EmployeeRole r : roles) {
+                roleMap.put(r.getRoleId(), r.getRoleName());
+            }
+            for (User u : users) {
+                if (u.getEmployeeRoleId() != null && roleMap.containsKey(u.getEmployeeRoleId())) {
+                    u.setEmployeeRoleName(roleMap.get(u.getEmployeeRoleId()));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         request.setAttribute("users", users);
         request.setAttribute("keyword", keyword);
         request.setAttribute("totalUsers", users.size());

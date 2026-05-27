@@ -1,4 +1,4 @@
-﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="vi">
@@ -70,7 +70,7 @@
         <div class="border-t border-border/60 p-4 space-y-2">
             <div class="flex items-center gap-3 rounded-xl bg-muted/50 p-3 mb-2">
                 <div class="h-10 w-10 shrink-0 rounded-full bg-brand-soft text-brand flex items-center justify-center font-bold">
-                    <c:out value="${sessionScope.user.fullName.substring(0,2).toUpperCase()}"/>
+                    <c:out value="${not empty sessionScope.user.fullName ? (sessionScope.user.fullName.length() >= 2 ? sessionScope.user.fullName.substring(0,2).toUpperCase() : sessionScope.user.fullName.toUpperCase()) : 'U'}"/>
                 </div>
                 <div class="overflow-hidden">
                     <p class="truncate text-sm font-semibold text-ink"><c:out value="${sessionScope.user.fullName}"/></p>

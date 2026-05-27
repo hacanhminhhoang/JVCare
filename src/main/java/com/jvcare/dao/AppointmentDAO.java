@@ -1,7 +1,9 @@
 package com.jvcare.dao;
+
 import com.jvcare.model.Appointment;
 import com.jvcare.model.Doctor;
 import com.jvcare.util.DBConnection;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -41,19 +43,16 @@ public class AppointmentDAO {
 
     public List<Appointment> getAllAppointmentsForDoctor(int doctorId) {
         List<Appointment> list = new ArrayList<>();
-        // Get all PENDING appointments OR appointments assigned to this doctor
         String sql = "SELECT a.*, p.full_name as patient_name, u.full_name as doctor_name, d.specialization " +
                      "FROM appointments a " +
                      "JOIN patients p ON a.patient_id = p.patient_id " +
                      "LEFT JOIN doctors d ON a.doctor_id = d.doctor_id " +
                      "LEFT JOIN users u ON d.user_id = u.user_id " +
-                     "WHERE a.status = 'PENDING' OR a.doctor_id = ? " +
                      "ORDER BY CASE WHEN a.status = 'PENDING' THEN 1 WHEN a.status = 'CONFIRMED' THEN 2 ELSE 3 END, a.appointment_date ASC, a.appointment_time ASC";
         
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             
-            ps.setInt(1, doctorId);
             ResultSet rs = ps.executeQuery();
             
             while (rs.next()) {
@@ -178,7 +177,7 @@ public class AppointmentDAO {
         return false;
     }
     
-    // 1. Phân trang
+    // 1. Phân trang gốc
     public List<Appointment> getAppointmentsWithPagination(int offset, int limit) {
         List<Appointment> list = new ArrayList<>();
         String sql = "SELECT a.*, p.full_name as patient_name, u.full_name as doctor_name, d.specialization " +
@@ -203,7 +202,55 @@ public class AppointmentDAO {
         return list;
     }
 
-    // 2. Tìm kiếm (Dành cho SearchServlet)
+    // 2. Phân trang cho Bác sĩ (Kèm lọc Tab & Giới hạn hiển thị đúng của Bác sĩ đó)
+    public List<Appointment> getAppointmentsWithPagination(int doctorId, String statusFilter, int offset, int limit) {
+        List<Appointment> list = new ArrayList<>();
+        String sql = "SELECT a.*, p.full_name as patient_name, u.full_name as doctor_name, d.specialization " +
+                     "FROM appointments a " +
+                     "JOIN patients p ON a.patient_id = p.patient_id " +
+                     "LEFT JOIN doctors d ON a.doctor_id = d.doctor_id " +
+                     "LEFT JOIN users u ON d.user_id = u.user_id " +
+                     "WHERE 1=1 ";
+                     
+        if ("PENDING".equals(statusFilter)) {
+            sql += " AND a.status = 'PENDING' ";
+        } else if ("CONFIRMED".equals(statusFilter) || "COMPLETED".equals(statusFilter)) {
+            sql += " AND a.doctor_id = ? AND a.status = ? ";
+        } else {
+            // Tab Tất cả: Lấy Pending của hệ thống + Các lịch đã gán cho bác sĩ này
+            sql += " AND (a.doctor_id = ? OR a.status = 'PENDING') ";
+        }
+        
+        // Sắp xếp: Pending lên đầu, sau đó đến ngày giờ gần nhất
+        sql += " ORDER BY CASE WHEN a.status = 'PENDING' THEN 1 WHEN a.status = 'CONFIRMED' THEN 2 ELSE 3 END, " +
+               "a.appointment_date ASC, a.appointment_time ASC " +
+               "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+               
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            
+            int paramIndex = 1;
+            if ("CONFIRMED".equals(statusFilter) || "COMPLETED".equals(statusFilter)) {
+                ps.setInt(paramIndex++, doctorId);
+                ps.setString(paramIndex++, statusFilter);
+            } else if (statusFilter == null || "all".equals(statusFilter)) {
+                ps.setInt(paramIndex++, doctorId);
+            }
+            
+            ps.setInt(paramIndex++, offset);
+            ps.setInt(paramIndex++, limit);
+            
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(mapRowToAppointment(rs));
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    // 3. Tìm kiếm (Dành cho SearchServlet)
     public List<Appointment> searchAppointments(String keyword) {
         List<Appointment> list = new ArrayList<>();
         String sql = "SELECT a.*, p.full_name as patient_name, u.full_name as doctor_name, d.specialization " +
@@ -232,7 +279,7 @@ public class AppointmentDAO {
     }
 
     /**
-     * Đếm tổng số appointments
+     * Đếm tổng số appointments (Gốc)
      */
     public int getTotalAppointments() {
         String sql = "SELECT COUNT(*) FROM appointments";
@@ -249,183 +296,225 @@ public class AppointmentDAO {
         }
         return 0;
     }
+    
+    /**
+     * Đếm tổng số appointments cho Bác sĩ (Kèm lọc Tab)
+     */
+    public int getTotalAppointments(int doctorId, String statusFilter) {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM appointments a WHERE 1=1 ";
+        
+        if ("PENDING".equals(statusFilter)) {
+            sql += " AND a.status = 'PENDING' ";
+        } else if ("CONFIRMED".equals(statusFilter) || "COMPLETED".equals(statusFilter)) {
+            sql += " AND a.doctor_id = ? AND a.status = ? ";
+        } else {
+            sql += " AND (a.doctor_id = ? OR a.status = 'PENDING') ";
+        }
+        
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            
+            int paramIndex = 1;
+            if ("CONFIRMED".equals(statusFilter) || "COMPLETED".equals(statusFilter)) {
+                ps.setInt(paramIndex++, doctorId);
+                ps.setString(paramIndex++, statusFilter);
+            } else if (statusFilter == null || "all".equals(statusFilter)) {
+                ps.setInt(paramIndex++, doctorId);
+            }
+            
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
     public boolean checkDuplicateAppointment(
         int patientId,
         Date appointmentDate,
         Time appointmentTime) {
 
-    String sql = "SELECT * FROM appointments "
+        String sql = "SELECT * FROM appointments "
             + "WHERE patient_id = ? "
             + "AND appointment_date = ? "
             + "AND appointment_time = ?";
 
-    try (Connection conn = DBConnection.getConnection();
-         PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
-        ps.setInt(1, patientId);
-        ps.setDate(2, appointmentDate);
-        ps.setTime(3, appointmentTime);
+            ps.setInt(1, patientId);
+            ps.setDate(2, appointmentDate);
+            ps.setTime(3, appointmentTime);
 
-        ResultSet rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
 
-        if (rs.next()) {
-            return true;
+            if (rs.next()) {
+                return true;
+            }
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
         }
 
-    } catch (SQLException | ClassNotFoundException e) {
-        e.printStackTrace();
+        return false;
     }
 
-    return false;
-}
-public List<String> getAvailableTimeSlots(
-        Date appointmentDate,
-        int doctorId) {
+    public List<String> getAvailableTimeSlots(
+            Date appointmentDate,
+            int doctorId) {
 
-    List<String> slots = new ArrayList<>();
+        List<String> slots = new ArrayList<>();
 
-    slots.add("08:00");
-    slots.add("09:00");
-    slots.add("10:00");
-    slots.add("11:00");
-    slots.add("13:00");
-    slots.add("14:00");
-    slots.add("15:00");
-    slots.add("16:00");
+        slots.add("08:00");
+        slots.add("09:00");
+        slots.add("10:00");
+        slots.add("11:00");
+        slots.add("13:00");
+        slots.add("14:00");
+        slots.add("15:00");
+        slots.add("16:00");
 
-    String sql = "SELECT appointment_time "
-            + "FROM appointments "
-            + "WHERE doctor_id = ? "
-            + "AND appointment_date = ?";
+        String sql = "SELECT appointment_time "
+                + "FROM appointments "
+                + "WHERE doctor_id = ? "
+                + "AND appointment_date = ?";
 
-    try (Connection conn = DBConnection.getConnection();
-         PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
-        ps.setInt(1, doctorId);
-        ps.setDate(2, appointmentDate);
+            ps.setInt(1, doctorId);
+            ps.setDate(2, appointmentDate);
 
-        ResultSet rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
 
-        while (rs.next()) {
+            while (rs.next()) {
 
-            String bookedTime
-                    = rs.getTime("appointment_time")
-                            .toString()
-                            .substring(0, 5);
+                String bookedTime
+                        = rs.getTime("appointment_time")
+                                .toString()
+                                .substring(0, 5);
 
-            slots.remove(bookedTime);
+                slots.remove(bookedTime);
+            }
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
         }
 
-    } catch (SQLException | ClassNotFoundException e) {
-        e.printStackTrace();
+        return slots;
     }
 
-    return slots;
-}
-public boolean cancelAppointment(
-        int appointmentId,
-        int patientId) {
+    public boolean cancelAppointment(
+            int appointmentId,
+            int patientId) {
 
-    String sql = "UPDATE Appointments "
-            + "SET status = 'Cancelled' "
-            + "WHERE appointment_id = ? "
-            + "AND patient_id = ?";
+        String sql = "UPDATE Appointments "
+                + "SET status = 'Cancelled' "
+                + "WHERE appointment_id = ? "
+                + "AND patient_id = ?";
 
-    try (Connection conn = DBConnection.getConnection();
-         PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
-        ps.setInt(1, appointmentId);
-        ps.setInt(2, patientId);
+            ps.setInt(1, appointmentId);
+            ps.setInt(2, patientId);
 
-        int rows = ps.executeUpdate();
+            int rows = ps.executeUpdate();
 
-        return rows > 0;
+            return rows > 0;
 
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-
-    return false;
-}
-public List<String[]> getAppointmentsByPatient(int patientId) {
-
-    List<String[]> list = new ArrayList<>();
-
-    String sql = "SELECT appointment_date, appointment_time, status, reason "
-            + "FROM appointments WHERE patient_id = ? "
-            + "ORDER BY appointment_date DESC";
-
-    try (Connection conn = DBConnection.getConnection();
-         PreparedStatement ps = conn.prepareStatement(sql)) {
-
-        ps.setInt(1, patientId);
-
-        ResultSet rs = ps.executeQuery();
-
-        while (rs.next()) {
-
-            String[] row = new String[4];
-
-            row[0] = rs.getString("appointment_date");
-            row[1] = rs.getString("appointment_time");
-            row[2] = rs.getString("status");
-            row[3] = rs.getString("reason");
-
-            list.add(row);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-    } catch (Exception e) {
-        e.printStackTrace();
+        return false;
     }
 
-    return list;
-}
-public List<Appointment> getAllAppointments() {
-    List<Appointment> list = new ArrayList<>();
+    public List<String[]> getAppointmentsByPatient(int patientId) {
 
-    String sql = "SELECT * FROM appointments ORDER BY appointment_date DESC";
+        List<String[]> list = new ArrayList<>();
 
-    try (Connection conn = DBConnection.getConnection();
-         PreparedStatement ps = conn.prepareStatement(sql);
-         ResultSet rs = ps.executeQuery()) {
+        String sql = "SELECT appointment_date, appointment_time, status, reason "
+                + "FROM appointments WHERE patient_id = ? "
+                + "ORDER BY appointment_date DESC";
 
-        while (rs.next()) {
-            Appointment a = new Appointment();
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            a.setAppointmentId(rs.getInt("appointment_id"));
-            a.setPatientId(rs.getInt("patient_id"));
-            a.setDoctorId(rs.getInt("doctor_id"));
-            a.setAppointmentDate(rs.getDate("appointment_date"));
-            a.setAppointmentTime(rs.getTime("appointment_time"));
-            a.setStatus(rs.getString("status"));
-            a.setReason(rs.getString("reason"));
+            ps.setInt(1, patientId);
 
-            list.add(a);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                String[] row = new String[4];
+
+                row[0] = rs.getString("appointment_date");
+                row[1] = rs.getString("appointment_time");
+                row[2] = rs.getString("status");
+                row[3] = rs.getString("reason");
+
+                list.add(row);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-    } catch (Exception e) {
-        e.printStackTrace();
+        return list;
     }
 
-    return list;
-}
-public boolean confirmAppointment(int appointmentId) {
+    public List<Appointment> getAllAppointments() {
+        List<Appointment> list = new ArrayList<>();
 
-    String sql = "UPDATE appointments SET status='CONFIRMED' WHERE appointment_id=?";
+        String sql = "SELECT * FROM appointments ORDER BY appointment_date DESC";
 
-    try (Connection conn = DBConnection.getConnection();
-         PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
-        ps.setInt(1, appointmentId);
+            while (rs.next()) {
+                Appointment a = new Appointment();
 
-        return ps.executeUpdate() > 0;
+                a.setAppointmentId(rs.getInt("appointment_id"));
+                a.setPatientId(rs.getInt("patient_id"));
+                a.setDoctorId(rs.getInt("doctor_id"));
+                a.setAppointmentDate(rs.getDate("appointment_date"));
+                a.setAppointmentTime(rs.getTime("appointment_time"));
+                a.setStatus(rs.getString("status"));
+                a.setReason(rs.getString("reason"));
 
-    } catch (Exception e) {
-        e.printStackTrace();
+                list.add(a);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
     }
 
-    return false;
-}
+    public boolean confirmAppointment(int appointmentId) {
+
+        String sql = "UPDATE appointments SET status='CONFIRMED' WHERE appointment_id=?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, appointmentId);
+
+            return ps.executeUpdate() > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
 
     public List<Doctor> getAllDoctors() {
         List<Doctor> doctors = new ArrayList<>();

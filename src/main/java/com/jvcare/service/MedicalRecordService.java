@@ -28,6 +28,20 @@ public class MedicalRecordService {
     // ==================== PUBLIC METHODS ====================
 
     /**
+     * Lấy tất cả bệnh án (dành cho bác sĩ xem chung).
+     */
+    public List<MedicalRecordDTO> getAllRecords() throws BusinessException {
+        try {
+            List<MedicalRecord> records = recordDAO.getAllRecords();
+            return records.stream()
+                          .map(this::convertToDTO)
+                          .collect(Collectors.toList());
+        } catch (Exception e) {
+            throw new BusinessException("Lỗi khi lấy danh sách bệnh án", e);
+        }
+    }
+
+    /**
      * Lấy danh sách bệnh án theo bác sĩ.
      */
     public List<MedicalRecordDTO> getRecordsByDoctor(int doctorId) throws BusinessException {
@@ -227,6 +241,7 @@ public class MedicalRecordService {
     private MedicalRecordDTO convertToDTO(MedicalRecord record) {
         MedicalRecordDTO dto = new MedicalRecordDTO();
         dto.setRecordId(record.getRecordId());
+        dto.setRecordCode(record.getRecordCode());
         dto.setPatientId(record.getPatientId());
         dto.setPatientName(record.getPatientName());
         dto.setPatientCode(record.getPatientCode());
@@ -234,6 +249,7 @@ public class MedicalRecordService {
         dto.setDoctorName(record.getDoctorName());
         dto.setAppointmentId(record.getAppointmentId());
         dto.setVisitDate(record.getVisitDate());
+        dto.setChiefComplaint(record.getChiefComplaint());
         dto.setDiagnosis(record.getDiagnosis());
         dto.setTreatmentPlan(record.getTreatmentPlan());
         dto.setNotes(record.getNotes());
@@ -283,5 +299,15 @@ public class MedicalRecordService {
         dto.setDurationDays(p.getDurationDays());
         dto.setInstructions(p.getInstructions());
         return dto;
+    }
+    // Gọi DAO để đếm số lượng
+    public int getTotalRecordsCount(String keyword) {
+        // Giả sử biến medicalRecordDAO đã được khởi tạo trong class Service của bạn
+        return recordDAO.getTotalRecordsCount(keyword);
+    }
+
+    // Gọi DAO để lấy danh sách phân trang (Trả về Entity Model thay vì DTO cho màn List để tối ưu)
+    public List<MedicalRecord> getRecordsWithPagination(String keyword, int offset, int limit) {
+        return recordDAO.getRecordsWithPagination(keyword, offset, limit);
     }
 }

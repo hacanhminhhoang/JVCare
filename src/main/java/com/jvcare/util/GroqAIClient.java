@@ -38,7 +38,7 @@ public class GroqAIClient {
                 .build();
 
         JsonObject requestBody = new JsonObject();
-        requestBody.addProperty("model", "mixtral-8x7b-32768"); // or any other supported Groq model like llama3-8b-8192
+        requestBody.addProperty("model", "llama-3.1-8b-instant");
         
         JsonArray messages = new JsonArray();
         

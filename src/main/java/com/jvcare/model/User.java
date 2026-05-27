@@ -10,6 +10,8 @@ public class User {
     private String phone;
     private String role;
     private String status;
+    private Integer employeeRoleId;
+    private String employeeRoleName;
 
     public User() {}
 
@@ -41,4 +43,10 @@ public class User {
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+
+    public Integer getEmployeeRoleId() { return employeeRoleId; }
+    public void setEmployeeRoleId(Integer employeeRoleId) { this.employeeRoleId = employeeRoleId; }
+
+    public String getEmployeeRoleName() { return employeeRoleName; }
+    public void setEmployeeRoleName(String employeeRoleName) { this.employeeRoleName = employeeRoleName; }
 }

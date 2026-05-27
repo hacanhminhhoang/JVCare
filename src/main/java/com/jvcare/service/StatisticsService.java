@@ -54,7 +54,7 @@ public class StatisticsService {
             // Chart data
             int currentYear = java.time.Year.now().getValue();
             stats.setAppointmentsByMonth(
-                statisticsDAO.getAppointmentsByMonth(currentYear));
+                statisticsDAO.getAppointmentsByMonth());
             stats.setAppointmentsByStatus(appointmentsByStatus);
             stats.setUsersByRole(usersByRole);
             
@@ -130,14 +130,9 @@ public class StatisticsService {
     /**
      * Lấy thống kê appointments theo tháng
      */
-    public Map<Integer, Integer> getAppointmentsByMonth(int year) throws BusinessException {
+    public Map<Integer, Integer> getAppointmentsByMonth() throws BusinessException {
         try {
-            if (year < 2000 || year > 2100) {
-                throw new BusinessException("Năm không hợp lệ");
-            }
-            return statisticsDAO.getAppointmentsByMonth(year);
-        } catch (BusinessException e) {
-            throw e;
+            return statisticsDAO.getAppointmentsByMonth();
         } catch (Exception e) {
             throw new BusinessException("Lỗi khi lấy thống kê theo tháng", e);
         }

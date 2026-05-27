@@ -46,18 +46,55 @@ public class DoctorHomeServlet extends HttpServlet {
         }
 
         try {
-            // Get doctor profile
+            // Lấy thông tin hồ sơ bác sĩ
             Doctor doctor = doctorDAO.getDoctorByUserId(user.getUserId());
             
             if (doctor != null) {
-                // Get statistics
+                // Lấy thống kê
                 StatisticsDTO stats = statisticsService.getDoctorStatistics(doctor.getDoctorId());
                 request.setAttribute("stats", stats);
+                
+                // --- BẮT ĐẦU XỬ LÝ PHÂN TRANG ---
+                
+                int page = 1;
+                int itemsPerPage = 12; // 12 card mỗi trang theo yêu cầu của bạn
+                
+                String pageParam = request.getParameter("page");
+                if (pageParam != null && !pageParam.isEmpty()) {
+                    try {
+                        page = Integer.parseInt(pageParam);
+                    } catch (NumberFormatException e) {
+                        page = 1;
+                    }
+                }
+
+                // 1. Lấy tổng số lượng bệnh nhân
+                int totalPatients = patientDAO.getTotalPatients(); 
+                
+                // 2. Tính tổng số trang
+                int totalPages = (int) Math.ceil((double) totalPatients / itemsPerPage);
+
+                // Kiểm tra điều kiện trang hợp lệ
+                if (page > totalPages && totalPages > 0) {
+                    page = totalPages;
+                }
+                if (page < 1) {
+                    page = 1;
+                }
+
+                // 3. Tính Offset
+                int offset = (page - 1) * itemsPerPage;
+
+                // 4. Lấy danh sách bệnh nhân theo Limit và Offset
+                List<Patient> patients = patientDAO.getPatientsWithPagination(offset, itemsPerPage);
+                
+                // --- KẾT THÚC XỬ LÝ PHÂN TRANG ---
+
+                // Truyền dữ liệu sang JSP
+                request.setAttribute("patients", patients);
+                request.setAttribute("currentPage", page);
+                request.setAttribute("totalPages", totalPages);
             }
-            
-            // Get patients for list
-            List<Patient> patients = patientDAO.getAllPatients();
-            request.setAttribute("patients", patients);
             
         } catch (Exception e) {
             e.printStackTrace();

@@ -27,15 +27,37 @@ public class PatientHomeServlet extends HttpServlet {
 
         User user = (User) session.getAttribute("user");
         
-        // Note: For a real app we need a PatientDAO to get patientId by userId.
-        // For demonstration based on DB schema: patient01 (user_id=6) -> patient_id=1
-        // We will hardcode patientId = 1 or fetch it if we implemented PatientDAO.
-        // Assuming we just use patient_id = 1 for testing since the sample data matches it.
-        int patientId = 1;
+        com.jvcare.dao.PatientDAO patientDAO = new com.jvcare.dao.PatientDAO();
+        com.jvcare.model.Patient patient = patientDAO.getPatientByUserId(user.getUserId());
+        int patientId = patient != null ? patient.getPatientId() : -1;
 
-        List<MedicalRecord> records = recordDAO.getRecordsByPatientId(patientId);
-        
-        request.setAttribute("records", records);
+        if (patientId != -1) {
+            List<MedicalRecord> allRecords = recordDAO.getRecordsByPatientId(patientId);
+            
+            // Pagination: 12 items per page
+            int pageSize = 12;
+            int totalItems = allRecords.size();
+            int totalPages = (int) Math.ceil((double) totalItems / pageSize);
+            if (totalPages < 1) totalPages = 1;
+            
+            int page = 1;
+            String pageParam = request.getParameter("page");
+            if (pageParam != null) {
+                try { page = Integer.parseInt(pageParam); } catch (NumberFormatException e) { page = 1; }
+            }
+            if (page < 1) page = 1;
+            if (page > totalPages) page = totalPages;
+            
+            int start = (page - 1) * pageSize;
+            int end = Math.min(start + pageSize, totalItems);
+            List<MedicalRecord> records = (start < totalItems) ? allRecords.subList(start, end) : new java.util.ArrayList<>();
+            
+            request.setAttribute("records", records);
+            request.setAttribute("currentPage", page);
+            request.setAttribute("totalPages", totalPages);
+            request.setAttribute("totalItems", totalItems);
+        }
+
         request.getRequestDispatcher("/WEB-INF/views/patient/index.jsp").forward(request, response);
     }
 }

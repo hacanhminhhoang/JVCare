@@ -1,4 +1,4 @@
-﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
@@ -34,8 +34,7 @@
 </head>
 <body class="min-h-screen bg-background font-sans text-ink flex">
     
-    <!-- Sidebar Navigation for Doctor -->
-    <aside class="w-64 border-r border-border/60 bg-card shadow-sm flex flex-col hidden md:flex shrink-0">
+    <aside class="w-64 border-r border-border/60 bg-card shadow-sm flex flex-col hidden md:flex shrink-0 h-screen sticky top-0">
         <div class="flex h-16 shrink-0 items-center px-6">
             <span class="font-display font-bold text-xl text-brand">JVCare Doctor</span>
         </div>
@@ -43,7 +42,7 @@
             <c:set var="uri" value="${pageContext.request.requestURI}" />
             <c:set var="isPatients" value="${uri.endsWith('/doctor/index') || uri.endsWith('/doctor')}" />
             <c:set var="isAppt" value="${uri.contains('/doctor/appointments')}" />
-            <c:set var="isRecords" value="true" />
+            <c:set var="isRecords" value="${uri.contains('/doctor/medical-records')}" />
             
             <a href="${pageContext.request.contextPath}/doctor/index" class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm ${isPatients ? 'bg-brand-soft font-semibold text-brand' : 'font-medium text-muted-foreground hover:bg-brand-soft hover:text-brand'}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
@@ -61,6 +60,15 @@
             </a>
         </nav>
         <div class="border-t border-border/60 p-4 space-y-2">
+            <div class="flex items-center gap-3 rounded-xl bg-muted/50 p-3 mb-2">
+                <div class="h-10 w-10 shrink-0 rounded-full bg-brand-soft text-brand flex items-center justify-center font-bold">
+                    <c:out value="${not empty sessionScope.user.fullName ? (sessionScope.user.fullName.length() >= 2 ? sessionScope.user.fullName.substring(0,2).toUpperCase() : sessionScope.user.fullName.toUpperCase()) : 'U'}"/>
+                </div>
+                <div class="overflow-hidden">
+                    <p class="truncate text-sm font-semibold text-ink"><c:out value="${sessionScope.user.fullName}"/></p>
+                    <p class="truncate text-xs text-muted-foreground"><c:out value="${sessionScope.user.email}"/></p>
+                </div>
+            </div>
             <a href="${pageContext.request.contextPath}/" class="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted transition">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
                 Trang chủ
@@ -72,7 +80,6 @@
         </div>
     </aside>
 
-    <!-- Main Content Area -->
     <main class="flex-1 overflow-auto bg-muted/30">
         <header class="sticky top-0 z-10 flex h-16 items-center justify-between border-b border-border/60 bg-card px-6 shadow-sm md:hidden">
             <span class="font-display text-xl font-bold text-brand">JVCare Doctor</span>
@@ -80,7 +87,6 @@
         </header>
 
         <div class="mx-auto max-w-6xl p-6 md:p-10">
-            <!-- Header Section -->
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
                 <div>
                     <h1 class="font-display text-3xl font-bold text-ink">Danh sách Bệnh án</h1>
@@ -94,7 +100,6 @@
                 </div>
             </div>
 
-            <!-- Messages/Alerts -->
             <c:if test="${not empty sessionScope.message}">
                 <div class="mb-6 rounded-2xl bg-green-50 p-4 text-sm text-green-700 border border-green-200 shadow-sm animate-pulse">
                     <c:out value="${sessionScope.message}" />
@@ -108,19 +113,17 @@
                 </div>
             </c:if>
 
-            <!-- Search and Filter Panel -->
             <div class="mb-6 bg-card border border-border/60 rounded-3xl p-5 shadow-sm">
-                <div class="relative max-w-md">
+                <form action="${pageContext.request.contextPath}/doctor/medical-records" method="GET" class="relative max-w-md">
                     <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-muted-foreground">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                     </div>
-                    <input type="text" id="searchInput" 
+                    <input type="text" name="keyword" value="${keyword}" 
                            class="w-full pl-10 pr-4 py-2.5 rounded-2xl border border-border bg-background text-sm text-ink placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand transition"
                            placeholder="Tìm kiếm bệnh nhân, mã bệnh án, chẩn đoán...">
-                </div>
+                    <button type="submit" class="hidden"></button> </form>
             </div>
 
-            <!-- Medical Records List (Table) -->
             <div class="bg-card border border-border/60 rounded-3xl overflow-hidden shadow-sm">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
@@ -155,7 +158,7 @@
                                         </div>
                                     </td>
                                     <td class="p-4 align-middle text-sm text-ink max-w-xs">
-                                        <div class="truncate" title="<c:out value="${record.diagnosis}"/>">
+                                        <div class="truncate" title="<c:out value='${record.diagnosis}'/>">
                                             <c:choose>
                                                 <c:when test="${record.diagnosis.length() > 50}">
                                                     <c:out value="${record.diagnosis.substring(0, 50)}"/>...
@@ -174,12 +177,14 @@
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                                                 Xem
                                             </a>
-                                            <a href="${pageContext.request.contextPath}/doctor/medical-records?action=edit&id=${record.recordId}" 
-                                               class="inline-flex items-center gap-1.5 rounded-xl bg-yellow-50 border border-yellow-100 px-3 py-1.5 text-xs font-bold text-yellow-600 hover:bg-yellow-500 hover:text-white transition-all shadow-sm"
-                                               title="Chỉnh sửa bệnh án">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
-                                                Sửa
-                                            </a>
+                                            <c:if test="${record.doctorId == currentDoctorId}">
+                                                <a href="${pageContext.request.contextPath}/doctor/medical-records?action=edit&id=${record.recordId}" 
+                                                   class="inline-flex items-center gap-1.5 rounded-xl bg-yellow-50 border border-yellow-100 px-3 py-1.5 text-xs font-bold text-yellow-600 hover:bg-yellow-500 hover:text-white transition-all shadow-sm"
+                                                   title="Chỉnh sửa bệnh án">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                                                    Sửa
+                                                </a>
+                                            </c:if>
                                         </div>
                                     </td>
                                 </tr>
@@ -190,7 +195,7 @@
                                     <td colspan="6" class="p-12 text-center text-muted-foreground bg-card">
                                         <div class="flex flex-col items-center justify-center gap-3">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground/50"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-                                            <span class="text-sm font-medium">Chưa có bệnh án nào được khởi tạo</span>
+                                            <span class="text-sm font-medium">Chưa có bệnh án nào được khởi tạo hoặc tìm thấy</span>
                                         </div>
                                     </td>
                                 </tr>
@@ -200,46 +205,30 @@
                 </div>
             </div>
             
-            <!-- Pagination / Counter Mock -->
-            <div class="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-                <span class="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                    Tổng số bệnh án: <b id="recordsCount" class="text-ink"><c:out value="${records.size()}" default="0"/></b>
-                </span>
-                <div class="flex items-center gap-2">
-                    <button class="rounded-lg border border-border/60 px-3 py-1.5 text-xs font-semibold text-muted-foreground hover:bg-muted/30 transition shadow-sm" disabled>&larr; Trước</button>
-                    <span class="text-xs font-semibold text-muted-foreground">Trang 1 / 1</span>
-                    <button class="rounded-lg border border-border/60 px-3 py-1.5 text-xs font-semibold text-ink hover:bg-muted/30 transition shadow-sm" disabled>Sau &rarr;</button>
+            <c:if test="${totalPages >= 1}">
+                <div class="mt-8 flex justify-center gap-2">
+                    <c:if test="${currentPage > 1}">
+                        <a href="?keyword=${keyword}&page=${currentPage - 1}" class="rounded-lg border border-border/60 bg-card px-4 py-2 text-sm font-medium text-ink hover:bg-muted transition shadow-sm">
+                            Trước
+                        </a>
+                    </c:if>
+                    
+                    <c:forEach begin="1" end="${totalPages}" var="i">
+                        <a href="?keyword=${keyword}&page=${i}" class="rounded-lg border ${currentPage == i ? 'border-brand bg-brand text-white shadow-sm' : 'border-border/60 bg-card text-ink hover:bg-muted shadow-sm'} px-4 py-2 text-sm font-medium transition">
+                            ${i}
+                        </a>
+                    </c:forEach>
+                    
+                    <c:if test="${currentPage < totalPages}">
+                        <a href="?keyword=${keyword}&page=${currentPage + 1}" class="rounded-lg border border-border/60 bg-card px-4 py-2 text-sm font-medium text-ink hover:bg-muted transition shadow-sm">
+                            Sau
+                        </a>
+                    </c:if>
                 </div>
-            </div>
+            </c:if>
+
         </div>
     </main>
 
-    <!-- Client-side filtering script -->
-    <script>
-        document.getElementById('searchInput').addEventListener('input', function() {
-            const searchTerm = this.value.trim().toLowerCase();
-            const rows = document.querySelectorAll('#recordsTableBody tr');
-            let visibleCount = 0;
-            
-            rows.forEach(row => {
-                // Skip empty state row if it's there
-                if (row.querySelector('td[colspan]')) return;
-
-                const text = row.textContent.toLowerCase();
-                if (text.includes(searchTerm)) {
-                    row.style.display = '';
-                    visibleCount++;
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-
-            // Update visible counter if count label exists
-            const countEl = document.getElementById('recordsCount');
-            if (countEl) {
-                countEl.textContent = visibleCount;
-            }
-        });
-    </script>
 </body>
 </html>

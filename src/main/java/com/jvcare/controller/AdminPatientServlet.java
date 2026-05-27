@@ -46,7 +46,22 @@ public class AdminPatientServlet extends HttpServlet {
     private void listPatients(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         
-        List<Patient> patients = patientDAO.getAllPatients();
+        int page = 1;
+        int pageSize = 12;
+        String pageParam = request.getParameter("page");
+        if (pageParam != null) {
+            try { page = Integer.parseInt(pageParam); } catch (NumberFormatException e) { page = 1; }
+        }
+        if (page < 1) page = 1;
+        
+        List<Patient> allPatients = patientDAO.getAllPatients();
+        int totalPatients = allPatients.size();
+        int totalPages = (int) Math.ceil((double) totalPatients / pageSize);
+        if (totalPages < 1) totalPages = 1;
+        
+        int start = (page - 1) * pageSize;
+        int end = Math.min(start + pageSize, totalPatients);
+        List<Patient> patients = (start < totalPatients) ? allPatients.subList(start, end) : new java.util.ArrayList<>();
         
         // Lấy thông báo success nếu có
         String success = request.getParameter("success");
@@ -65,7 +80,9 @@ public class AdminPatientServlet extends HttpServlet {
         }
         
         request.setAttribute("patients", patients);
-        request.setAttribute("totalPatients", patients.size());
+        request.setAttribute("totalPatients", totalPatients);
+        request.setAttribute("currentPage", page);
+        request.setAttribute("totalPages", totalPages);
         
         request.getRequestDispatcher("/WEB-INF/views/admin/patients.jsp").forward(request, response);
     }
@@ -101,11 +118,26 @@ public class AdminPatientServlet extends HttpServlet {
             return;
         }
         
-        List<Patient> patients = patientDAO.searchPatients(keyword);
+        List<Patient> allFound = patientDAO.searchPatients(keyword);
+        int totalPatients = allFound.size();
+        int pageSize = 12;
+        int page = 1;
+        String pageParam = request.getParameter("page");
+        if (pageParam != null) {
+            try { page = Integer.parseInt(pageParam); } catch (NumberFormatException e) { page = 1; }
+        }
+        if (page < 1) page = 1;
+        int totalPages = (int) Math.ceil((double) totalPatients / pageSize);
+        if (totalPages < 1) totalPages = 1;
+        int start = (page - 1) * pageSize;
+        int end = Math.min(start + pageSize, totalPatients);
+        List<Patient> patients = (start < totalPatients) ? allFound.subList(start, end) : new java.util.ArrayList<>();
         
         request.setAttribute("patients", patients);
         request.setAttribute("keyword", keyword);
-        request.setAttribute("totalPatients", patients.size());
+        request.setAttribute("totalPatients", totalPatients);
+        request.setAttribute("currentPage", page);
+        request.setAttribute("totalPages", totalPages);
         
         request.getRequestDispatcher("/WEB-INF/views/admin/patients.jsp").forward(request, response);
     }

@@ -1,4 +1,4 @@
-﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
@@ -30,8 +30,25 @@
                 </c:forEach>
             </c:when>
             <c:otherwise>
-                <p class="text-sm text-muted-foreground">Chưa có đơn thuốc nào.</p>
+                <div class="rounded-2xl border border-dashed border-border bg-card p-12 text-center text-sm text-muted-foreground">
+                    Chưa có đơn thuốc nào.
+                </div>
             </c:otherwise>
         </c:choose>
     </div>
+    
+    <!-- Pagination - server-side -->
+    <c:if test="${totalPages >= 1}">
+        <div class="mt-8 flex justify-center gap-2">
+            <c:if test="${currentPage > 1}">
+                <a href="?page=${currentPage - 1}" class="rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-ink hover:bg-muted transition">Trước</a>
+            </c:if>
+            <c:forEach begin="1" end="${totalPages}" var="i">
+                <a href="?page=${i}" class="rounded-lg border ${currentPage == i ? 'border-brand bg-brand text-brand-foreground' : 'border-border bg-card text-ink hover:bg-muted'} px-4 py-2 text-sm font-medium transition">${i}</a>
+            </c:forEach>
+            <c:if test="${currentPage < totalPages}">
+                <a href="?page=${currentPage + 1}" class="rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-ink hover:bg-muted transition">Sau</a>
+            </c:if>
+        </div>
+    </c:if>
 </div>

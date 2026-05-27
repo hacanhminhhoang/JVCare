@@ -59,7 +59,7 @@ try {
     public List<User> getAllUsers(int page, int pageSize) {
         List<User> list = new ArrayList<>();
         int offset = (page - 1) * pageSize;
-        String sql = "SELECT * FROM users WHERE role IN ('ADMIN', 'RECEPTIONIST') AND status = 'ACTIVE' ORDER BY user_id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        String sql = "SELECT * FROM users WHERE role IN ('ADMIN', 'STAFF') AND status = 'ACTIVE' ORDER BY user_id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
         
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -81,7 +81,7 @@ try {
      * Đếm tổng số users
      */
     public int getTotalUsers() {
-        String sql = "SELECT COUNT(*) FROM users WHERE role IN ('ADMIN', 'RECEPTIONIST') AND status = 'ACTIVE'";
+        String sql = "SELECT COUNT(*) FROM users WHERE role IN ('ADMIN', 'STAFF') AND status = 'ACTIVE'";
         
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
@@ -101,7 +101,7 @@ try {
      */
     public List<User> searchUsers(String keyword) {
         List<User> list = new ArrayList<>();
-        String sql = "SELECT * FROM users WHERE (full_name LIKE ? OR email LIKE ? OR username LIKE ?) AND role IN ('ADMIN', 'RECEPTIONIST') ORDER BY user_id";
+        String sql = "SELECT * FROM users WHERE (full_name LIKE ? OR email LIKE ? OR username LIKE ?) AND role IN ('ADMIN', 'STAFF') ORDER BY user_id";
         
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -146,7 +146,7 @@ try {
      * Tạo user mới
      */
     public boolean createUser(User user) {
-        String sql = "INSERT INTO users (username, password_hash, email, full_name, role, phone, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO users (username, password_hash, email, full_name, role, phone, status, employee_role_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -158,6 +158,11 @@ try {
             ps.setString(5, user.getRole());
             ps.setString(6, user.getPhone());
             ps.setString(7, user.getStatus());
+            if (user.getEmployeeRoleId() != null) {
+                ps.setInt(8, user.getEmployeeRoleId());
+            } else {
+                ps.setNull(8, java.sql.Types.INTEGER);
+            }
             
             int affectedRows = ps.executeUpdate();
             
@@ -178,7 +183,7 @@ try {
      * Cập nhật user
      */
     public boolean updateUser(User user) {
-        String sql = "UPDATE users SET email=?, full_name=?, phone=?, status=? WHERE user_id=?";
+        String sql = "UPDATE users SET email=?, full_name=?, phone=?, status=?, employee_role_id=? WHERE user_id=?";
         
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -187,7 +192,12 @@ try {
             ps.setString(2, user.getFullName());
             ps.setString(3, user.getPhone());
             ps.setString(4, user.getStatus());
-            ps.setInt(5, user.getUserId());
+            if (user.getEmployeeRoleId() != null) {
+                ps.setInt(5, user.getEmployeeRoleId());
+            } else {
+                ps.setNull(5, java.sql.Types.INTEGER);
+            }
+            ps.setInt(6, user.getUserId());
             
             return ps.executeUpdate() > 0;
         } catch (SQLException | ClassNotFoundException e) {
@@ -333,6 +343,10 @@ try {
         user.setRole(rs.getString("role"));
         user.setPhone(rs.getString("phone"));
         user.setStatus(rs.getString("status"));
+        int empRoleId = rs.getInt("employee_role_id");
+        if (!rs.wasNull()) {
+            user.setEmployeeRoleId(empRoleId);
+        }
         return user;
     }
 }

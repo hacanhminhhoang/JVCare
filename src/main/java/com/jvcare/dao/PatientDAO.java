@@ -10,17 +10,44 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.Types;
+import java.sql.Statement;
 
 public class PatientDAO {
 
     public List<Patient> getAllPatients() {
         List<Patient> list = new ArrayList<>();
         // LEFT JOIN because some patients might not have a user account
-        String sql = "SELECT p.*, u.full_name as u_name, u.phone as u_phone FROM patients p LEFT JOIN users u ON p.user_id = u.user_id";
+        String sql = "SELECT p.*, u.full_name as u_name, u.phone as u_phone FROM patients p LEFT JOIN users u ON p.user_id = u.user_id ORDER BY p.patient_id DESC";
         
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
+            
+            while (rs.next()) {
+                list.add(mapResultSetToPatient(rs));
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        
+        return list;
+    }
+
+    public List<Patient> getPatientsByDoctor(int doctorId) {
+        List<Patient> list = new ArrayList<>();
+        String sql = "SELECT DISTINCT p.*, u.full_name as u_name, u.phone as u_phone " +
+                     "FROM patients p " +
+                     "LEFT JOIN users u ON p.user_id = u.user_id " +
+                     "LEFT JOIN appointments a ON p.patient_id = a.patient_id " +
+                     "LEFT JOIN medical_records mr ON p.patient_id = mr.patient_id " +
+                     "WHERE a.doctor_id = ? OR mr.doctor_id = ?";
+        
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            
+            ps.setInt(1, doctorId);
+            ps.setInt(2, doctorId);
+            ResultSet rs = ps.executeQuery();
             
             while (rs.next()) {
                 list.add(mapResultSetToPatient(rs));
@@ -75,20 +102,34 @@ public class PatientDAO {
     public boolean createPatient(Patient p) {
         String sql = "INSERT INTO patients (patient_code, full_name, date_of_birth, gender, phone, email, address, allergies, chronic_diseases, avatar_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             
             ps.setString(1, "BN-" + System.currentTimeMillis()); // Generate random code
             ps.setString(2, p.getFullName());
-            ps.setDate(3, p.getDateOfBirth());
+            
+            if (p.getDateOfBirth() != null) {
+                ps.setDate(3, p.getDateOfBirth());
+            } else {
+                ps.setNull(3, Types.DATE);
+            }
+            
             ps.setString(4, p.getGender() != null ? p.getGender() : "OTHER");
             ps.setString(5, p.getPhone());
-            ps.setString(6, p.getPhone() + "@jvcare.vn"); // fake email
+            ps.setString(6, (p.getEmail() != null && !p.getEmail().isEmpty()) ? p.getEmail() : (p.getPhone() != null ? p.getPhone() + "@jvcare.local" : "patient" + System.currentTimeMillis() + "@jvcare.local"));
             ps.setString(7, p.getAddress());
             ps.setString(8, p.getAllergies());
             ps.setString(9, p.getChronicDiseases());
             ps.setString(10, p.getAvatarUrl());
             
-            return ps.executeUpdate() > 0;
+            int affectedRows = ps.executeUpdate();
+            if (affectedRows > 0) {
+                try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        p.setPatientId(generatedKeys.getInt(1));
+                    }
+                }
+                return true;
+            }
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -102,7 +143,13 @@ public class PatientDAO {
             
             ps.setString(1, "BN-" + System.currentTimeMillis()); // Generate random code
             ps.setString(2, p.getFullName());
-            ps.setDate(3, p.getDateOfBirth());
+            
+            if (p.getDateOfBirth() != null) {
+                ps.setDate(3, p.getDateOfBirth());
+            } else {
+                ps.setNull(3, Types.DATE);
+            }
+            
             ps.setString(4, p.getGender() != null ? p.getGender() : "OTHER");
             ps.setString(5, p.getPhone());
             ps.setString(6, p.getEmail() != null ? p.getEmail() : (p.getPhone() + "@jvcare.vn"));
@@ -129,7 +176,13 @@ public class PatientDAO {
              PreparedStatement ps = conn.prepareStatement(sql)) {
             
             ps.setString(1, p.getFullName());
-            ps.setDate(2, p.getDateOfBirth());
+            
+            if (p.getDateOfBirth() != null) {
+                ps.setDate(2, p.getDateOfBirth());
+            } else {
+                ps.setNull(2, Types.DATE);
+            }
+            
             ps.setString(3, p.getGender());
             ps.setString(4, p.getPhone());
             ps.setString(5, p.getAddress());

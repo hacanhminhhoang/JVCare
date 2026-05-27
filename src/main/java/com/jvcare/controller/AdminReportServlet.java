@@ -58,12 +58,10 @@ public class AdminReportServlet extends HttpServlet {
             throws Exception {
         
         Map<String, Integer> appointmentStats = statisticsService.getAppointmentsByStatus();
-        int currentYear = java.time.Year.now().getValue();
-        Map<Integer, Integer> monthlyStats = statisticsService.getAppointmentsByMonth(currentYear);
+        Map<Integer, Integer> monthlyStats = statisticsService.getAppointmentsByMonth();
         
         request.setAttribute("appointmentStats", appointmentStats);
         request.setAttribute("monthlyStats", monthlyStats);
-        request.setAttribute("currentYear", currentYear);
         
         request.getRequestDispatcher("/WEB-INF/views/admin/report_appointments.jsp")
                .forward(request, response);

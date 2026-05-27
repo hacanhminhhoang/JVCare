@@ -57,18 +57,16 @@ public class StatisticsDAO {
     /**
      * Appointments theo tháng trong năm
      */
-    public Map<Integer, Integer> getAppointmentsByMonth(int year) {
+    public Map<Integer, Integer> getAppointmentsByMonth() {
         Map<Integer, Integer> result = new LinkedHashMap<>();
         String sql = "SELECT MONTH(appointment_date) as month, COUNT(*) as total " +
                      "FROM appointments " +
-                     "WHERE YEAR(appointment_date) = ? " +
                      "GROUP BY MONTH(appointment_date) " +
                      "ORDER BY month";
         
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             
-            ps.setInt(1, year);
             ResultSet rs = ps.executeQuery();
             
             while (rs.next()) {

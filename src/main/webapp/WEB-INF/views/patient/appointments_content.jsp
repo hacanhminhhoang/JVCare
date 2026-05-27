@@ -1,4 +1,4 @@
-﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
@@ -149,23 +149,17 @@
 
                                 <c:if test="${a.status == 'PENDING'}">
                                     <div class="flex items-center gap-2">
-                                        <button type="button" onclick="document.getElementById('edit-form-${a.appointmentId}').classList.toggle('hidden')" class="flex-1 rounded-xl bg-muted py-2.5 text-sm font-semibold text-ink hover:bg-border transition">
-                                            Sửa hẹn
+                                </form>
+                            </div>
+                            
+                            <!-- Inline Edit Form -->
+                            <form id="edit-form-${a.appointmentId}" action="${pageContext.request.contextPath}/patient/appointments" method="POST" class="absolute inset-0 z-10 hidden flex-col bg-card/95 p-5 backdrop-blur-sm transition-all">
+                                <div class="flex-1 space-y-4">
+                                    <div class="flex items-center justify-between border-b border-border pb-2">
+                                        <h4 class="font-bold text-ink">Đổi lịch hẹn</h4>
+                                        <button type="button" onclick="document.getElementById('edit-form-${a.appointmentId}').classList.add('hidden')" class="text-muted-foreground hover:text-ink">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
                                         </button>
-                                        <form action="${pageContext.request.contextPath}/patient/appointments" method="POST" onsubmit="return confirm('Bạn có chắc muốn hủy lịch hẹn này?');">
-                                            <input type="hidden" name="action" value="delete" />
-                                            <input type="hidden" name="appointmentId" value="${a.appointmentId}" />
-                                            <button type="submit" class="flex h-10 w-10 items-center justify-center rounded-xl bg-red-50 text-red-600 hover:bg-red-500 hover:text-white transition" title="Hủy hẹn">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
-                                            </button>
-                                        </form>
-                                    </div>
-                                    
-                                    <!-- Inline Edit Form -->
-                                    <form id="edit-form-${a.appointmentId}" action="${pageContext.request.contextPath}/patient/appointments" method="POST" class="absolute inset-0 z-10 hidden flex-col bg-card/95 p-5 backdrop-blur-sm transition-all">
-                                        <div class="flex-1 space-y-4">
-                                            <div class="flex items-center justify-between border-b border-border pb-2">
-                                                <h4 class="font-bold text-ink">Đổi lịch hẹn</h4>
                                                 <button type="button" onclick="document.getElementById('edit-form-${a.appointmentId}').classList.add('hidden')" class="text-muted-foreground hover:text-ink">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
                                                 </button>
@@ -191,4 +185,19 @@
             </c:otherwise>
         </c:choose>
     </div>
+    
+    <!-- Pagination - server-side -->
+    <c:if test="${totalPages >= 1}">
+        <div class="mt-8 flex justify-center gap-2">
+            <c:if test="${currentPage > 1}">
+                <a href="?page=${currentPage - 1}" class="rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-ink hover:bg-muted transition">Trước</a>
+            </c:if>
+            <c:forEach begin="1" end="${totalPages}" var="i">
+                <a href="?page=${i}" class="rounded-lg border ${currentPage == i ? 'border-brand bg-brand text-brand-foreground' : 'border-border bg-card text-ink hover:bg-muted'} px-4 py-2 text-sm font-medium transition">${i}</a>
+            </c:forEach>
+            <c:if test="${currentPage < totalPages}">
+                <a href="?page=${currentPage + 1}" class="rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-ink hover:bg-muted transition">Sau</a>
+            </c:if>
+        </div>
+    </c:if>
 </div>

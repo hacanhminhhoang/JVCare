@@ -306,7 +306,7 @@ public class ExcelExporter {
         countHeaderCell.setCellStyle(columnHeaderStyle);
         
         // Monthly data
-        Map<Integer, Integer> monthlyStats = statisticsDAO.getAppointmentsByMonth(LocalDate.now().getYear());
+        Map<Integer, Integer> monthlyStats = statisticsDAO.getAppointmentsByMonth();
         for (int i = 1; i <= 12; i++) {
             Row row = sheet.createRow(rowNum++);
             Cell monthCell = row.createCell(0);
